@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">SmartLockApp</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_create_profile">CreateProfile</string>
+    <string name="title_activity_edit_profile">EditProfile</string>
+    <string name="title_activity_future_event">FutureEvent</string>
+    <string name="title_activity_guest_locks">GuestLocks</string>
+    <string name="title_activity_history">History</string>
+    <string name="title_activity_host_locks">HostLocks</string>
+    <string name="title_activity_login">Login</string>
+    <string name="title_activity_register">Register</string>
+    <string name="title_activity_schedule">Schedule</string>
+    <string name="title_activity_space">Space</string>
+</resources>
