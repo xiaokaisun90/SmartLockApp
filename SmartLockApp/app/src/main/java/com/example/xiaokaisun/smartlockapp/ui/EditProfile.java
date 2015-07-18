@@ -1,5 +1,6 @@
 package com.example.xiaokaisun.smartlockapp.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 
 import com.example.xiaokaisun.smartlockapp.R;
 import com.example.xiaokaisun.smartlockapp.entities.ProfileInterface;
+import com.example.xiaokaisun.smartlockapp.local.WrapPostRequest;
 
 public class EditProfile extends ActionBarActivity implements ProfileInterface {
 
@@ -14,6 +16,8 @@ public class EditProfile extends ActionBarActivity implements ProfileInterface {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
+        Intent intent = new Intent(this, WrapPostRequest.class);
+        startActivity(intent);
     }
 
     @Override

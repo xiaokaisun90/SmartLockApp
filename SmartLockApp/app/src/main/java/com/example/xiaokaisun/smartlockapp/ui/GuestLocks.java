@@ -1,5 +1,6 @@
 package com.example.xiaokaisun.smartlockapp.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +8,8 @@ import android.view.MenuItem;
 
 import com.example.xiaokaisun.smartlockapp.R;
 import com.example.xiaokaisun.smartlockapp.entities.LocksInterface;
+import com.example.xiaokaisun.smartlockapp.local.WrapGetRequest;
+import com.example.xiaokaisun.smartlockapp.local.WrapPostRequest;
 
 public class GuestLocks extends ActionBarActivity implements LocksInterface{
 
@@ -14,6 +17,8 @@ public class GuestLocks extends ActionBarActivity implements LocksInterface{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_guest_locks);
+        Intent intent = new Intent(this, WrapGetRequest.class);
+        startActivity(intent);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.example.xiaokaisun.smartlockapp.ui;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -7,6 +8,7 @@ import android.view.MenuItem;
 
 import com.example.xiaokaisun.smartlockapp.R;
 import com.example.xiaokaisun.smartlockapp.entities.AuthenticationInterface;
+import com.example.xiaokaisun.smartlockapp.local.WrapPostRequest;
 
 public class Login extends ActionBarActivity implements AuthenticationInterface{
 
@@ -14,6 +16,8 @@ public class Login extends ActionBarActivity implements AuthenticationInterface{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        Intent intent = new Intent(this, WrapPostRequest.class);
+        startActivity(intent);
     }
 
     @Override
