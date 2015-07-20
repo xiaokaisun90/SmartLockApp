@@ -1,11 +1,23 @@
 package com.example.simsim.local;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.UnknownServiceException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.util.Log;
 
 /**
  * Created by xiaokaisun on 7/18/15.
@@ -13,21 +25,40 @@ import java.net.UnknownServiceException;
 
 //This class is used to build the connection between android device and remote server
 public class HttpConnection {
-    public static void connect() {
+    private void makePostRequest() {
+
+
+        HttpClient httpClient = new DefaultHttpClient();
+        // replace with your url
+        HttpPost httpPost = new HttpPost("www.example.com");
+
+
+        //Post Data
+        List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(2);
+        nameValuePair.add(new BasicNameValuePair("username", "test_user"));
+        nameValuePair.add(new BasicNameValuePair("password", "123456789"));
+
+
+        //Encoding POST data
         try {
-            URL oracle = new URL("http://www.oracle.com/");
-            URLConnection yc = oracle.openConnection();
-            BufferedReader in = new BufferedReader(new InputStreamReader(
-                    yc.getInputStream()));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null)
-                System.out.println(inputLine);
-            in.close();
-        } catch (UnknownServiceException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+            httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+        } catch (UnsupportedEncodingException e) {
+            // log exception
             e.printStackTrace();
         }
 
+        //making POST request.
+        try {
+            HttpResponse response = httpClient.execute(httpPost);
+            // write response to log
+            Log.d("Http Post Response:", response.toString());
+        } catch (ClientProtocolException e) {
+            // Log exception
+            e.printStackTrace();
+        } catch (IOException e) {  // Log exception
+        e.printStackTrace();
     }
+
+}
+
 }
