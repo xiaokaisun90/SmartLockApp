@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.xiaokaisun.smartlockapp" >
+    package="com.example.simsim.ui" >
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.NoTitleBar" >
         <activity
-            android:name=".ui.MainActivity"
-            android:label="@string/app_name" >
+            android:name="com.example.simsim.ui.Login"
+            android:label="Login" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -17,48 +17,62 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.CreateProfile"
-            android:label="@string/title_activity_create_profile" >
+            android:name="com.example.simsim.ui.Register"
+            android:label="Register" >
         </activity>
         <activity
-            android:name=".ui.EditProfile"
+            android:name="com.example.simsim.ui.Verification"
+            android:label="Verification" >
+        </activity>
+        <activity
+            android:name="com.example.simsim.ui.CreateProfile"
+            android:label="Create Profile" >
+        </activity>
+        <activity
+            android:name="com.example.simsim.ui.HostSpaceFragment"
+            android:label="HostSpaceActivity" >
+        </activity>
+        <activity
+            android:name="com.example.simsim.ui.HostSpaceDetailActivity"
+            android:label="@string/title_activity_host_add_property" >
+        </activity>
+        <activity
+            android:name="com.example.simsim.ui.HostLockSettingsActivity"
+            android:label="@string/title_activity_host_lock_settings" >
+        </activity>
+        <activity
+            android:name="com.example.simsim.ui.HostEventSettingsActivity"
+            android:label="@string/title_activity_host_schedule_add" >
+        </activity>
+        <activity
+            android:name="com.example.simsim.ui.HostEventAccessActivity"
+            android:label="@string/title_activity_host_event_access" >
+        </activity>
+        <activity
+            android:name="com.example.simsim.ui.HostHistoryFragment"
+            android:label="@string/title_activity_host_history" >
+        </activity>
+        <activity
+            android:name="com.example.simsim.ui.EditProfileFragment"
             android:label="@string/title_activity_edit_profile" >
         </activity>
-        <activity
-            android:name=".ui.FutureEvent"
-            android:label="@string/title_activity_future_event" >
+        <activity android:name="com.example.simsim.ui.GuestAddEventActivity" >
+        </activity>
+        <activity android:name="com.example.simsim.ui.GuestAlertActivity" >
+        </activity>
+        <activity android:name="com.example.simsim.ui.GuestCustomRepeatActivity" >
+        </activity>
+        <activity android:name="com.example.simsim.ui.GuestEndRepeatActivity" >
+        </activity>
+        <activity android:name="com.example.simsim.ui.GuestMainActivity" >
+        </activity>
+        <activity android:name="com.example.simsim.ui.GuestRepeatActivity" >
+        </activity>
+        <activity android:name="com.example.simsim.ui.CreateProfileActivity" >
         </activity>
         <activity
-            android:name=".ui.GuestLocks"
-            android:label="@string/title_activity_guest_locks" >
-        </activity>
-        <activity
-            android:name=".ui.History"
-            android:label="@string/title_activity_history" >
-        </activity>
-        <activity
-            android:name=".ui.HostLocks"
-            android:label="@string/title_activity_host_locks" >
-        </activity>
-        <activity
-            android:name=".ui.Login"
-            android:label="@string/title_activity_login" >
-        </activity>
-        <activity
-            android:name=".ui.Register"
-            android:label="@string/title_activity_register" >
-        </activity>
-        <activity
-            android:name=".ui.Schedule"
-            android:label="@string/title_activity_schedule" >
-        </activity>
-        <activity
-            android:name=".ui.Space"
-            android:label="@string/title_activity_space" >
-        </activity>
-        <activity
-            android:name=".ui.AddEvent"
-            android:label="@string/title_activity_add_event" >
+            android:name="com.example.simsim.ui.HostMainActivityInterface"
+            android:label="@string/title_activity_host_main" >
         </activity>
     </application>
 
