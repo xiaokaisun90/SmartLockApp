@@ -1,11 +1,10 @@
 package com.example.simsim.entities;
 
-/**
- * Created by Qiuge on 2015/7/21.
- */
-public class Locks {
+
+public class Lock {
 
     private int lockId;
+    private int propertyId;
     private String description;
     private boolean isLocked;
     private double lockPower;
@@ -14,20 +13,20 @@ public class Locks {
     private String rotationDirection;
     private double rotationEndPoints;
 
-    public double getLockPower() {
-        return lockPower;
-    }
-
-    public void setLockPower(double lockPower) {
-        this.lockPower = lockPower;
-    }
-
     public int getLockId() {
         return lockId;
     }
 
     public void setLockId(int lockId) {
         this.lockId = lockId;
+    }
+
+    public int getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(int propertyId) {
+        this.propertyId = propertyId;
     }
 
     public String getDescription() {
@@ -44,6 +43,14 @@ public class Locks {
 
     public void setIsLocked(boolean isLocked) {
         this.isLocked = isLocked;
+    }
+
+    public double getLockPower() {
+        return lockPower;
+    }
+
+    public void setLockPower(double lockPower) {
+        this.lockPower = lockPower;
     }
 
     public double getLockStartAngle() {
@@ -77,5 +84,4 @@ public class Locks {
     public void setRotationEndPoints(double rotationEndPoints) {
         this.rotationEndPoints = rotationEndPoints;
     }
-
 }

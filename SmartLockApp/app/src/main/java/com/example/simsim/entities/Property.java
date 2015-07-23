@@ -1,24 +1,32 @@
 package com.example.simsim.entities;
 
-/**
- * Created by xiaokaisun on 7/21/15.
- */
-public class Properties {
+
+public class Property {
+
     private int propertyId;
+    private int userId;
     private String description;
     private String address;
     private int zipCode;
     private String city;
     private String state;
     private String country;
-    private int userId;
-    private String ownship;//privacy or public
+    private String ownership;
+
     public int getPropertyId() {
         return propertyId;
     }
 
     public void setPropertyId(int propertyId) {
         this.propertyId = propertyId;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getDescription() {
@@ -69,22 +77,11 @@ public class Properties {
         this.country = country;
     }
 
-    public int getUserId() {
-        return userId;
+    public String getOwnership() {
+        return ownership;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setOwnership(String ownership) {
+        this.ownership = ownership;
     }
-
-    public String getOwnship() {
-        return ownship;
-    }
-
-    public void setOwnship(String ownship) {
-        this.ownship = ownship;
-    }
-
-
-
 }

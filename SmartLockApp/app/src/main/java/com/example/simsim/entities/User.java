@@ -1,12 +1,12 @@
 package com.example.simsim.entities;
 
-/**
- * Created by xiaokaisun on 7/21/15.
- */
+
 public class User {
-    private int userID;
+
+    private int userId;
     private String name;
-    private int primaryPhoneNumber;
+    private String country;
+    private String primaryPhoneNumber;
     private String isMobileVerified;
     private String password;
     private String userState;
@@ -16,12 +16,12 @@ public class User {
     private int zipCode;
     private String icon;
 
-    public int getUserID() {
-        return userID;
+    public int getUserId() {
+        return userId;
     }
 
-    public void setUserID(int userID) {
-        this.userID = userID;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -32,11 +32,19 @@ public class User {
         this.name = name;
     }
 
-    public int getPrimaryPhoneNumber() {
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getPrimaryPhoneNumber() {
         return primaryPhoneNumber;
     }
 
-    public void setPrimaryPhoneNumber(int primaryPhoneNumber) {
+    public void setPrimaryPhoneNumber(String primaryPhoneNumber) {
         this.primaryPhoneNumber = primaryPhoneNumber;
     }
 
@@ -103,7 +111,5 @@ public class User {
     public void setIcon(String icon) {
         this.icon = icon;
     }
-
-
 }
 
