@@ -1,0 +1,11 @@
+package com.example.simsim.interfaces;
+
+/**
+ * Created by Steven on 7/23/15.
+ */
+public interface RegistrationInterface {
+
+     void setBasicUserInfo(String name, String password, String country, String primaryPhoneNumber);
+     void insertUser(); // Insert user to DB, set userId to User object in Information.
+
+}

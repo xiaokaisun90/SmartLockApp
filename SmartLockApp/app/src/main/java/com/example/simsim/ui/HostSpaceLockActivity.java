@@ -4,19 +4,31 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 
-public class HostEventAccessActivity extends Activity {
+import com.example.simsim.entities.Lock;
+import com.example.simsim.entities.Property;
+import com.example.simsim.interfaces.HostSpaceInterface;
+
+import java.util.List;
+
+public class HostSpaceLockActivity extends Activity {
+
+    private HostFragmentCallBackInterface hostFragmentCallBackInterface;
+    private HostSpaceInterface hostSpaceInterface;
+    private ListView listViewSpaceLock;
+    private Property property;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_host_event_access);
+        setContentView(R.layout.activity_host_space_lock);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_host_event_access, menu);
+        getMenuInflater().inflate(R.menu.menu_host_space_lock, menu);
         return true;
     }
 
@@ -33,5 +45,9 @@ public class HostEventAccessActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private List<Lock> getLockList(Property property){
+        return null;
     }
 }

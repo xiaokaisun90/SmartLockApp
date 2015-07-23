@@ -6,10 +6,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.simsim.interfaces.GuestEventInterface;
+
 /**
  * Created by Steven on 15/7/18.
  */
 public class GuestAddEventActivity extends Activity{
+
+    private GuestEventInterface guestEventInterface;
 
     private TextView repeatTV;
     private TextView endRepeatTV;
@@ -46,6 +50,26 @@ public class GuestAddEventActivity extends Activity{
                 startActivity(intent);
             }
         });
+
+    }
+
+    public void setNewLockActivityAccessStartTime(String accessStartTime){
+
+    }
+    public void setNewLockActivityAccessEndTime(String accessEndTime){
+
+    }
+    public void setNewLockActivityRequestAccessTimestamp(String requestAccessTimestamp){
+
+    }
+    public void setNewLockActivityRequestStatus(boolean requestStatus){
+
+    }
+    public void setNewLockActivityAlert(int alert){
+
+    }
+    // Insert new lockActivity to DB, set lockActivityId to LockActivity object in Information.
+    public void insertNewLockActivity(){
 
     }
 }

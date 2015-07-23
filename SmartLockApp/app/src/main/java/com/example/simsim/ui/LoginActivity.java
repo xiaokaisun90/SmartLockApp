@@ -6,8 +6,12 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
+import com.example.simsim.interfaces.AuthenticationInterface;
 
-public class Login extends Activity {
+
+public class LoginActivity extends Activity {
+
+    private AuthenticationInterface authenticationInterface;
 
     private final int COLOR_ORANGE = 0xFFFF9900;
     private final int COLOR_BLACK = 0xFF000000;
@@ -50,10 +54,10 @@ public class Login extends Activity {
             public void onClick(View v) {
                 Intent intent = new Intent();
                 if(isHost == true){
-                    intent.setClass(Login.this, HostMainActivityInterface.class);
+                    intent.setClass(LoginActivity.this, HostMainActivity.class);
                 }
                 else{
-                    intent.setClass(Login.this, GuestMainActivity.class);
+                    intent.setClass(LoginActivity.this, GuestMainActivity.class);
                 }
                 startActivity(intent);
             }
@@ -62,7 +66,7 @@ public class Login extends Activity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(Login.this, Register.class);
+                intent.setClass(LoginActivity.this, RegisterActivity.class);
                 startActivity(intent);
             }
         });
@@ -91,6 +95,13 @@ public class Login extends Activity {
     }
 
     private void buttonClickHandlerRegister(){
+
+    }
+
+    //authenticate the username and password
+    private boolean authenticate(String name, String password){
+
+        return true;
 
     }
 

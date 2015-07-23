@@ -14,7 +14,7 @@ import android.widget.Button;
  */
 public class GuestMainEmptyLockFragment extends Fragment {
 
-    private InterfaceFragmentCallBackGuest interfaceFragmentCallBackGuest;
+    private GuestFragmentCallBackInterface guestFragmentCallBackInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -25,7 +25,7 @@ public class GuestMainEmptyLockFragment extends Fragment {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                interfaceFragmentCallBackGuest.getGuestMainActivity().setChoiceItem(4);
+                guestFragmentCallBackInterface.getGuestMainActivity().setChoiceItem(4);
             }
         });
 
@@ -35,8 +35,8 @@ public class GuestMainEmptyLockFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if(interfaceFragmentCallBackGuest == null){
-            interfaceFragmentCallBackGuest =(InterfaceFragmentCallBackGuest)activity;
+        if(guestFragmentCallBackInterface == null){
+            guestFragmentCallBackInterface =(GuestFragmentCallBackInterface)activity;
         }
     }
 }

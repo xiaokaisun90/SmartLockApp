@@ -1,36 +1,34 @@
 package com.example.simsim.ui;
 
+
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
+import com.example.simsim.interfaces.ProfileInterface;
 
-/**
- * Created by Steven on 15/7/18.
- */
-public class GuestMainEventsFragment extends Fragment {
+public class GuestEditProfileFragment extends Fragment {
 
+    private ProfileInterface profileInterface;
     private GuestFragmentCallBackInterface guestFragmentCallBackInterface;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.fragment_guestmain_events,container,false);
-
-        Button addEvent=(Button)view.findViewById(R.id.addEventButton);
-        addEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(guestFragmentCallBackInterface.getGuestMainActivity(), GuestAddEventActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        View view = inflater.inflate(R.layout.fragment_edit_profile, container, false);
         return view;
+    }
+
+    public void updateProfile(String userState, String dataOfBirth,
+                              String gender, String emailAddress, int zipCode, String icon){
+
+    }
+
+    //show the profile info that is already in db.
+    public void showProfile(){
+
     }
 
     @Override

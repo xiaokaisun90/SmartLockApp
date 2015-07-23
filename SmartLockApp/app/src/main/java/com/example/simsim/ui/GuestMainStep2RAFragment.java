@@ -11,8 +11,12 @@ import android.widget.GridView;
 import android.widget.SimpleAdapter;
 
 
+import com.example.simsim.entities.Property;
+import com.example.simsim.interfaces.GuestLockInterface;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -20,7 +24,17 @@ import java.util.Map;
  */
 public class GuestMainStep2RAFragment extends Fragment {
 
-    private InterfaceFragmentCallBackGuest interfaceFragmentCallBackGuest;
+    private GuestFragmentCallBackInterface guestFragmentCallBackInterface;
+    private GuestLockInterface guestLockInterface;
+    private List<Property> listProperties;
+    private GridView showProperties;//show a gird view of properties.
+
+    //use the method “public int getHostID();” in guestLockInterface  to get the hostid from static variable
+    //use the method “public List<Property> getHostPropertyList(int hostId); to get the list of properties and assign it  to listProperties”
+    //after user select the property, we can get the property that user selected. Then,  use “List<Integer> getHostLockIdList(Property property);”
+    //method to get the specific lock. After this, use “public void setNewLockActivityLockId(int lockId);” to get the assign the lockID to static object newLockActivity in Information.
+    //use “public void loadHostIdFromDB(String primaryPhoneNumber);” to load host id from  db to static variable.  Then use “public int getHostID();” to get id from static variable to local variable.
+    //use “public void setNewLockActivityHostId(int hostId);public int getGuestId();public void setNewLockActivityGuestId(int guestId);
 
     //examples of spaces images
     int images[]={R.drawable.example1, R.drawable.example2};
@@ -44,14 +58,14 @@ public class GuestMainStep2RAFragment extends Fragment {
 
         }
 
-        SimpleAdapter adapter=new SimpleAdapter(interfaceFragmentCallBackGuest.getGuestMainActivity()
+        SimpleAdapter adapter=new SimpleAdapter(guestFragmentCallBackInterface.getGuestMainActivity()
                 ,spaces,R.layout.item_guest_spaces,new String[]{"images","text"}, new int[]{R.id.showSpaceIV,R.id.showSpaceTV});
         gridOfSpaces.setAdapter(adapter);
         gridOfSpaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-                interfaceFragmentCallBackGuest.getGuestMainActivity().sendSpaceID(position);
+                guestFragmentCallBackInterface.getGuestMainActivity().sendSpaceID(position);
             }
         });
 
@@ -62,9 +76,9 @@ public class GuestMainStep2RAFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
-        if(interfaceFragmentCallBackGuest ==null){
+        if(guestFragmentCallBackInterface ==null){
 
-            interfaceFragmentCallBackGuest =(InterfaceFragmentCallBackGuest)activity;
+            guestFragmentCallBackInterface =(GuestFragmentCallBackInterface)activity;
 
         }
 

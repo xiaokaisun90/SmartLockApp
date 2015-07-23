@@ -7,73 +7,38 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@android:style/Theme.NoTitleBar" >
-        <activity
-            android:name="com.example.simsim.ui.Login"
-            android:label="Login" >
+
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.Register"
-            android:label="Register" >
+        <activity android:name=".RegisterActivity">
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.Verification"
-            android:label="Verification" >
+        <activity android:name=".VerificationActivity">
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.CreateProfile"
-            android:label="Create Profile" >
+        <activity android:name=".HostMainActivity">
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.HostSpaceFragment"
-            android:label="HostSpaceActivity" >
+        <activity android:name=".HostSpaceSettingsActivity">
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.HostSpaceDetailActivity"
-            android:label="@string/title_activity_host_add_property" >
+        <activity android:name=".HostSpaceLockActivity">
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.HostLockSettingsActivity"
-            android:label="@string/title_activity_host_lock_settings" >
+        <activity android:name=".HostLockSettingsActivity">
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.HostEventSettingsActivity"
-            android:label="@string/title_activity_host_schedule_add" >
+        <activity android:name=".GuestMainActivity" >
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.HostEventAccessActivity"
-            android:label="@string/title_activity_host_event_access" >
+        <activity android:name=".GuestAddEventActivity" >
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.HostHistoryFragment"
-            android:label="@string/title_activity_host_history" >
+        <activity android:name=".GuestAlertActivity" >
         </activity>
-        <activity
-            android:name="com.example.simsim.ui.EditProfileFragment"
-            android:label="@string/title_activity_edit_profile" >
+        <activity android:name=".GuestCustomRepeatActivity" >
         </activity>
-        <activity android:name="com.example.simsim.ui.GuestAddEventActivity" >
+        <activity android:name=".GuestEndRepeatActivity" >
         </activity>
-        <activity android:name="com.example.simsim.ui.GuestAlertActivity" >
+        <activity android:name=".GuestRepeatActivity" >
         </activity>
-        <activity android:name="com.example.simsim.ui.GuestCustomRepeatActivity" >
-        </activity>
-        <activity android:name="com.example.simsim.ui.GuestEndRepeatActivity" >
-        </activity>
-        <activity android:name="com.example.simsim.ui.GuestMainActivity" >
-        </activity>
-        <activity android:name="com.example.simsim.ui.GuestRepeatActivity" >
-        </activity>
-        <activity android:name="com.example.simsim.ui.CreateProfileActivity" >
-        </activity>
-        <activity
-            android:name="com.example.simsim.ui.HostMainActivityInterface"
-            android:label="@string/title_activity_host_main" >
-        </activity>
+
     </application>
 
 </manifest>

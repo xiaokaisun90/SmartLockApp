@@ -8,7 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-public class Register extends Activity {
+public class RegisterActivity extends Activity {
 
     Button bRegister;
     EditText etUsername, etPassword, etCountry, etPhoneNumber;
@@ -42,9 +42,17 @@ public class Register extends Activity {
 
     private void buttonClickHandlerRegister(){
         Intent intent = new Intent();
-        intent.setClass(Register.this, Verification.class);
+        intent.setClass(RegisterActivity.this, VerificationActivity.class);
         startActivity(intent);
     }
+
+
+    // Request server send an SMS message
+    public void getVerificationCode(String primaryPhoneNumber){
+
+    }
+
+
 
 //    public void onClick(View v) {
 //        switch (v.getId()) {

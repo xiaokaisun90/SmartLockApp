@@ -14,9 +14,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 
-public class GuestMainActivity extends FragmentActivity implements InterfaceFragmentCallBackGuest {
+public class GuestMainActivity extends FragmentActivity implements GuestFragmentCallBackInterface {
 
     public static ArrayList lockList=new ArrayList();
+
     //fragments
     private Fragment emptyLockListFM;
     private Fragment lockListFM;
@@ -200,8 +201,8 @@ public class GuestMainActivity extends FragmentActivity implements InterfaceFrag
     @Override
     public void sendSpaceID(int spaceID) {
         //start a create profile activity
-        Intent intent=new Intent(GuestMainActivity.this, CreateProfileActivity.class);
-        intent.putExtra("spaceid", spaceID);
-        startActivity(intent);
+//        Intent intent=new Intent(GuestMainActivity.this, CreateProfileActivity.class);
+//        intent.putExtra("spaceid", spaceID);
+//        startActivity(intent);
     }
 }

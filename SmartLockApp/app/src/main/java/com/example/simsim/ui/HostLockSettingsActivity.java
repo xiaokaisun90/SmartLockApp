@@ -8,7 +8,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.simsim.entities.Lock;
+import com.example.simsim.entities.Property;
+import com.example.simsim.interfaces.HostSpaceInterface;
+
 public class HostLockSettingsActivity extends Activity {
+
+    private HostFragmentCallBackInterface hostFragmentCallBackInterface;
+    private HostSpaceInterface hostSpaceInterface;
+    private boolean isNew;
+    private Property property;
 
     private Button buttonSave;
 
@@ -46,4 +55,17 @@ public class HostLockSettingsActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public void insertLock(Property property, Lock lock){
+
+    }
+
+    public void updateLock(Property property, Lock lock){
+
+    }
+
+    public void deleteLock(Property property, Lock lock){
+
+    }
+
 }

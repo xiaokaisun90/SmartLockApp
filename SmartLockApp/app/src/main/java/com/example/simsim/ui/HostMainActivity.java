@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 
-public class HostMainActivityInterface extends FragmentActivity implements InterfaceFragmentCallBackHost {
+public class HostMainActivity extends FragmentActivity implements HostFragmentCallBackInterface {
 
     private Fragment hostSpaceFragment;
     private Fragment hostLockFragment;
@@ -115,7 +115,7 @@ public class HostMainActivityInterface extends FragmentActivity implements Inter
                 break;
             case 4:
                 if(editProfileFragment == null){
-                    editProfileFragment = new EditProfileFragment();
+                    editProfileFragment = new HostEditProfileFragment();
                     transaction.add(R.id.content, editProfileFragment);
                 }else{
                     transaction.show(editProfileFragment);
@@ -143,15 +143,15 @@ public class HostMainActivityInterface extends FragmentActivity implements Inter
         if(editProfileFragment != null) transaction.hide(editProfileFragment);
     }
 
-    public HostMainActivityInterface getGuestMainActivity() {
+    public HostMainActivity getHostMainActivity() {
         return this;
     }
 
     @Override
     public void sendSpaceID(int spaceID) {
         //start a create profile activity
-        Intent intent=new Intent(HostMainActivityInterface.this, CreateProfileActivity.class);
-        intent.putExtra("spaceid", spaceID);
-        startActivity(intent);
+//        Intent intent=new Intent(HostMainActivity.this, CreateProfileActivity.class);
+//        intent.putExtra("spaceid", spaceID);
+//        startActivity(intent);
     }
 }

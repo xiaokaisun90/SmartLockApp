@@ -8,20 +8,27 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.simsim.entities.Property;
+import com.example.simsim.interfaces.HostSpaceInterface;
 
-public class HostSpaceDetailActivity extends Activity {
+
+public class HostSpaceSettingsActivity extends Activity {
+
+    private HostFragmentCallBackInterface hostFragmentCallBackInterface;
+    private HostSpaceInterface hostSpaceInterface;
+    private boolean isNew;
 
     private Button buttonSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_host_space_detail);
+        setContentView(R.layout.activity_host_space_settings);
         buttonSave = (Button)findViewById(R.id.buttonSave);
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(HostSpaceDetailActivity.this, "Space saved.", Toast.LENGTH_LONG).show();
+                Toast.makeText(HostSpaceSettingsActivity.this, "Space saved.", Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -47,4 +54,17 @@ public class HostSpaceDetailActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void insertProperty(Property property){
+
+    }
+
+    private void updateProperty(Property property){
+
+    }
+
+    private void deleteProperty(Property property){
+
+    }
+
 }

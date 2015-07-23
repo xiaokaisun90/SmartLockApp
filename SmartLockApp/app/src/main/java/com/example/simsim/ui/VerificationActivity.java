@@ -8,10 +8,21 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.simsim.interfaces.RegistrationInterface;
 
-public class Verification extends Activity {
+
+public class VerificationActivity extends Activity {
+
+    private RegistrationInterface registrationInterface;
 
     private Button btnConfirm;
+
+    //Verify code, insert User to DB, set userId to User object in Information.
+    // If successful, return true.
+    public boolean sendVerificationCode(String verificationCode){
+
+        return true;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +73,7 @@ public class Verification extends Activity {
 
     private void buttonClickHandlerConfirm(){
         Intent intent = new Intent();
-        intent.setClass(Verification.this, GuestMainActivity.class);
+        intent.setClass(VerificationActivity.this, GuestMainActivity.class);
         startActivity(intent);
     }
 }

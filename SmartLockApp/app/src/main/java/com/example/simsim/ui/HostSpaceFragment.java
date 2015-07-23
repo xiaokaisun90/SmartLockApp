@@ -7,9 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
+
+import com.example.simsim.entities.Property;
+import com.example.simsim.interfaces.HostSpaceInterface;
+
+import java.util.List;
 
 
 public class HostSpaceFragment extends Fragment {
+
+    private HostFragmentCallBackInterface hostFragmentCallBackInterface;
+    private HostSpaceInterface hostSpaceInterface;
+    private ListView listViewSpace;
 
     private Button buttonAddSpace;
 
@@ -21,10 +31,14 @@ public class HostSpaceFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setClass(getActivity(),HostSpaceDetailActivity.class);
+                intent.setClass(getActivity(),HostSpaceSettingsActivity.class);
                 startActivity(intent);
             }
         });
         return view;
+    }
+
+    private List<Property> getPropertyList(){
+        return null;
     }
 }
