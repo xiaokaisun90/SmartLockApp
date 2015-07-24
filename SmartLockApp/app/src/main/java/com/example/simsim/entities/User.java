@@ -9,7 +9,7 @@ public class User {
     private String primaryPhoneNumber;
     private String isMobileVerified;
     private String password;
-    private String userState;
+    private String userState; // "host" or "guest"
     private String dataOfBirth;
     private String gender;
     private String emailAddress;

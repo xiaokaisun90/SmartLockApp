@@ -6,63 +6,57 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
+import com.example.simsim.entities.EntityAdapter;
 import com.example.simsim.interfaces.AuthenticationInterface;
 
 
 public class LoginActivity extends Activity {
 
+    private final String LOGIN_FAILED_MESSAGE =
+            "Login failed. Please check your number and password";
+
     private AuthenticationInterface authenticationInterface;
 
-    private final int COLOR_ORANGE = 0xFFFF9900;
-    private final int COLOR_BLACK = 0xFF000000;
-    private Button bLogin;
-    private TextView bRegister;
-    private Button buttonGuest;
-    private Button buttonHost;
-
-    private boolean isHost;
+    private EditText editTextPhoneNumber;
+    private EditText editTextPassword;
+    private Button buttonLogin;
+    private TextView buttonRegister;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        isHost = true;
+        authenticationInterface = new EntityAdapter();
 
-        buttonHost = (Button)findViewById(R.id.host);
-        buttonGuest = (Button)findViewById(R.id.guest);
-        bLogin = (Button) findViewById(R.id.btnLogin);
-        bRegister = (TextView) findViewById(R.id.link_to_register);
-        buttonHost.setOnClickListener(new View.OnClickListener() {
+        editTextPhoneNumber = (EditText) findViewById(R.id.editTextPhoneNumber);
+        editTextPassword = (EditText) findViewById(R.id.editTextPassword);
+        buttonLogin = (Button) findViewById(R.id.btnLogin);
+        buttonRegister = (TextView) findViewById(R.id.link_to_register);
+
+        buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isHost = true;
-                buttonHost.setTextColor(COLOR_ORANGE);
-                buttonGuest.setTextColor(COLOR_BLACK);
-            }
-        });
-        buttonGuest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                isHost = false;
-                buttonGuest.setTextColor(COLOR_ORANGE);
-                buttonHost.setTextColor(COLOR_BLACK);
-            }
-        });
-        bLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                if(isHost == true){
-                    intent.setClass(LoginActivity.this, HostMainActivity.class);
+                String primaryPhoneNumber = editTextPhoneNumber.getText().toString();
+                String password = editTextPassword.getText().toString();
+                if(authenticate(primaryPhoneNumber, password) == true){
+                    authenticationInterface.loadDataFromDB(primaryPhoneNumber);
+                    Intent intent = new Intent();
+                    if(authenticationInterface.getUserState().equals("host")){
+                        intent.setClass(LoginActivity.this, HostMainActivity.class);
+                    }
+                    else{
+                        intent.setClass(LoginActivity.this, GuestMainActivity.class);
+                    }
+                    startActivity(intent);
                 }
                 else{
-                    intent.setClass(LoginActivity.this, GuestMainActivity.class);
+                    Toast.makeText(LoginActivity.this, LOGIN_FAILED_MESSAGE,
+                            Toast.LENGTH_LONG).show();
                 }
-                startActivity(intent);
             }
         });
-        bRegister.setOnClickListener(new View.OnClickListener() {
+        buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -71,38 +65,10 @@ public class LoginActivity extends Activity {
             }
         });
     }
-    private View.OnClickListener listener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v) {
-            Button btn = (Button)v;
-            switch (btn.getId())
-            {
-                case R.id.btnLogin:
-                    buttonClickHandlerLogin();
-                    break;
-                case R.id.link_to_register:
-                    buttonClickHandlerRegister();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    private void buttonClickHandlerLogin(){
-
-    }
-
-    private void buttonClickHandlerRegister(){
-
-    }
 
     //authenticate the username and password
-    private boolean authenticate(String name, String password){
-
-        return true;
-
+    private boolean authenticate(String primaryPhoneNumber, String password){
+        return authenticationInterface.authenticate(primaryPhoneNumber, password);
     }
 
 }

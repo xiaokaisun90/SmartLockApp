@@ -11,23 +11,29 @@ import com.example.simsim.interfaces.HostSpaceInterface;
 import com.example.simsim.interfaces.ProfileInterface;
 import com.example.simsim.interfaces.RegistrationInterface;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 public class EntityAdapter implements AuthenticationInterface, RegistrationInterface,
         ProfileInterface, HistoryInterface, HostSpaceInterface, HostLockInterface,
         HostEventInterface, GuestLockInterface, GuestEventInterface{
 
-    private static Information information;
+    private static Information information = null;
 
     public EntityAdapter() {}
 
     @Override
-    public boolean authenticate(String name, String password) {
+    public boolean authenticate(String primaryPhoneNumber, String password) {
         return false;
     }
 
     @Override
-    public void loadDataFromDB() {
+    public void loadDataFromDB(String primaryPhoneNumber) {
 
     }
 
