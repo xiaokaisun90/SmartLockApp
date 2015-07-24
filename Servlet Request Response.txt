@@ -1,0 +1,55 @@
+UserRead		request£º	User user
+			response:	User user
+
+UserCreate		request:	User user
+			response:	String isAccepted
+
+UserUpdate		request:	User user
+			response:	String isAccepted
+
+UserDelete		request:	User user
+			response:	String isAccepted	
+
+
+
+PropertyRead		request£º	User user
+			response:	List<Property> propertyList
+
+PropertyCreate		request:	Property property
+			response:	String isAccepted
+
+PropertyUpdate		request:	Property property
+			response:	String isAccepted
+
+PropertyDelete		request:	Property property
+			response:	String isAccepted
+
+
+
+LockRead		request:	User user
+			response:	List<Lock> / Map<Properties, List<Lock>>
+
+LockCreate		request:	Lock lock
+			response:	String isAccepted
+
+LockUpdate		request:	Lock lock
+			response:	String isAccepted
+
+LockDelete		request:	Lock lock
+			response:	String isAccepted
+
+
+
+LockActivityRead	request:	User user
+			response:	Map<Lock, List<LockActivity>>
+
+LockActivityCreate	request:	LockActivity lockActivity
+			response:	String isAccepted
+
+LockActivityUpdate	request:	LockActivity lockActivity
+			response:	String isAccepted
+
+LockActivityDelete	request:	LockActivity lockActivity
+			response:	String isAccepted
+
+
