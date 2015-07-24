@@ -1,8 +1,12 @@
+Authenticate		request:	User user
+			response:	String isAccepted ("success" / "failure")
+
+
 UserRead		request:	User user
 			response:	User user
 
 UserCreate		request:	User user
-			response:	String isAccepted
+			response:	String isAccepted ("success" / "failure")
 
 UserUpdate		request:	User user
 			response:	String isAccepted
@@ -51,5 +55,6 @@ LockActivityUpdate	request:	LockActivity lockActivity
 
 LockActivityDelete	request:	LockActivity lockActivity
 			response:	String isAccepted
+
 
 
