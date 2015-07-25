@@ -11,8 +11,8 @@ import java.util.List;
 public interface GuestEventInterface {//events
 
     List<LockActivity> getFutureLockActivity();
-    void updateLockActivity(LockActivity lockActivity);
-    void loadHostIdFromDB(String primaryPhoneNumber);
+    void updateLockActivity(LockActivity lockActivity) throws Exception;
+    void loadHostIdFromDB(String primaryPhoneNumber) throws Exception;
     int getGuestId();
     int getHostId();
     List<Property> getHostPropertyList(int hostId);
@@ -25,7 +25,6 @@ public interface GuestEventInterface {//events
     void setNewLockActivityRequestAccessTimestamp(String requestAccessTimestamp);
     void setNewLockActivityRequestStatus(boolean requestStatus);
     void setNewLockActivityAlert(int alert);
-    void insertNewLockActivity(); // Insert new lockActivity to DB, set lockActivityId to LockActivity object in Information.
-
+    void insertNewLockActivity() throws Exception; // Insert new lockActivity to DB, set lockActivityId to LockActivity object in Information.
 
 }

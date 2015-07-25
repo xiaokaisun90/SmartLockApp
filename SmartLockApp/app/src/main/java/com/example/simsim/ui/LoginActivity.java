@@ -6,14 +6,12 @@ import android.os.Bundle;
 import android.view.*;
 import android.widget.*;
 
+import com.example.simsim.database.DatabaseConstantInterface;
 import com.example.simsim.entities.EntityAdapter;
 import com.example.simsim.interfaces.AuthenticationInterface;
 
 
-public class LoginActivity extends Activity {
-
-    private final String LOGIN_FAILED_MESSAGE =
-            "Login failed. Please check your number and password";
+public class LoginActivity extends Activity implements UIConstantInterface, DatabaseConstantInterface {
 
     private AuthenticationInterface authenticationInterface;
 
@@ -39,19 +37,24 @@ public class LoginActivity extends Activity {
             public void onClick(View v) {
                 String primaryPhoneNumber = editTextPhoneNumber.getText().toString();
                 String password = editTextPassword.getText().toString();
-                if(authenticate(primaryPhoneNumber, password) == true){
-                    authenticationInterface.loadDataFromDB(primaryPhoneNumber);
-                    Intent intent = new Intent();
-                    if(authenticationInterface.getUserState().equals("host")){
-                        intent.setClass(LoginActivity.this, HostMainActivity.class);
+                try{
+                    if(authenticate(primaryPhoneNumber, password) == true){
+                        authenticationInterface.loadDataFromDB(primaryPhoneNumber);
+                        Intent intent = new Intent();
+                        if(authenticationInterface.getUserState().equals(USER_STATE_HOST)){
+                            intent.setClass(LoginActivity.this, HostMainActivity.class);
+                        }
+                        else{
+                            intent.setClass(LoginActivity.this, GuestMainActivity.class);
+                        }
+                        startActivity(intent);
                     }
                     else{
-                        intent.setClass(LoginActivity.this, GuestMainActivity.class);
+                        Toast.makeText(LoginActivity.this, MESSAGE_LOGIN_WRONG_PASSWORD,
+                                Toast.LENGTH_LONG).show();
                     }
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(LoginActivity.this, LOGIN_FAILED_MESSAGE,
+                } catch (Exception e){
+                    Toast.makeText(LoginActivity.this, MESSAGE_LOGIN_EXCEPTION,
                             Toast.LENGTH_LONG).show();
                 }
             }
@@ -67,7 +70,7 @@ public class LoginActivity extends Activity {
     }
 
     //authenticate the username and password
-    private boolean authenticate(String primaryPhoneNumber, String password){
+    private boolean authenticate(String primaryPhoneNumber, String password) throws Exception{
         return authenticationInterface.authenticate(primaryPhoneNumber, password);
     }
 

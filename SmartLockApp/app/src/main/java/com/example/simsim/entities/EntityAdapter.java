@@ -1,6 +1,7 @@
 package com.example.simsim.entities;
 
 
+import com.example.simsim.database.DatabaseConstantInterface;
 import com.example.simsim.interfaces.AuthenticationInterface;
 import com.example.simsim.interfaces.GuestEventInterface;
 import com.example.simsim.interfaces.GuestLockInterface;
@@ -10,31 +11,48 @@ import com.example.simsim.interfaces.HostLockInterface;
 import com.example.simsim.interfaces.HostSpaceInterface;
 import com.example.simsim.interfaces.ProfileInterface;
 import com.example.simsim.interfaces.RegistrationInterface;
+import com.example.simsim.local.HttpConnection;
+import com.example.simsim.local.ServletConstantInterface;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
+import java.util.Map;
 
 public class EntityAdapter implements AuthenticationInterface, RegistrationInterface,
         ProfileInterface, HistoryInterface, HostSpaceInterface, HostLockInterface,
-        HostEventInterface, GuestLockInterface, GuestEventInterface{
+        HostEventInterface, GuestLockInterface, GuestEventInterface,
+        ServletConstantInterface, DatabaseConstantInterface {
 
-    private static Information information = null;
+    private static Information information = new Information();
 
     public EntityAdapter() {}
 
     @Override
-    public boolean authenticate(String primaryPhoneNumber, String password) {
-        return false;
+    public boolean authenticate(String primaryPhoneNumber, String password) throws Exception{
+        information.getUser().setPrimaryPhoneNumber(primaryPhoneNumber);
+        information.getUser().setPassword(password);
+        String response = (String) HttpConnection.httpPost(URL_AUTHENTICATE, information.getUser());
+        if(response.equals(RESPONSE_SUCCESS)) return true;
+        else return false;
     }
 
     @Override
-    public void loadDataFromDB(String primaryPhoneNumber) {
+    public void loadDataFromDB(String primaryPhoneNumber) throws Exception {
+        information.getUser().setPrimaryPhoneNumber(primaryPhoneNumber);
+        User user = (User) HttpConnection.httpPost(URL_USER_READ, information.getUser());
+        information.setUser(user);
+        if(getUserState().equals(USER_STATE_HOST)){
+            Map<Property, List<Lock>> hostPropLockMap =
+                    (Map<Property, List<Lock>>) HttpConnection.httpPost(URL_LOCK_READ,
+                            information.getUser());
+        }
+        else{
+            List<Lock> guestLock =
+                    (List<Lock>) HttpConnection.httpPost(URL_LOCK_READ, information.getUser());
 
+        }
+        Map<Lock, List<LockActivity>> lockLockActivityMap =
+                (Map<Lock, List<LockActivity>>) HttpConnection.httpPost(URL_LOCK_ACTIVITY_READ,
+                        information.getUser());
     }
 
     @Override
@@ -184,7 +202,7 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
 
     @Override
     public String getUserState() {
-        return null;
+        return information.getUser().getUserState();
     }
 
     @Override

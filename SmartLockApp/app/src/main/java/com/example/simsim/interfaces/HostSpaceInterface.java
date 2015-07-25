@@ -11,12 +11,12 @@ import java.util.List;
 public interface HostSpaceInterface {
 
     List<Property> getPropertyList();
-    void insertProperty(Property property);
-    void updateProperty(Property property);
-    void deleteProperty(Property property);
+    void insertProperty(Property property) throws Exception;
+    void updateProperty(Property property) throws Exception;
+    void deleteProperty(Property property) throws Exception;
     List<Lock> getLockList(Property property);
-    void insertLock(Property property, Lock lock);
-    void updateLock(Property property, Lock lock);
-    void deleteLock(Property property, Lock lock);
+    void insertLock(Property property, Lock lock) throws Exception;
+    void updateLock(Property property, Lock lock) throws Exception;
+    void deleteLock(Property property, Lock lock) throws Exception;
 
 }
