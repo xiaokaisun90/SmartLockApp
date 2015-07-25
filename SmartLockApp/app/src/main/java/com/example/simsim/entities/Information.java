@@ -1,5 +1,6 @@
 package com.example.simsim.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +10,8 @@ public class Information {
 
     // Store the data get from database
     private static User user;
-    private Map<Property, List<Lock>> propLockMap = new HashMap<Property, List<Lock>>();
+    private List<Lock> guestLock = new ArrayList<Lock>();
+    private Map<Property, List<Lock>> hostPropLockMap = new HashMap<Property, List<Lock>>();
     private Map<Lock, List<LockActivity>> lockLockActivityMap =
             new HashMap<Lock, List<LockActivity>>();
 
@@ -26,12 +28,20 @@ public class Information {
         Information.user = user;
     }
 
-    public Map<Property, List<Lock>> getPropLockMap() {
-        return propLockMap;
+    public List<Lock> getGuestLock() {
+        return guestLock;
     }
 
-    public void setPropLockMap(Map<Property, List<Lock>> propLockMap) {
-        this.propLockMap = propLockMap;
+    public void setGuestLock(List<Lock> guestLock) {
+        this.guestLock = guestLock;
+    }
+
+    public Map<Property, List<Lock>> getHostPropLockMap() {
+        return hostPropLockMap;
+    }
+
+    public void setHostPropLockMap(Map<Property, List<Lock>> hostPropLockMap) {
+        this.hostPropLockMap = hostPropLockMap;
     }
 
     public Map<Lock, List<LockActivity>> getLockLockActivityMap() {

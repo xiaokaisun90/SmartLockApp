@@ -9,17 +9,7 @@ import java.net.HttpURLConnection;
 //This class is used to build the connection between android device and remote server
 public class HttpConnection {
 
-    private static HttpURLConnection httpURLConnection;
-
-    public static void open(){
-
+    private static Object HttpPost(String url, Object object){
+        return null;
     };
-
-    public static HttpURLConnection getConnection(){
-        return httpURLConnection;
-    }
-
-    public static void close(){
-
-    }
 }
