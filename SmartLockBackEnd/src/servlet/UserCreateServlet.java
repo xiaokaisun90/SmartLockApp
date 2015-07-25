@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.DbAdapter;
 import entities.User;
 
 /**
@@ -19,7 +20,6 @@ import entities.User;
 @WebServlet("/UserAddServlet")
 public class UserCreateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private User user;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -42,19 +42,17 @@ public class UserCreateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			this.user = (User) in.readObject();
+			User user = (User) in.readObject();
+			String info = DbAdapter.createUser(user);
+			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
+			out.writeObject(info);
+			out.flush();
+			out.close();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-		out.writeObject("success");
-		out.flush();
-		out.close();
+		
 		
 	}
-	public User getUser() {
-		return this.user;
-	}
-
 }

@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.DbAdapter;
 import entities.User;
 
 /**
@@ -17,7 +19,6 @@ import entities.User;
 @WebServlet("/UserAddServlet")
 public class UserUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private User user;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,14 +41,16 @@ public class UserUpdateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			this.user = (User) in.readObject();
+			User user = (User) in.readObject();
+			String info = DbAdapter.updateUser(user);
+			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
+			out.writeObject(info);
+			out.flush();
+			out.close();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	public User getUser() {
-		return this.user;
 	}
 
 }
