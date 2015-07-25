@@ -6,6 +6,6 @@ package com.example.simsim.interfaces;
 public interface RegistrationInterface {
 
      void setBasicUserInfo(String name, String password, String country, String primaryPhoneNumber);
-     void insertUser(); // Insert user to DB, set userId to User object in Information.
+     void insertUser() throws Exception; // Insert user to DB, set userId to User object in Information.
 
 }

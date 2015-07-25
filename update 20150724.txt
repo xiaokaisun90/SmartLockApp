@@ -1,0 +1,9 @@
+实现了HttpConnection，LoginActivity。
+加了3个Interface，用来存放一些常量。比如URL、entities的属性值等。程序中用到的String不要hard code，都放在这几个interface里。
+	local包		ServletConstantInterface	存放Servlet的URL，和一些特定的返回值，比如"success","failure"
+	database包	DatabaseConstantInterface	存放entities的属性值，比如"host","guest"
+	ui包		UIConstantInterface		存放UI用到的一些字符串，比如登录失败时，toast出来的信息。
+Interface里所有和servlet、Database有关的方法都加了throws Exception，这些异常应该在各个Activity或Fragment中处理。
+
+	
+	

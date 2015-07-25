@@ -1,5 +1,6 @@
 package com.example.simsim.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,30 +9,48 @@ import java.util.Map;
 public class Information {
 
     // Store the data get from database
-    private static User user;
-    private Map<Property, List<Lock>> propLockMap = new HashMap<Property, List<Lock>>();
-    private Map<Lock, List<LockActivity>> lockLockActivityMap =
-            new HashMap<Lock, List<LockActivity>>();
+    private User user;
+    private List<Lock> guestLock;
+    private Map<Property, List<Lock>> hostPropLockMap;
+    private Map<Lock, List<LockActivity>> lockLockActivityMap;
 
     // Temporarily store the new object to be added
-    private Lock newLock = new Lock();
-    private LockActivity newLockActivity = new LockActivity();
+    private Lock newLock;
+    private LockActivity newLockActivity;
     private int hostId;
 
-    public static User getUser() {
+    public Information(){
+        user = new User();
+        List<Lock> guestLock = new ArrayList<Lock>();
+        Map<Property, List<Lock>> hostPropLockMap = new HashMap<Property, List<Lock>>();
+        Map<Lock, List<LockActivity>> lockLockActivityMap = new HashMap<Lock, List<LockActivity>>();
+
+        Lock newLock = new Lock();
+        LockActivity newLockActivity = new LockActivity();
+    }
+
+    public User getUser() {
         return user;
     }
 
-    public static void setUser(User user) {
-        Information.user = user;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Map<Property, List<Lock>> getPropLockMap() {
-        return propLockMap;
+    public List<Lock> getGuestLock() {
+        return guestLock;
     }
 
-    public void setPropLockMap(Map<Property, List<Lock>> propLockMap) {
-        this.propLockMap = propLockMap;
+    public void setGuestLock(List<Lock> guestLock) {
+        this.guestLock = guestLock;
+    }
+
+    public Map<Property, List<Lock>> getHostPropLockMap() {
+        return hostPropLockMap;
+    }
+
+    public void setHostPropLockMap(Map<Property, List<Lock>> hostPropLockMap) {
+        this.hostPropLockMap = hostPropLockMap;
     }
 
     public Map<Lock, List<LockActivity>> getLockLockActivityMap() {

@@ -5,7 +5,7 @@ package com.example.simsim.interfaces;
  */
 public interface ProfileInterface {
 
-     void updateProfile(String userState, String dataOfBirth, String gender, String emailAddress, int zipCode, String icon);
+     void updateProfile(String userState, String dataOfBirth, String gender, String emailAddress, int zipCode, String icon) throws Exception;
      String getUserState();
      String getDateOfBirth();
      String getGender();

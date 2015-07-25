@@ -10,5 +10,5 @@ import java.util.List;
 public interface HostEventInterface {
 
     List<LockActivity> getFutureLockActivity();
-    void updateLockActivity(LockActivity lockActivity);
+    void updateLockActivity(LockActivity lockActivity) throws Exception;
 }
