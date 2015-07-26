@@ -6,6 +6,4 @@ package com.example.simsim.database;
 public interface DatabaseConstantInterface {
 
     String USER_STATE_HOST = "host";
-    String USER_STATE_GUEST = "guest";
-
 }
