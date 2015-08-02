@@ -14,6 +14,7 @@ import com.example.simsim.interfaces.RegistrationInterface;
 import com.example.simsim.local.HttpConnection;
 import com.example.simsim.local.ServletConstantInterface;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -39,20 +40,22 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
     public void loadDataFromDB(String primaryPhoneNumber) throws Exception {
         information.getUser().setPrimaryPhoneNumber(primaryPhoneNumber);
         User user = (User) HttpConnection.httpPost(URL_USER_READ, information.getUser());
-        information.setUser(user);
+        if(user != null) information.setUser(user);
         if(getUserState().equals(USER_STATE_HOST)){
             Map<Property, List<Lock>> hostPropLockMap =
                     (Map<Property, List<Lock>>) HttpConnection.httpPost(URL_LOCK_READ,
                             information.getUser());
+            //information.setHostPropLockMap(hostPropLockMap);
         }
         else{
             List<Lock> guestLock =
                     (List<Lock>) HttpConnection.httpPost(URL_LOCK_READ, information.getUser());
-
+            //information.setGuestLock(guestLock);
         }
         Map<Lock, List<LockActivity>> lockLockActivityMap =
                 (Map<Lock, List<LockActivity>>) HttpConnection.httpPost(URL_LOCK_ACTIVITY_READ,
                         information.getUser());
+        //information.setLockLockActivityMap(lockLockActivityMap);
     }
 
     @Override
@@ -151,8 +154,12 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
     }
 
     @Override
-    public List<Lock> getLockList() {
-        return null;
+    public List<Lock> getAllLockList() {
+        List<Lock> lockList = new ArrayList<Lock>();
+        for(List<Lock> sublist : information.getHostPropLockMap().values()){
+            lockList.addAll(sublist);
+        }
+        return lockList;
     }
 
     @Override
@@ -196,8 +203,14 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
     }
 
     @Override
-    public void updateProfile(String userState, String dataOfBirth, String gender, String emailAddress, int zipCode, String icon) {
-
+    public void updateProfile(String dataOfBirth, String gender, String emailAddress,
+                              int zipCode, String icon) throws Exception{
+        information.getUser().setDataOfBirth(dataOfBirth);
+        information.getUser().setGender(gender);
+        information.getUser().setEmailAddress(emailAddress);
+        information.getUser().setZipCode(zipCode);
+        information.getUser().setIcon(icon);
+        HttpConnection.httpPost(URL_USER_UPDATE, information.getUser());
     }
 
     @Override
@@ -207,37 +220,46 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
 
     @Override
     public String getDateOfBirth() {
-        return null;
+        return information.getUser().getDataOfBirth();
     }
 
     @Override
     public String getGender() {
-        return null;
+        return information.getUser().getGender();
     }
 
     @Override
     public String getEmailAddress() {
-        return null;
+        return information.getUser().getEmailAddress();
     }
 
     @Override
     public int getZipCode() {
-        return 0;
+        return information.getUser().getZipCode();
     }
 
     @Override
     public String getIcon() {
-        return null;
+        return information.getUser().getIcon();
     }
 
     @Override
-    public void setBasicUserInfo(String name, String password, String country, String primaryPhoneNumber) {
-
+    public void setBasicUserInfo(String name, String password, String country,
+                                 String primaryPhoneNumber, String userState) {
+        information.getUser().setName(name);
+        information.getUser().setPassword(password);
+        information.getUser().setCountry(country);
+        information.getUser().setPrimaryPhoneNumber(primaryPhoneNumber);
+        information.getUser().setUserState(userState);
+        information.getUser().setDataOfBirth(USER_BIRTHDAY_DEFAULT);
+        information.getUser().setGender(USER_GENDER_DEFAULT);
     }
 
     @Override
-    public void insertUser() {
-
+    public boolean insertUser() throws Exception{
+        String response = (String) HttpConnection.httpPost(URL_USER_CREATE, information.getUser());
+        if(response.equals(RESPONSE_SUCCESS)) return true;
+        else return false;
     }
 
 }

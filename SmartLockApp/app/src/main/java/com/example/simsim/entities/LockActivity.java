@@ -1,7 +1,9 @@
 package com.example.simsim.entities;
 
 
-public class LockActivity {
+import java.io.Serializable;
+
+public class LockActivity implements Serializable {
 
     private int lockActicityId;
     private int hostId;

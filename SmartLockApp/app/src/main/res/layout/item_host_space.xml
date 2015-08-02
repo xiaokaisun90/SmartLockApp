@@ -19,7 +19,7 @@
         android:gravity="left|center"
         android:textColor="#666666"
         android:textSize="18sp"
-        android:id="@+id/textView22"
+        android:id="@+id/textViewLockName"
         android:layout_below="@+id/imageView6"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -32,9 +32,9 @@
         android:gravity="left|center"
         android:textColor="#999999"
         android:textSize="14sp"
-        android:id="@+id/textView23"
+        android:id="@+id/textViewManagerNumber"
         android:paddingLeft="20dp"
-        android:layout_below="@+id/textView22"
+        android:layout_below="@+id/textViewLockName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -47,7 +47,7 @@
         android:textSize="14sp"
         android:id="@+id/textView24"
         android:paddingLeft="20dp"
-        android:layout_below="@+id/textView23"
+        android:layout_below="@+id/textViewManagerNumber"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -59,7 +59,7 @@
         android:textColor="#999999"
         android:textSize="14sp"
         android:id="@+id/textView25"
-        android:layout_below="@+id/textView22"
+        android:layout_below="@+id/textViewLockName"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:paddingRight="20dp" />
@@ -71,9 +71,9 @@
         android:gravity="left|center"
         android:textColor="#999999"
         android:textSize="14sp"
-        android:id="@+id/textView26"
+        android:id="@+id/textViewSpaceName"
         android:paddingRight="20dp"
-        android:layout_below="@+id/textView22"
+        android:layout_below="@+id/textViewLockName"
         android:layout_toLeftOf="@+id/textView25"
         android:layout_toStartOf="@+id/textView25" />
 </RelativeLayout>

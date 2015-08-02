@@ -6,8 +6,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
+import com.example.simsim.entities.Lock;
 import com.example.simsim.entities.LockActivity;
 import com.example.simsim.interfaces.HostEventInterface;
 
@@ -33,5 +36,25 @@ public class HostEventFragment extends Fragment {
 
     private void acceptEventRequest(LockActivity lockActivity){
 
+    }
+
+    private class LockListAdapter extends ArrayAdapter<Lock> {
+        public LockListAdapter(List<Lock> lockList) {
+            super(getActivity(), R.layout.item_host_lock, lockList);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+            // if we weren't given a view, inflate one
+            if (null == convertView) {
+                convertView = getActivity().getLayoutInflater()
+                        .inflate(R.layout.item_host_lock, null);
+            }
+
+            Lock lock = getItem(position);
+            TextView textViewSidValue = (TextView)convertView.findViewById(R.id.textViewLockName);
+            textViewSidValue.setText(lock.getDescription());
+            return convertView;
+        }
     }
 }

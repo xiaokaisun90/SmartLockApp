@@ -50,11 +50,11 @@
             <EditText android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dip"
-                android:layout_marginBottom="20dip"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:singleLine="true"
-                android:id="@+id/username"/>
+                android:id="@+id/username"
+                android:layout_marginBottom="10dp" />
             <!--  Password Label -->
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
@@ -69,7 +69,8 @@
                 android:layout_marginRight="40dp"
                 android:singleLine="true"
                 android:password="true"
-                android:id="@+id/password"/>
+                android:id="@+id/password"
+                android:layout_marginBottom="10dp" />
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
@@ -82,7 +83,8 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:singleLine="true"
-                android:id="@+id/country"/>
+                android:id="@+id/country"
+                android:layout_marginBottom="10dp" />
             <TextView android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:textColor="#372c24"
@@ -95,20 +97,54 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:singleLine="true"
-                android:id="@+id/phoneNumber"/>
+                android:id="@+id/phoneNumber"
+                android:layout_marginBottom="10dp" />
             <!-- Login button -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="#372c24"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:text="@string/textview_I_am" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/textview_host"
+                    android:id="@+id/radioButtonHost"
+                    android:layout_weight="0.5"
+                    android:textColor="#000"
+                    android:checked="true" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/textview_guest"
+                    android:id="@+id/radioButtonGuest"
+                    android:layout_weight="0.5"
+                    android:textColor="#000" />
+
+            </RadioGroup>
+
             <Button android:id="@+id/btnRegister"
                 android:layout_width="fill_parent"
                 android:layout_height="50dp"
-                android:layout_marginTop="10dip"
+                android:layout_marginTop="20dp"
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:layout_marginBottom="40dp"
                 android:text="Register"
                 android:textColor="#FFFFFF"
-                android:background="@drawable/corner"
-
-                />
+                android:background="@drawable/corner" />
 
         </LinearLayout>
         <!-- Login Form Ends -->

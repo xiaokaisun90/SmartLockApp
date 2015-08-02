@@ -1,7 +1,9 @@
 package com.example.simsim.entities;
 
 
-public class Lock {
+import java.io.Serializable;
+
+public class Lock implements Serializable {
 
     private int lockId;
     private int propertyId;

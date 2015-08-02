@@ -1,7 +1,9 @@
 package com.example.simsim.entities;
 
 
-public class Property {
+import java.io.Serializable;
+
+public class Property implements Serializable {
 
     private int propertyId;
     private int userId;

@@ -3,77 +3,80 @@ package com.example.simsim.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.os.StrictMode;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.example.simsim.database.DatabaseConstantInterface;
+import com.example.simsim.entities.EntityAdapter;
 import com.example.simsim.interfaces.RegistrationInterface;
 
 
-public class VerificationActivity extends Activity {
+public class VerificationActivity extends Activity
+        implements UIConstantInterface, DatabaseConstantInterface{
 
     private RegistrationInterface registrationInterface;
 
-    private Button btnConfirm;
+    private EditText editTextVerificationCode;
+    private Button buttonConfirm;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads().detectDiskWrites().detectNetwork()
+                .penaltyLog().build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
+                .build());
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_verification);
+
+        registrationInterface = new EntityAdapter();
+
+        editTextVerificationCode = (EditText) findViewById(R.id.editTextVerificationCode);
+        buttonConfirm = (Button) findViewById(R.id.confirm);
+
+        buttonConfirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(sendVerificationCode(editTextVerificationCode.getText().toString())){
+                    try{
+                        if(registrationInterface.insertUser()){
+                            Intent intent = new Intent();
+                            if(registrationInterface.getUserState().equals(USER_STATE_HOST)){
+                                intent.setClass(VerificationActivity.this, HostMainActivity.class);
+                            }
+                            else{
+                                intent.setClass(VerificationActivity.this, GuestMainActivity.class);
+                            }
+                            Toast.makeText(VerificationActivity.this, MESSAGE_REGISTRATION_SUCCESS,
+                                    Toast.LENGTH_LONG).show();
+                            startActivity(intent);
+                        }
+                        else{
+                            Toast.makeText(VerificationActivity.this, MESSAGE_REGISTRATION_FAILURE,
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    } catch (Exception e){
+                        Toast.makeText(VerificationActivity.this, MESSAGE_REGISTRATION_EXCEPTION,
+                                Toast.LENGTH_LONG).show();
+                    }
+                }
+                else{
+                    Toast.makeText(VerificationActivity.this, MESSAGE_REGISTRATION_WRONG_CODE,
+                            Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
 
     //Verify code, insert User to DB, set userId to User object in Information.
     // If successful, return true.
     public boolean sendVerificationCode(String verificationCode){
-
+        // TBD
         return true;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_verification);
-
-        btnConfirm = (Button) findViewById(R.id.confirm);
-        btnConfirm.setOnClickListener(listener);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_my_space, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private View.OnClickListener listener = new View.OnClickListener()
-    {
-        @Override
-        public void onClick(View v) {
-            Button btn = (Button)v;
-            switch (btn.getId())
-            {
-                case R.id.confirm:
-                    buttonClickHandlerConfirm();
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    private void buttonClickHandlerConfirm(){
-        Intent intent = new Intent();
-        intent.setClass(VerificationActivity.this, GuestMainActivity.class);
-        startActivity(intent);
     }
 }

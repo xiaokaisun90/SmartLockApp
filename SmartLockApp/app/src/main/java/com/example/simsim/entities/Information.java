@@ -21,12 +21,12 @@ public class Information {
 
     public Information(){
         user = new User();
-        List<Lock> guestLock = new ArrayList<Lock>();
-        Map<Property, List<Lock>> hostPropLockMap = new HashMap<Property, List<Lock>>();
-        Map<Lock, List<LockActivity>> lockLockActivityMap = new HashMap<Lock, List<LockActivity>>();
+        guestLock = new ArrayList<Lock>();
+        hostPropLockMap = new HashMap<Property, List<Lock>>();
+        lockLockActivityMap = new HashMap<Lock, List<LockActivity>>();
 
-        Lock newLock = new Lock();
-        LockActivity newLockActivity = new LockActivity();
+        newLock = new Lock();
+        newLockActivity = new LockActivity();
     }
 
     public User getUser() {

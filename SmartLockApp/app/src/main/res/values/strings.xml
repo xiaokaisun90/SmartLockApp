@@ -18,6 +18,8 @@
     <string name="textview_create_a_profile_description">Make it easy for your hosts to identify \n you with a good picture</string>
     <string name="textview_birthday">Birthday</string>
     <string name="textview_gender">Gender</string>
+    <string name="textview_gender_male">Male</string>
+    <string name="textview_gender_female">Female</string>
     <string name="textview_email">Email</string>
     <string name="textview_zip_code">ZIP Code</string>
     <string name="textview_I_am">I am a</string>
@@ -69,12 +71,14 @@
 
     <string name="textview_host_history">History</string>
 
+    <string name="textview_host">Host</string>
+    <string name="textview_guest">Guest</string>
+
     <string name="button_add_space">Add Space</string>
     <string name="button_add_lock">Add Lock</string>
     <string name="button_add_event">Add Event</string>
     <string name="button_add_more">Add More</string>
     <string name="button_save">Save</string>
-
 
     <string name="title_activity_host_schedule_add">HostScheduleAddActivity</string>
     <string name="title_activity_host_event_access">HostEventAccessActivity</string>

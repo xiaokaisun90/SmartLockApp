@@ -3,6 +3,7 @@ package com.example.simsim.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.view.*;
 import android.widget.*;
 
@@ -22,6 +23,13 @@ public class LoginActivity extends Activity implements UIConstantInterface, Data
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
+                .detectDiskReads().detectDiskWrites().detectNetwork()
+                .penaltyLog().build());
+        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder()
+                .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
+                .build());
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 

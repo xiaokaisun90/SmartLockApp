@@ -9,6 +9,6 @@ import java.util.List;
  */
 public interface HostLockInterface {
 
-    List<Lock> getLockList();
+    List<Lock> getAllLockList();
 
 }
