@@ -4,6 +4,9 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import entities.*;
 public class DbAdapter {
    // JDBC driver name and database URL
@@ -50,7 +53,7 @@ public class DbAdapter {
 					   "PRIMARY KEY USER_ID )";
 					   
       
-      String sqlProperty =" CREATE TABLE PROPERTIES (" +
+      String sqlProperty =" CREATE TABLE PROPERTY (" +
 			    		   "PROPERTY_ID int    NOT NULL, " +
 			    		   "USER_ID int		NOT NULL" +
 			    		   "DESCRIPTION varchar()    NOT NULL ," +
@@ -59,7 +62,7 @@ public class DbAdapter {
 			    		   "ZIP_CODE int    NOT NULL ," +
 			    		   "STATE varchar()    NOT NULL ," +
 			    		   "COUNTRY varchar()    NOT NULL ," +
-			    		   "OWNSHIP varchar()    NOT NULL), " +
+			    		   "OWNERSHIP varchar()    NOT NULL), " +
 			    		   "PRIMARY KEY PROPERTY_ID, " +
 			    		   "FOREIGN KEY (USER_ID) REFERENCES USER(USER_ID))";
 			    		   
@@ -146,13 +149,13 @@ public class DbAdapter {
 	public static String updateUser(User user) {
 			String query = "UPDATE USER" + 
 					"(SET NAME=" + user.getName() + "," +
-					"IS_MOBILE_VERIFIED" + user.getIsMobileVerified() + "," +
-					"COUNTRY" + user.getCountry() + "," +
-					"DATE_OF_BIRTH" + user.getDataOfBirth() + "," +
-					"GENDER" + user.getGender() + "," +
-					"EMAIL_ADDRESS" + user.getEmailAddress() + "," +
-					"ZIP_CODE" + user.getZipCode() + "," +
-					"ICON" + user.getIcon() + 
+					"IS_MOBILE_VERIFIED=" + user.getIsMobileVerified() + "," +
+					"COUNTRY=" + user.getCountry() + "," +
+					"DATE_OF_BIRTH=" + user.getDataOfBirth() + "," +
+					"GENDER=" + user.getGender() + "," +
+					"EMAIL_ADDRESS=" + user.getEmailAddress() + "," +
+					"ZIP_CODE=" + user.getZipCode() + "," +
+					"ICON=" + user.getIcon() + 
 					"WHERE PRIMARY_PHONE_NUMBER=" + user.getPrimaryPhoneNumber() + ")";
 			 try {
 					stmt.executeUpdate(query);
@@ -166,7 +169,6 @@ public class DbAdapter {
  
 	public static User readUser(User user) {
 		String query = "SELECT * FROM USER " +
-				"FROM USER" +
 				"WHERE PRIMARY_PHONE_NUMBER=" + user.getPrimaryPhoneNumber() + ")";
 		 try {
 			 ResultSet rs = stmt.executeQuery(query);
@@ -206,8 +208,313 @@ public class DbAdapter {
 		}
 	}
 
+	public static String createProperty(Property property) {
+		   String query = "INSERT INTO PROPERTY " + 
+				   		"VALUES(" + property.getPropertyId() + "," +
+				   		property.getUserId() + "," +
+				   		property.getDescription() + "," +
+				   		property.getAddress() + "," + 
+				   		property.getCity() + "," +
+				   		property.getZipCode() + "," +
+				   		property.getState()+ ","  +
+				   		property.getCountry() + "," +
+				   		property.getOwnership()+ ")";
+		   try {
+			stmt.executeUpdate(query);
+			return "success";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "failure";
+		}
+	}
+	
+	public static String updateProperty(Property property) {
+		String query = "UPDATE PROPERTY" + 
+				"(SET USER_ID=" + property.getUserId() + "," +
+				"DESCRIPTION=" + property.getDescription() + "," +
+				"ADDRESS=" + property.getAddress() + "," +
+				"CITY=" + property.getCity() + "," +
+				"ZIP_CODE=" + property.getZipCode() + "," +
+				"STATE=" + property.getState() + "," +
+				"COUNTRY=" + property.getCountry() + "," +
+				"OWNERSHIP=" + property.getOwnership() + 
+				"WHERE PROPERTY_ID=" + property.getPropertyId() + ")";
+		 try {
+				stmt.executeUpdate(query);
+				return "success";
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "failure";
+			}
+	}
+	
+public static Property readProperty(Property property) {
+		String query = "SELECT * FROM USER " +
+				"WHERE PROPERTY_ID=" + property.getPropertyId() + ")";
+		 try {
+			 ResultSet rs = stmt.executeQuery(query);
+			 Property propertyInfo = new Property();
+			 while(rs.next()){ 
+				 propertyInfo.setUserId(rs.getInt("USER_ID"));
+				 propertyInfo.setDescription(rs.getString("DESCRIPTION"));
+				 propertyInfo.setAddress(rs.getString("ADDRESS"));
+				 propertyInfo.setCity(rs.getString("CITY"));
+				 propertyInfo.setZipCode(rs.getInt("ZIP_CODE"));
+				 propertyInfo.setState(rs.getString("STATE"));
+				 propertyInfo.setCountry(rs.getString("COUNTRY"));
+				 propertyInfo.setOwnership(rs.getString("OWNERSHIP"));
+			 }
+			 rs.close();
+			 return propertyInfo;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+	}
+	
+public static String deleteProperty(Property property) {
+	String query = "DELETE FROM PROPERTY" + 
+					"WHERE PROPERTY_ID=" + property.getPropertyId();
+	try {
+		stmt.executeUpdate(query);
+		return "success";
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return "failure";
+	}
 }
-   
+public static String createLock(Lock lock) {
+	   String query = "INSERT INTO LOCK " + 
+			   		"VALUES(" + lock.getLockId() + "," +
+			   		lock.getDescription()+ "," +
+//			   		lock.getIsLocked+ "," +
+			   		lock.getLockPower() + "," + 
+			   		lock.getLockStartAngle()+ "," +
+			   		lock.getLockEndAngle() + "," +
+			   		lock.getRotationDirection()+ ","  +
+			   		lock.getRotationEndPoints() + ")";
+	   try {
+		stmt.executeUpdate(query);
+		return "success";
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return "failure";
+		}
+	}
+public static String updateLock(Lock lock) {
+	String query = "UPDATE LOCK" + 
+			"(SET DESCRIPTION=" + lock.getDescription() + "," +
+			"IS_LOCKED=" + lock.isLocked() + "," +
+			"LOCK_POWER=" + lock.getLockPower() + "," +
+			"LOCK_START_ANGLE=" + lock.getLockStartAngle() + "," +
+			"LOCK_END_ANGLE=" + lock.getLockEndAngle() + "," +
+			"ROTATION_DIRECTION=" + lock.getRotationDirection() + "," +
+			"ROTATION_END_POINTS=" + lock.getRotationEndPoints() + 
+			"WHERE LOCK_ID=" + lock.getLockId() + ")";
+	 try {
+			stmt.executeUpdate(query);
+			return "success";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "failure";
+		}
+}
+
+public static Lock readLock(Lock lock) {
+	String query = "SELECT * FROM LOCK" + 
+				"WHERE LOCK_ID =" + lock.getLockId() + ")";
+	 try {
+		 ResultSet rs = stmt.executeQuery(query);
+		 Lock lockInfo = new Lock();
+		 while(rs.next()){ 
+			lockInfo.setLockId(rs.getInt("LOCK_ID"));
+			lockInfo.setDescription(rs.getString("DESCRIPTION"));
+			lockInfo.setIsLocked(rs.getBoolean("IS_LOCKED"));
+			lockInfo.setLockPower(rs.getDouble("LOCK_POWER"));
+			lockInfo.setLockStartAngle(rs.getDouble("LOCK_START_ANGLE"));
+			lockInfo.setLockEndAngle(rs.getDouble("LOCK_END_ANGLE"));
+			lockInfo.setRotationDirection(rs.getString("ROTATION_DIRECTION"));
+			lockInfo.setRotationEndPoints(rs.getDouble("ROTATION_END_POINTS"));
+		 }
+		 rs.close();
+		 return lockInfo;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+}
+public static String deleteLock(Lock lock) {
+	String query = "DELETE FROM LOCK" + 
+					"WHERE LOCK_ID=" + lock.getLockId();
+	try {
+		stmt.executeUpdate(query);
+		return "success";
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return "failure";
+	}
+}
+public static String createLockActivity(LockActivity lockActivity) {
+	   String query = "INSERT INTO LOCK_ACTIVITY " + 
+			   		"VALUES(" + lockActivity.getLockId() + "," +
+			   		lockActivity.getGuestId()+ "," +
+			   		lockActivity.getHostId()+ "," +
+			   		lockActivity.getAccessStartTime() + "," + 
+			   		lockActivity.getAccessEndTime()+ "," +
+			   		lockActivity.getRequestAccessTimestamp() + "," +
+			   		lockActivity.isRequestStatus()+ ","  +
+			   		lockActivity.getAlert() + ")";
+	   try {
+		stmt.executeUpdate(query);
+		return "success";
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return "failure";
+		}
+	}
+public static String updateLockActivity(LockActivity lockActivity) {
+	String query = "UPDATE LOCK_ACTIVITY" + 
+			"(SET GUEST_ID=" + lockActivity.getGuestId() + "," +
+			"HOST_ID=" + lockActivity.getHostId() + "," +
+			"ACCESS_START_TIME=" + lockActivity.getAccessStartTime() + "," +
+			"ACCESS_END_TIME=" + lockActivity.getAccessEndTime() + "," +
+			"REQUEST_ACCESS_TIMESTAMP=" + lockActivity.getRequestAccessTimestamp() + "," +
+			"REQUEST_STATUS=" + lockActivity.isRequestStatus() + 
+			"ALERT=" + lockActivity.getAlert() + 
+			"WHERE LOCK_ID=" + lockActivity.getLockId() + ")";
+	 try {
+			stmt.executeUpdate(query);
+			return "success";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "failure";
+		}
+}
+public static LockActivity readLockActivity(LockActivity lockActivity) {
+	String query = "SELECT * FROM LOCK_ACTIVITY" + 
+				"WHERE LOCK_ID =" + lockActivity.getLockId() + ")";
+	 try {
+		 ResultSet rs = stmt.executeQuery(query);
+		 LockActivity lockActivityInfo = new LockActivity();
+		 while(rs.next()){ 
+			 lockActivityInfo.setLockId(rs.getInt("LOCK_ID"));
+			 lockActivityInfo.setGuestId(rs.getInt("GUEST_ID"));
+			 lockActivityInfo.setHostId(rs.getInt("HOST_ID"));
+			 lockActivityInfo.setAccessStartTime(rs.getString("ACCESS_START_TIME"));
+			 lockActivityInfo.setAccessEndTime(rs.getString("ACCESS_END_TIME"));
+			 lockActivityInfo.setRequestAccessTimestamp(rs.getString("REQUEST_ACCESS_TIMESTAMP"));
+			 lockActivityInfo.setRequestStatus(rs.getBoolean("REQUEST_STATUS"));
+			 lockActivityInfo.setAlert(rs.getInt("ALERT"));
+		 }
+		 rs.close();
+		 return lockActivityInfo;
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+}
+public static String deleteLockActivity(LockActivity lockActivity) {
+	String query = "DELETE FROM LOCK_ACTIVITY" + 
+					"WHERE LOCK_ID=" + lockActivity.getLockId();
+	try {
+		stmt.executeUpdate(query);
+		return "success";
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return "failure";
+	}
+}
+public static String createGuestLock(User user, Lock lock) {
+	   String query = "INSERT INTO GUEST_LOCK " + 
+			   		"VALUES(" + user.getUserId() + "," +
+			   		lock.getLockId() + ")";
+	   try {
+		stmt.executeUpdate(query);
+		return "success";
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return "failure";
+		}
+	}
+public static String updateGuestLock(User user, Lock lock)  {
+	return null;
+}
+public static List<Lock> readGuestLock(User user) {
+	String query = "SELECT * FROM GUEST_LOCK" + 
+			"WHERE USER_ID =" + user.getUserId() + ")";
+ try {
+	 ResultSet rs = stmt.executeQuery(query);
+	 List<Lock> lockList = new ArrayList<Lock>();
+	 while(rs.next()){ 
+		Lock lockInfo = new Lock();
+		lockInfo.setLockId(rs.getInt("LOCK_ID"));
+		lockList.add(lockInfo);
+	 }
+	 rs.close();
+	 return lockList;
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return null;
+	}
+}
+public static List<User> readGuestLock(Lock lock) {
+	String query = "SELECT * FROM GUEST_LOCK" + 
+			"WHERE LOCK_ID =" + lock.getLockId() + ")";
+ try {
+	 ResultSet rs = stmt.executeQuery(query);
+	 List<User> userList = new ArrayList<User>();
+	 while(rs.next()){ 
+		User userInfo = new User();
+		userInfo.setUserId(rs.getInt("USER_ID"));
+		userList.add(userInfo);
+	 }
+	 rs.close();
+	 return userList;
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return null;
+	}
+}
+public static String deleteGuestLock(Lock lock) {
+	String query = "DELETE FROM GUEST_LOCK" + 
+					"WHERE LOCK_ID=" + lock.getLockId();
+	try {
+		stmt.executeUpdate(query);
+		return "success";
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return "failure";
+	}
+}
+public static String deleteGuestLock(User user) {
+	String query = "DELETE FROM GUEST_LOCK" + 
+					"WHERE USER_ID=" + user.getUserId();
+	try {
+		stmt.executeUpdate(query);
+		return "success";
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		return "failure";
+	}
+}
+}
    
    
    
