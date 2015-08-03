@@ -14,7 +14,7 @@ import entities.Lock;
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/UserAddServlet")
+@WebServlet("/LockUpdate")
 public class LockUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private Lock lock;

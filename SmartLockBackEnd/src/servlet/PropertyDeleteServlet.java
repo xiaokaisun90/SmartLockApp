@@ -14,7 +14,7 @@ import entities.Property;
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/UserAddServlet")
+@WebServlet("/PropertyDelete")
 public class PropertyDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private int propertyId;

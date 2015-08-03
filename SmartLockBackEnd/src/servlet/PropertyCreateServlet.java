@@ -14,7 +14,7 @@ import entities.*;
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/UserAddServlet")
+@WebServlet("/PropertyCreate")
 public class PropertyCreateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Property property; 

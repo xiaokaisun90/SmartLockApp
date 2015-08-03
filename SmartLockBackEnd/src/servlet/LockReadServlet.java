@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/UserAddServlet")
+@WebServlet("/LockRead")
 public class LockReadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private int lockId;   

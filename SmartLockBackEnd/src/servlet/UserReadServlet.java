@@ -16,7 +16,7 @@ import entities.User;
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/UserAddServlet")
+@WebServlet("/UserRead")
 public class UserReadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private User user;

@@ -7,15 +7,17 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
+
 import entities.*;
 public class DbAdapter {
    // JDBC driver name and database URL
    static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-   static final String DB_URL = "jdbc:mysql://localhost/STUDENTS";
+   static final String DB_URL = "jdbc:mysql://localhost/";
 
    //  Database credentials
    static final String USER = "root";
-   static final String PASS = "";
+   static final String PASS = "password";
    static Connection conn = null;
    static Statement stmt = null;
    public static void main(String[] args) {
@@ -32,67 +34,67 @@ public class DbAdapter {
       System.out.println("Creating database...");
       stmt = conn.createStatement();
       
-      String sql = "CREATE DATABASE IF NOT EXIST SMARTLOCK;";
+      String sql = "CREATE DATABASE IF NOT EXISTS SMARTLOCK;";
 	  stmt.executeUpdate(sql);
 	  sql = "use SMARTLOCK;";
 	  stmt.executeUpdate(sql);
 	  
-      String sqlUser = "CREATE TABLE USER " + 
-					   "(USER_ID int    NOT NULL, " +
-					   " NAME varchar    NOT NULL , " +
-					   " PRIMARY_PHONE_NUMBER int    NOT NULL , " +
-					   " IS_MOBILE_VERIFIED char   NOT NULL , " +
-					   " COUNTRY varchar    NOT NULL , " +
-					   " PASSWORD varchar    NOT NULL , " +
-					   " USER_STATE char    NOT NULL , " +
-					   " DATE_OF_BIRTH date    NOT NULL , " +
-					   " GENDER char    NOT NULL , " +
-					   " EMAIL_ADDRESS varchar    NOT NULL , " +
-					   " ZIP_CODE int    NOT NULL , " +
-					   " ICON varchar    NOT NULL, " +
-					   "PRIMARY KEY USER_ID )";
-					   
-      
-      String sqlProperty =" CREATE TABLE PROPERTY (" +
-			    		   "PROPERTY_ID int    NOT NULL, " +
-			    		   "USER_ID int		NOT NULL" +
-			    		   "DESCRIPTION varchar()    NOT NULL ," +
-			    		   "ADDRESS varchar()    NOT NULL ," +
-			    		   "CITY varchar()    NOT NULL ," +
-			    		   "ZIP_CODE int    NOT NULL ," +
-			    		   "STATE varchar()    NOT NULL ," +
-			    		   "COUNTRY varchar()    NOT NULL ," +
-			    		   "OWNERSHIP varchar()    NOT NULL), " +
-			    		   "PRIMARY KEY PROPERTY_ID, " +
-			    		   "FOREIGN KEY (USER_ID) REFERENCES USER(USER_ID))";
-			    		   
-	  String sqlLock = "CREATE TABLE LOCK (" +
-					   "LOCK_ID int    NOT NULL," +
-					   "DESCRIPTION varchar()    NOT NULL ," +
-					   "IS_LOCKED bool    NOT NULL ," +
-					   "LOCK_POWER double    NOT NULL ," +
-					   "LOCK_START_ANGLE double()    NOT NULL ," +
-					   "LOCK_END_ANGLE double()    NOT NULL ," +
-					   "ROTATION_DIRECTION char()    NOT NULL ," +
-					   "ROTATION_END_POINTS double()    NOT NULL, " + 
-					   "PRIMARY KEY LOCK_ID, " +
-					   "FOREIGN KEY (LOCK_ID) REFERENCES PROPERTIES(PROPERTY_ID))";
+      String sqlUser = "CREATE TABLE IF NOT EXISTS USER ( " + 
+					   " USER_ID int NOT NULL AUTO_INCREMENT primary key, " + // auto generated user_id
+					   " NAME varchar(255) NOT NULL, " +
+					   " PRIMARY_PHONE_NUMBER varchar(255) NOT NULL UNIQUE, " +
+					   " IS_MOBILE_VERIFIED varchar(255) , " +
+					   " COUNTRY varchar(255) NOT NULL, " +
+					   " PASSWORD varchar(255) NOT NULL , " +
+					   " USER_STATE varchar(255) , " +
+					   " DATE_OF_BIRTH varchar(255) , " +
+					   " GENDER varchar(255) , " +
+					   " EMAIL_ADDRESS varchar(255) , " +
+					   " ZIP_CODE int, " +
+					   " ICON varchar(255));" ;
 					  
-	  String sqlLockActivity = "CREATE TABLE LOCK_ACTIVITY (" +
+//      System.out.println(sqlUser);
+      
+      String sqlProperty =" CREATE TABLE IF NOT EXISTS PROPERTY (" +
+			    		   "PROPERTY_ID int    NOT NULL AUTO_INCREMENT primary key, " +
+			    		   "USER_ID int		NOT NULL," +
+			    		   "DESCRIPTION varchar(255)," +
+			    		   "ADDRESS varchar(255)," +
+			    		   "CITY varchar(255)," +
+			    		   "ZIP_CODE int," +
+			    		   "STATE varchar(255)," +
+			    		   "COUNTRY varchar(255)," +
+			    		   "OWNERSHIP varchar(255), " + 
+//			    		   "PRIMARY KEY PROPERTY_ID, " +
+			    		   "FOREIGN KEY (USER_ID) REFERENCES USER(USER_ID));";
+//			    
+	  String sqlLock = "CREATE TABLE IF NOT EXISTS LOCKS(" +
+					   "LOCK_ID int NOT NULL AUTO_INCREMENT primary key," +
+					   "DESCRIPTION varchar(255)," +
+					   "IS_LOCKED boolean," +
+					   "LOCK_POWER double," +
+					   "LOCK_START_ANGLE double," +
+					   "LOCK_END_ANGLE double," +
+					   "ROTATION_DIRECTION char," +
+					   "ROTATION_END_POINTS double, " + 
+					   "FOREIGN KEY (LOCK_ID) REFERENCES PROPERTY(PROPERTY_ID));";
+//	  System.out.println(sqlLock);			  
+	  String sqlLockActivity = "CREATE TABLE IF NOT EXISTS LOCK_ACTIVITY(" +
 							   "LOCK_ID int    NOT NULL ," + 
-							   "GUEST_ID int    NOT NULL ," + 
-							   "HOST_ID int    NOT NULL ," +
-							   "ACCESS_START_TIME date    NOT NULL ," + 
-							   "ACCESS_END_TIME date    NOT NULL ," + 
-							   "REQUEST_ACCESS_TIMESTAMP date    NOT NULL ," + 
-							   "REQUEST_STATUS bool    NOT NULL ,"  +
-							   "ALERT int NOT NULL, " +
-							   "FOREIGN KEY (LOCK_ID) REFERENCES LOCK(LOCK_ID)";
-	  String sqlGuestLock = "CREATE TABLE GUEST_LOCK (" +
+							   "GUEST_ID int," + 
+							   "HOST_ID int," +
+							   "ACCESS_START_TIME date," + 
+							   "ACCESS_END_TIME date," + 
+							   "REQUEST_ACCESS_TIMESTAMP date," + 
+							   "REQUEST_STATUS varchar(255),"  +
+							   "ALERT int, " +
+							   "FOREIGN KEY (LOCK_ID) REFERENCES LOCKS(LOCK_ID));";
+//	  System.out.println(sqlLockActivity);		
+	  String sqlGuestLock = "CREATE TABLE IF NOT EXISTS GUEST_LOCK (" +
 			  				"USER_ID int    NOT NULL ," + 
 							"LOCK_ID int    NOT NULL ," +
-							"FOREIGN KEY (USER_ID) REFERENCES USER(USER_ID)" +
-	  						"FOREIGN KEY (LOCK_ID) REFERENCES LOCK(LOCK_ID))";
+							"FOREIGN KEY (USER_ID) REFERENCES USER(USER_ID), " +
+	  						"FOREIGN KEY (LOCK_ID) REFERENCES LOCKS(LOCK_ID));";
 							   
       stmt.executeUpdate(sqlUser);
       stmt.executeUpdate(sqlProperty);
@@ -100,6 +102,29 @@ public class DbAdapter {
       stmt.executeUpdate(sqlLockActivity);
       stmt.executeUpdate(sqlGuestLock);
       System.out.println("Database created successfully...");
+      
+      //test part
+      User testUser = new User();
+      testUser.setName("xiaokais");
+      testUser.setPrimaryPhoneNumber("123345676");
+      testUser.setPassword("xxxxx");
+      testUser.setCountry("USA");
+      testUser.setDataOfBirth("091390");
+      testUser.setEmailAddress("xiaokaisun@gmail.com");
+      testUser.setGender("Male");
+      testUser.setIsMobileVerified("No");
+      testUser.setZipCode(12345);
+      testUser.setIcon("www.google.com");
+//      String info = createUser(testUser);
+
+//      String info2 = updateUser(testUser);
+      User user3 = readUser(testUser);
+      System.out.println(user3.getIcon());
+      deleteUser(testUser);
+      
+      
+      
+      
    }catch(SQLException se){
       //Handle errors for JDBC
       se.printStackTrace();
@@ -124,23 +149,24 @@ public class DbAdapter {
 }//end main
    
    public static String createUser(User user) {
-	   String query = "INSERT INTO USER " + 
-			   		"VALUES(" + user.getUserId() + "," +
-			   		user.getName() + "," +
-			   		user.getPrimaryPhoneNumber() + "," +
-			   		user.getIsMobileVerified() + "," + 
-			   		user.getCountry() + "," +
-			   		user.getPassword() + "," +
-			   		user.getUserState() + ","  +
-			   		user.getDataOfBirth() + "," +
-			   		user.getGender() + "," +
-			   		user.getEmailAddress() + "," +
-			   		user.getZipCode() + "," +
-			   		user.getIcon() + ")";
+	   String query = "INSERT INTO USER(NAME, PRIMARY_PHONE_NUMBER, COUNTRY, PASSWORD) " + 
+			   		"VALUES(" +
+			   		"'" + user.getName() + "'," +
+			   		"'" + user.getPrimaryPhoneNumber() +"'," +
+//			   		user.getIsMobileVerified() + "," + 
+					"'" + user.getCountry() + "'," +
+			   		"'" + user.getPassword() + "');";
+	   System.out.println(query);
+//			   		user.getUserState() + ","  +
+//			   		user.getDataOfBirth() + "," +
+//			   		user.getGender() + "," +
+//			   		user.getEmailAddress() + "," +
+//			   		user.getZipCode() + "," +
+//			   		user.getIcon() + ");";
 	   try {
 		stmt.executeUpdate(query);
 		return "success";
-	} catch (SQLException e) {
+	}  catch (SQLException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 		return "failure";
@@ -148,15 +174,16 @@ public class DbAdapter {
    }
 	public static String updateUser(User user) {
 			String query = "UPDATE USER" + 
-					"(SET NAME=" + user.getName() + "," +
-					"IS_MOBILE_VERIFIED=" + user.getIsMobileVerified() + "," +
-					"COUNTRY=" + user.getCountry() + "," +
-					"DATE_OF_BIRTH=" + user.getDataOfBirth() + "," +
-					"GENDER=" + user.getGender() + "," +
-					"EMAIL_ADDRESS=" + user.getEmailAddress() + "," +
+					" SET NAME=" + "'" + user.getName() + "'," +
+					"IS_MOBILE_VERIFIED=" + "'" + user.getIsMobileVerified() + "'," +
+					"COUNTRY=" + "'" + user.getCountry() + "'," +
+					"DATE_OF_BIRTH=" +"'" +  user.getDataOfBirth() + "'," +
+					"GENDER=" + "'" + user.getGender() + "'," +
+					"EMAIL_ADDRESS=" + "'" + user.getEmailAddress() + "'," +
 					"ZIP_CODE=" + user.getZipCode() + "," +
-					"ICON=" + user.getIcon() + 
-					"WHERE PRIMARY_PHONE_NUMBER=" + user.getPrimaryPhoneNumber() + ")";
+					"ICON=" + "'" + user.getIcon() + "'" + 
+					" WHERE PRIMARY_PHONE_NUMBER=" + "'" + user.getPrimaryPhoneNumber() + "';";
+//			System.out.println(query);
 			 try {
 					stmt.executeUpdate(query);
 					return "success";
@@ -169,7 +196,7 @@ public class DbAdapter {
  
 	public static User readUser(User user) {
 		String query = "SELECT * FROM USER " +
-				"WHERE PRIMARY_PHONE_NUMBER=" + user.getPrimaryPhoneNumber() + ")";
+				"WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
 		 try {
 			 ResultSet rs = stmt.executeQuery(query);
 			 User userInfo = new User();
@@ -197,7 +224,8 @@ public class DbAdapter {
 	}
 	public static String deleteUser(User user) {
 		String query = "DELETE FROM USER" + 
-						"WHERE PRIMARY_PHONE_NUMBER=" + user.getPrimaryPhoneNumber();
+						" WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
+		System.out.println(query);
 		try {
 			stmt.executeUpdate(query);
 			return "success";
