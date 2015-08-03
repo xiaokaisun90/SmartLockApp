@@ -11,13 +11,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.DbAdapter;
-import entities.LockActivity;
 import entities.User;
 
 /**
  * Servlet implementation class Authentication
  */
-@WebServlet("/Authentication")
+@WebServlet("/AuthenticationServlet")
 public class AuthenticationServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
@@ -46,8 +45,13 @@ public class AuthenticationServlet extends HttpServlet {
 		try {
 			User user = (User) in.readObject();
 			User fetchedUser = DbAdapter.readUser(user);
+			String returnInfo;
+			if (fetchedUser.getUserId() == 0)
+					returnInfo = "failure";
+			else 
+					returnInfo = "success";
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-			out.writeObject(fetchedUser);
+			out.writeObject(returnInfo);
 			out.flush();
 			out.close();
 		} catch (ClassNotFoundException e) {

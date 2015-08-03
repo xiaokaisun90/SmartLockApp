@@ -82,9 +82,9 @@ public class DbAdapter {
 							   "LOCK_ID int    NOT NULL ," + 
 							   "GUEST_ID int," + 
 							   "HOST_ID int," +
-							   "ACCESS_START_TIME date," + 
-							   "ACCESS_END_TIME date," + 
-							   "REQUEST_ACCESS_TIMESTAMP date," + 
+							   "ACCESS_START_TIME varchar(255)," + 
+							   "ACCESS_END_TIME varchar(255)," + 
+							   "REQUEST_ACCESS_TIMESTAMP varchar(255)," + 
 							   "REQUEST_STATUS varchar(255),"  +
 							   "ALERT int, " +
 							   "FOREIGN KEY (LOCK_ID) REFERENCES LOCKS(LOCK_ID));";
@@ -105,7 +105,7 @@ public class DbAdapter {
       //user test part
       User testUser = new User();
       testUser.setName("xiaokaisun");
-      testUser.setPrimaryPhoneNumber("1233456768");
+      testUser.setPrimaryPhoneNumber("1233m38");
       testUser.setPassword("xxxxx");
       testUser.setCountry("USA");
       testUser.setDataOfBirth("091390");
@@ -117,7 +117,7 @@ public class DbAdapter {
 //      String info = createUser(testUser);
       
       User user3 = readUser(testUser);
-      System.out.println("user_id: " + user3.getUserId());
+      System.out.println("read user_id: " + user3.getUserId());
 //      System.out.println(user3.getIcon());
 //      deleteUser(testUser);
       //property test part
@@ -154,11 +154,26 @@ public class DbAdapter {
       
 //      System.out.println(createLock(testLock));
 //      updateLock(testLock);
-//      System.out.println(readLock(testLock).getDescription());
+      System.out.println("read lock: " + readLock(testLock).getLockId());
 //      deleteLock(testLock);
 
+      LockActivity testLA = new LockActivity();
+      testLA.setLockId(2);
+      testLA.setHostId(1);
+      testLA.setGuestId(3);
+      testLA.setAccessStartTime("2355");
+      testLA.setAccessEndTime("09425");
+      testLA.setRequestAccessTimestamp("2xxx434");
+      testLA.setRequestStatus("pending");
+      testLA.setAlert(30);
+//      createLockActivity(testLA);
+//      updateLockActivity(testLA);
+//      System.out.println("read lockactivity: " + readLockActivity(testLA).get(0).getAccessEndTime());
+//      deleteLockActivity(testLA);
       
-      
+//      createGuestLock(readUser(testUser), readLock(testLock));
+      System.out.println("guest lock: "+ readGuestLock(readLock(testLock)).size());
+      deleteGuestLock(user3);
    }catch(SQLException se){
       //Handle errors for JDBC
       se.printStackTrace();
@@ -436,11 +451,11 @@ public static String createLockActivity(LockActivity lockActivity) {
 			   		"VALUES(" + lockActivity.getLockId() + "," +
 			   		lockActivity.getGuestId()+ "," +
 			   		lockActivity.getHostId()+ "," +
-			   		lockActivity.getAccessStartTime() + "," + 
-			   		lockActivity.getAccessEndTime()+ "," +
-			   		lockActivity.getRequestAccessTimestamp() + "," +
-			   		lockActivity.isRequestStatus()+ ","  +
-			   		lockActivity.getAlert() + ")";
+			   		"'" + lockActivity.getAccessStartTime() + "'," + 
+			   		"'" + lockActivity.getAccessEndTime()+ "'," +
+			   		"'" + lockActivity.getRequestAccessTimestamp() + "'," +
+			   		"'" + lockActivity.getRequestStatus()+ "',"  +
+			   		lockActivity.getAlert() + ");";
 	   try {
 		stmt.executeUpdate(query);
 		return "success";
@@ -452,14 +467,14 @@ public static String createLockActivity(LockActivity lockActivity) {
 	}
 public static String updateLockActivity(LockActivity lockActivity) {
 	String query = "UPDATE LOCK_ACTIVITY" + 
-			"(SET GUEST_ID=" + lockActivity.getGuestId() + "," +
+			" SET GUEST_ID=" + lockActivity.getGuestId() + "," +
 			"HOST_ID=" + lockActivity.getHostId() + "," +
-			"ACCESS_START_TIME=" + lockActivity.getAccessStartTime() + "," +
-			"ACCESS_END_TIME=" + lockActivity.getAccessEndTime() + "," +
-			"REQUEST_ACCESS_TIMESTAMP=" + lockActivity.getRequestAccessTimestamp() + "," +
-			"REQUEST_STATUS=" + lockActivity.isRequestStatus() + 
+			"ACCESS_START_TIME=" + "'" +lockActivity.getAccessStartTime() + "'," +
+			"ACCESS_END_TIME=" + "'" +lockActivity.getAccessEndTime() + "'," +
+			"REQUEST_ACCESS_TIMESTAMP=" + "'" +lockActivity.getRequestAccessTimestamp() + "'," +
+			"REQUEST_STATUS=" + "'" +lockActivity.getRequestStatus()+"',"+ 
 			"ALERT=" + lockActivity.getAlert() + 
-			"WHERE LOCK_ID=" + lockActivity.getLockId() + ")";
+			" WHERE LOCK_ID=" + lockActivity.getLockId() + ";";
 	 try {
 			stmt.executeUpdate(query);
 			return "success";
@@ -469,24 +484,27 @@ public static String updateLockActivity(LockActivity lockActivity) {
 			return "failure";
 		}
 }
-public static LockActivity readLockActivity(LockActivity lockActivity) {
+public static List<LockActivity> readLockActivity(LockActivity lockActivity) {
 	String query = "SELECT * FROM LOCK_ACTIVITY" + 
-				"WHERE LOCK_ID =" + lockActivity.getLockId() + ")";
+				" WHERE LOCK_ID =" + lockActivity.getLockId() + ";";
 	 try {
 		 ResultSet rs = stmt.executeQuery(query);
-		 LockActivity lockActivityInfo = new LockActivity();
+		 List<LockActivity> list = new ArrayList<LockActivity>();
 		 while(rs.next()){ 
+			 LockActivity lockActivityInfo = new LockActivity();
 			 lockActivityInfo.setLockId(rs.getInt("LOCK_ID"));
 			 lockActivityInfo.setGuestId(rs.getInt("GUEST_ID"));
 			 lockActivityInfo.setHostId(rs.getInt("HOST_ID"));
 			 lockActivityInfo.setAccessStartTime(rs.getString("ACCESS_START_TIME"));
+			 System.out.println("ACCESS_END_TIME: " + rs.getString("ACCESS_END_TIME"));
 			 lockActivityInfo.setAccessEndTime(rs.getString("ACCESS_END_TIME"));
 			 lockActivityInfo.setRequestAccessTimestamp(rs.getString("REQUEST_ACCESS_TIMESTAMP"));
-			 lockActivityInfo.setRequestStatus(rs.getBoolean("REQUEST_STATUS"));
+			 lockActivityInfo.setRequestStatus(rs.getString("REQUEST_STATUS"));
 			 lockActivityInfo.setAlert(rs.getInt("ALERT"));
+			 list.add(lockActivityInfo);
 		 }
 		 rs.close();
-		 return lockActivityInfo;
+		 return list;
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -495,7 +513,7 @@ public static LockActivity readLockActivity(LockActivity lockActivity) {
 }
 public static String deleteLockActivity(LockActivity lockActivity) {
 	String query = "DELETE FROM LOCK_ACTIVITY" + 
-					"WHERE LOCK_ID=" + lockActivity.getLockId();
+					" WHERE LOCK_ID=" + lockActivity.getLockId();
 	try {
 		stmt.executeUpdate(query);
 		return "success";
@@ -508,7 +526,8 @@ public static String deleteLockActivity(LockActivity lockActivity) {
 public static String createGuestLock(User user, Lock lock) {
 	   String query = "INSERT INTO GUEST_LOCK " + 
 			   		"VALUES(" + user.getUserId() + "," +
-			   		lock.getLockId() + ")";
+			   		lock.getLockId() + ");";
+	   System.out.println(query);
 	   try {
 		stmt.executeUpdate(query);
 		return "success";
@@ -523,7 +542,8 @@ public static String updateGuestLock(User user, Lock lock)  {
 }
 public static List<Lock> readGuestLock(User user) {
 	String query = "SELECT * FROM GUEST_LOCK" + 
-			"WHERE USER_ID =" + user.getUserId() + ")";
+			" WHERE USER_ID =" + user.getUserId() + ";";
+	System.out.println(query);
  try {
 	 ResultSet rs = stmt.executeQuery(query);
 	 List<Lock> lockList = new ArrayList<Lock>();
@@ -542,7 +562,7 @@ public static List<Lock> readGuestLock(User user) {
 }
 public static List<User> readGuestLock(Lock lock) {
 	String query = "SELECT * FROM GUEST_LOCK" + 
-			"WHERE LOCK_ID =" + lock.getLockId() + ")";
+			" WHERE LOCK_ID =" + lock.getLockId() + ";";
  try {
 	 ResultSet rs = stmt.executeQuery(query);
 	 List<User> userList = new ArrayList<User>();
@@ -561,7 +581,7 @@ public static List<User> readGuestLock(Lock lock) {
 }
 public static String deleteGuestLock(Lock lock) {
 	String query = "DELETE FROM GUEST_LOCK" + 
-					"WHERE LOCK_ID=" + lock.getLockId();
+					" WHERE LOCK_ID=" + lock.getLockId()+ ";";
 	try {
 		stmt.executeUpdate(query);
 		return "success";
@@ -573,7 +593,7 @@ public static String deleteGuestLock(Lock lock) {
 }
 public static String deleteGuestLock(User user) {
 	String query = "DELETE FROM GUEST_LOCK" + 
-					"WHERE USER_ID=" + user.getUserId();
+					" WHERE USER_ID=" + user.getUserId() + ";";
 	try {
 		stmt.executeUpdate(query);
 		return "success";

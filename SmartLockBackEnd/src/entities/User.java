@@ -1,8 +1,9 @@
 package entities;
 
-import java.util.Date;
+import java.io.Serializable;
 
-public class User {
+@SuppressWarnings("serial")
+public class User implements Serializable{
 
     private int userId;
     private String name;

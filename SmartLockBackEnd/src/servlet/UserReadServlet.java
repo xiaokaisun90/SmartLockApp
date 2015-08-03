@@ -16,10 +16,9 @@ import entities.User;
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/UserRead")
+@WebServlet("/UserReadServlet")
 public class UserReadServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private User user;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -41,7 +40,7 @@ public class UserReadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			user = (User) in.readObject();
+			User user = (User) in.readObject();
 			User userInfo = DbAdapter.readUser(user);
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
 			out.writeObject(userInfo);
@@ -52,7 +51,5 @@ public class UserReadServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	public User getUser() {
-		return this.user;
-	}
+
 }

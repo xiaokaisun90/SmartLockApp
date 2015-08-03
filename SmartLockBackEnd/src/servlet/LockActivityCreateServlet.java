@@ -16,10 +16,9 @@ import entities.*;
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/LockActivityCreate")
+@WebServlet("/LockActivityCreateServlet")
 public class LockActivityCreateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private LockActivity lockActivity;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -42,8 +41,8 @@ public class LockActivityCreateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			this.lockActivity= (LockActivity) in.readObject();
-			String info = DbAdapter.createLockActivity(lockActivity);
+			
+			String info = DbAdapter.createLockActivity((LockActivity) in.readObject());
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
 			out.writeObject(info);
 			out.flush();
@@ -53,8 +52,6 @@ public class LockActivityCreateServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-	public LockActivity getLockActivity() {
-		return this.lockActivity;
-	}
+
 
 }

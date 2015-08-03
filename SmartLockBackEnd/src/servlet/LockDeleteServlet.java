@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,15 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.DbAdapter;
 import entities.Lock;
 
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/LockDelete")
+@WebServlet("/LockDeleteServlet")
 public class LockDeleteServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private int lockId;
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -30,23 +31,23 @@ public class LockDeleteServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
-		try {
-			this.lockId= (Integer) in.readObject();
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 	}
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-	public int getLockId() {
-		return this.lockId;
+		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
+		try {
+			String info = DbAdapter.deleteLock((Lock) in.readObject());
+			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
+			out.writeObject(info);
+			out.flush();
+			out.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }

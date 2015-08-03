@@ -2,6 +2,7 @@ package servlet;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,15 +10,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import database.DbAdapter;
 import entities.LockActivity;
 
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/LockActivityUpdate")
+@WebServlet("/LockActivityUpdateServlet")
 public class LockActivityUpdateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-    private LockActivity lockActivity;  
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,14 +41,17 @@ public class LockActivityUpdateServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			this.lockActivity= (LockActivity) in.readObject();
+			LockActivity lockActivity= (LockActivity) in.readObject();
+			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
+			String info = DbAdapter.updateLockActivity(lockActivity);
+			out.writeObject(info);
+			out.flush();
+			out.close();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
-	public LockActivity getLockActivity() {
-		return this.lockActivity;
-	}
+
 
 }

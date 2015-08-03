@@ -11,18 +11,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.DbAdapter;
-import entities.LockActivity;
+import entities.Lock;
 
 /**
- * Servlet implementation class UserAddServlet
+ * Servlet implementation class GuestLockDeleteByLockServlet
  */
-@WebServlet("/LockActivityReadServlet")
-public class LockActivityReadServlet extends HttpServlet {
+@WebServlet("/GuestLockDeleteByLockServlet")
+public class GuestLockDeleteByLockServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+       
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LockActivityReadServlet() {
+    public GuestLockDeleteByLockServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -30,8 +31,9 @@ public class LockActivityReadServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**
@@ -40,9 +42,9 @@ public class LockActivityReadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			LockActivity lockActivity= (LockActivity) in.readObject();
+			Lock lock = (Lock)in.readObject();
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-			out.writeObject(DbAdapter.readLockActivity(lockActivity));
+			out.writeObject(DbAdapter.deleteGuestLock(lock));
 			out.flush();
 			out.close();
 		} catch (ClassNotFoundException e) {

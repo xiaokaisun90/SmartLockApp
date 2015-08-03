@@ -1,7 +1,9 @@
 package entities;
 
+import java.io.Serializable;
 
-public class LockActivity {
+@SuppressWarnings("serial")
+public class LockActivity implements Serializable{
 
     private int lockActicityId;
     private int hostId;
@@ -10,7 +12,7 @@ public class LockActivity {
     private String accessStartTime;
     private String accessEndTime;
     private String requestAccessTimestamp;
-    private boolean requestStatus;
+    private String requestStatus;
     private int alert;
 
     public int getLockActicityId() {
@@ -69,11 +71,11 @@ public class LockActivity {
         this.requestAccessTimestamp = requestAccessTimestamp;
     }
 
-    public boolean isRequestStatus() {
+    public String getRequestStatus() {
         return requestStatus;
     }
 
-    public void setRequestStatus(boolean requestStatus) {
+    public void setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
     }
 

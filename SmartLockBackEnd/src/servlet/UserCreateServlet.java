@@ -5,7 +5,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletInputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,7 @@ import entities.User;
 /**
  * Servlet implementation class UserAddServlet
  */
-@WebServlet("/UserCreate")
+@WebServlet("/UserCreateServlet")
 public class UserCreateServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     /**

@@ -1,6 +1,9 @@
 package entities;
 
-public class Lock {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Lock implements Serializable {
 
     private int lockId;
     private String description;

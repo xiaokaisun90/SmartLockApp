@@ -1,6 +1,9 @@
 package entities;
 
-public class Property {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Property implements Serializable{
 
     private int propertyId;
     private int userId;
