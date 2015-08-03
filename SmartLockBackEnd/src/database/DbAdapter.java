@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mysql.jdbc.exceptions.MySQLIntegrityConstraintViolationException;
 
 import entities.*;
 public class DbAdapter {
@@ -69,13 +68,13 @@ public class DbAdapter {
 			    		   "FOREIGN KEY (USER_ID) REFERENCES USER(USER_ID));";
 //			    
 	  String sqlLock = "CREATE TABLE IF NOT EXISTS LOCKS(" +
-					   "LOCK_ID int NOT NULL AUTO_INCREMENT primary key," +
+					   "LOCK_ID int NOT NULL primary key," +
 					   "DESCRIPTION varchar(255)," +
 					   "IS_LOCKED boolean," +
 					   "LOCK_POWER double," +
 					   "LOCK_START_ANGLE double," +
 					   "LOCK_END_ANGLE double," +
-					   "ROTATION_DIRECTION char," +
+					   "ROTATION_DIRECTION varchar(255)," +
 					   "ROTATION_END_POINTS double, " + 
 					   "FOREIGN KEY (LOCK_ID) REFERENCES PROPERTY(PROPERTY_ID));";
 //	  System.out.println(sqlLock);			  
@@ -103,10 +102,10 @@ public class DbAdapter {
       stmt.executeUpdate(sqlGuestLock);
       System.out.println("Database created successfully...");
       
-      //test part
+      //user test part
       User testUser = new User();
-      testUser.setName("xiaokais");
-      testUser.setPrimaryPhoneNumber("123345676");
+      testUser.setName("xiaokaisun");
+      testUser.setPrimaryPhoneNumber("1233456768");
       testUser.setPassword("xxxxx");
       testUser.setCountry("USA");
       testUser.setDataOfBirth("091390");
@@ -116,13 +115,48 @@ public class DbAdapter {
       testUser.setZipCode(12345);
       testUser.setIcon("www.google.com");
 //      String info = createUser(testUser);
-
-//      String info2 = updateUser(testUser);
+      
       User user3 = readUser(testUser);
-      System.out.println(user3.getIcon());
-      deleteUser(testUser);
+      System.out.println("user_id: " + user3.getUserId());
+//      System.out.println(user3.getIcon());
+//      deleteUser(testUser);
+      //property test part
+      Property testP = new Property();
+      testP.setUserId(user3.getUserId());
+      testP.setDescription("Beautiful room");
+      testP.setAddress("Hobart st. ");
+      testP.setCity("Columbus");
+      testP.setZipCode(43210);
+      testP.setState("Ohio");
+      testP.setCountry("USABS");
+      testP.setOwnership("Host");
+      testP.setPropertyId(2);
+//      createProperty(testP);
       
+//      String info = updateProperty(testP);
+//      System.out.println(info);
       
+      Property p = readProperty(testP);
+      System.out.println("readProperty id: " + p.getPropertyId());
+      
+//      System.out.println(deleteProperty(testP));
+      
+      // lock test part
+      Lock testLock = new Lock();
+      testLock.setLockId(p.getPropertyId());
+      testLock.setDescription("cool lock");
+      testLock.setIsLocked(false);
+      testLock.setLockPower(100);
+      testLock.setLockStartAngle(36.0);
+      testLock.setLockEndAngle(90.5);
+      testLock.setRotationDirection("E");
+      testLock.setRotationEndPoints(67.5);
+      
+//      System.out.println(createLock(testLock));
+//      updateLock(testLock);
+//      System.out.println(readLock(testLock).getDescription());
+//      deleteLock(testLock);
+
       
       
    }catch(SQLException se){
@@ -201,6 +235,8 @@ public class DbAdapter {
 			 ResultSet rs = stmt.executeQuery(query);
 			 User userInfo = new User();
 			 while(rs.next()){ 
+//				 System.out.println(rs.getString("USER_ID"));
+				 userInfo.setUserId(rs.getInt("USER_ID"));
 				 userInfo.setName(rs.getString("NAME"));
 				 userInfo.setIsMobileVerified(rs.getString("IS_MOBILE_VERIFIED"));
 				 userInfo.setCountry(rs.getString("COUNTRY"));
@@ -213,6 +249,7 @@ public class DbAdapter {
 				 
 			 }
 			 rs.close();
+//			 System.out.println(userInfo.getUserId());
 			 return userInfo;
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -237,16 +274,16 @@ public class DbAdapter {
 	}
 
 	public static String createProperty(Property property) {
-		   String query = "INSERT INTO PROPERTY " + 
-				   		"VALUES(" + property.getPropertyId() + "," +
+		   String query = "INSERT INTO PROPERTY(USER_ID, DESCRIPTION, ADDRESS, CITY, ZIP_CODE, STATE, COUNTRY, OWNERSHIP) " + 
+				   		"VALUES( " +
 				   		property.getUserId() + "," +
-				   		property.getDescription() + "," +
-				   		property.getAddress() + "," + 
-				   		property.getCity() + "," +
+				   		"'"+property.getDescription() + "'," +
+				   		"'"+property.getAddress() + "'," + 
+				   		"'"+property.getCity() + "'," +
 				   		property.getZipCode() + "," +
-				   		property.getState()+ ","  +
-				   		property.getCountry() + "," +
-				   		property.getOwnership()+ ")";
+				   		"'"+property.getState()+ "',"  +
+				   		"'"+property.getCountry() + "'," +
+				   		"'"+property.getOwnership()+ "');";
 		   try {
 			stmt.executeUpdate(query);
 			return "success";
@@ -259,16 +296,17 @@ public class DbAdapter {
 	
 	public static String updateProperty(Property property) {
 		String query = "UPDATE PROPERTY" + 
-				"(SET USER_ID=" + property.getUserId() + "," +
-				"DESCRIPTION=" + property.getDescription() + "," +
-				"ADDRESS=" + property.getAddress() + "," +
-				"CITY=" + property.getCity() + "," +
+				" SET USER_ID=" + property.getUserId() + "," +
+				"DESCRIPTION=" + "'"+ property.getDescription() + "'," +
+				"ADDRESS=" +"'"+ property.getAddress() + "'," +
+				"CITY=" + "'"+property.getCity() + "'," +
 				"ZIP_CODE=" + property.getZipCode() + "," +
-				"STATE=" + property.getState() + "," +
-				"COUNTRY=" + property.getCountry() + "," +
-				"OWNERSHIP=" + property.getOwnership() + 
-				"WHERE PROPERTY_ID=" + property.getPropertyId() + ")";
+				"STATE=" +"'"+ property.getState() + "'," +
+				"COUNTRY=" + "'"+property.getCountry() + "'," +
+				"OWNERSHIP=" + "'"+property.getOwnership() +"'" + 
+				" WHERE PROPERTY_ID=" + property.getPropertyId() + ";";
 		 try {
+			 	
 				stmt.executeUpdate(query);
 				return "success";
 			} catch (SQLException e) {
@@ -279,12 +317,13 @@ public class DbAdapter {
 	}
 	
 public static Property readProperty(Property property) {
-		String query = "SELECT * FROM USER " +
-				"WHERE PROPERTY_ID=" + property.getPropertyId() + ")";
+		String query = "SELECT * FROM PROPERTY " +
+				"WHERE PROPERTY_ID=" + property.getPropertyId() + ";";
 		 try {
 			 ResultSet rs = stmt.executeQuery(query);
 			 Property propertyInfo = new Property();
 			 while(rs.next()){ 
+				 propertyInfo.setPropertyId(rs.getInt("PROPERTY_ID"));
 				 propertyInfo.setUserId(rs.getInt("USER_ID"));
 				 propertyInfo.setDescription(rs.getString("DESCRIPTION"));
 				 propertyInfo.setAddress(rs.getString("ADDRESS"));
@@ -305,7 +344,7 @@ public static Property readProperty(Property property) {
 	
 public static String deleteProperty(Property property) {
 	String query = "DELETE FROM PROPERTY" + 
-					"WHERE PROPERTY_ID=" + property.getPropertyId();
+					" WHERE PROPERTY_ID=" + property.getPropertyId() + ";";
 	try {
 		stmt.executeUpdate(query);
 		return "success";
@@ -316,16 +355,17 @@ public static String deleteProperty(Property property) {
 	}
 }
 public static String createLock(Lock lock) {
-	   String query = "INSERT INTO LOCK " + 
-			   		"VALUES(" + lock.getLockId() + "," +
-			   		lock.getDescription()+ "," +
-//			   		lock.getIsLocked+ "," +
+	   String query = "INSERT INTO LOCKS(LOCK_ID, DESCRIPTION, IS_LOCKED, LOCK_POWER, LOCK_START_ANGLE, LOCK_END_ANGLE, ROTATION_DIRECTION, ROTATION_END_POINTS ) " + 
+			   		"VALUES(" + lock.getLockId() +"," +
+			   		"'"+lock.getDescription()+ "'," +
+			   		lock.isLocked()+ "," +
 			   		lock.getLockPower() + "," + 
 			   		lock.getLockStartAngle()+ "," +
 			   		lock.getLockEndAngle() + "," +
-			   		lock.getRotationDirection()+ ","  +
-			   		lock.getRotationEndPoints() + ")";
+			   		"'"+ lock.getRotationDirection()+ "',"  +
+			   		lock.getRotationEndPoints() + ");";
 	   try {
+		   System.out.println(query);
 		stmt.executeUpdate(query);
 		return "success";
 	} catch (SQLException e) {
@@ -335,16 +375,17 @@ public static String createLock(Lock lock) {
 		}
 	}
 public static String updateLock(Lock lock) {
-	String query = "UPDATE LOCK" + 
-			"(SET DESCRIPTION=" + lock.getDescription() + "," +
+	String query = "UPDATE LOCKS" + 
+			" SET DESCRIPTION=" + "'"+ lock.getDescription() + "'," +
 			"IS_LOCKED=" + lock.isLocked() + "," +
 			"LOCK_POWER=" + lock.getLockPower() + "," +
 			"LOCK_START_ANGLE=" + lock.getLockStartAngle() + "," +
 			"LOCK_END_ANGLE=" + lock.getLockEndAngle() + "," +
-			"ROTATION_DIRECTION=" + lock.getRotationDirection() + "," +
+			"ROTATION_DIRECTION='" + lock.getRotationDirection() + "'," +
 			"ROTATION_END_POINTS=" + lock.getRotationEndPoints() + 
-			"WHERE LOCK_ID=" + lock.getLockId() + ")";
+			" WHERE LOCK_ID=" + lock.getLockId() + ";";
 	 try {
+		 System.out.println(query);
 			stmt.executeUpdate(query);
 			return "success";
 		} catch (SQLException e) {
@@ -355,8 +396,8 @@ public static String updateLock(Lock lock) {
 }
 
 public static Lock readLock(Lock lock) {
-	String query = "SELECT * FROM LOCK" + 
-				"WHERE LOCK_ID =" + lock.getLockId() + ")";
+	String query = "SELECT * FROM LOCKS" + 
+				" WHERE LOCK_ID =" + lock.getLockId() + ";";
 	 try {
 		 ResultSet rs = stmt.executeQuery(query);
 		 Lock lockInfo = new Lock();
@@ -379,8 +420,8 @@ public static Lock readLock(Lock lock) {
 		}
 }
 public static String deleteLock(Lock lock) {
-	String query = "DELETE FROM LOCK" + 
-					"WHERE LOCK_ID=" + lock.getLockId();
+	String query = "DELETE FROM LOCKS" + 
+					" WHERE LOCK_ID=" + lock.getLockId() + ";";
 	try {
 		stmt.executeUpdate(query);
 		return "success";

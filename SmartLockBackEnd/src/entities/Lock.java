@@ -3,7 +3,6 @@ package entities;
 public class Lock {
 
     private int lockId;
-    private int propertyId;
     private String description;
     private boolean isLocked;
     private double lockPower;
@@ -18,14 +17,6 @@ public class Lock {
 
     public void setLockId(int lockId) {
         this.lockId = lockId;
-    }
-
-    public int getPropertyId() {
-        return propertyId;
-    }
-
-    public void setPropertyId(int propertyId) {
-        this.propertyId = propertyId;
     }
 
     public String getDescription() {
