@@ -1,11 +1,12 @@
 package com.example.simsim.entities;
 
+
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class Lock implements Serializable {
 
     private int lockId;
+    private int propertyId;
     private String description;
     private boolean isLocked;
     private double lockPower;
@@ -20,6 +21,14 @@ public class Lock implements Serializable {
 
     public void setLockId(int lockId) {
         this.lockId = lockId;
+    }
+
+    public int getPropertyId() {
+        return propertyId;
+    }
+
+    public void setPropertyId(int propertyId) {
+        this.propertyId = propertyId;
     }
 
     public String getDescription() {
@@ -76,5 +85,19 @@ public class Lock implements Serializable {
 
     public void setRotationEndPoints(double rotationEndPoints) {
         this.rotationEndPoints = rotationEndPoints;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lock lock = (Lock) o;
+        if (lockId != lock.getLockId()) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return ((Integer)lockId).hashCode();
     }
 }

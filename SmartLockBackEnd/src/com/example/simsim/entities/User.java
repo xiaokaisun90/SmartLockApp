@@ -1,8 +1,8 @@
 package com.example.simsim.entities;
 
+
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
 public class User implements Serializable{
 
     private int userId;
@@ -17,6 +17,21 @@ public class User implements Serializable{
     private String emailAddress;
     private int zipCode;
     private String icon;
+
+    public User(){
+        userId = 0;
+        name = "";
+        country = "";
+        primaryPhoneNumber = "";
+        isMobileVerified = "";
+        password = "";
+        userState = "";
+        dataOfBirth = "";
+        gender = "";
+        emailAddress = "";
+        zipCode = 0;
+        icon = "";
+    }
 
     public int getUserId() {
         return userId;

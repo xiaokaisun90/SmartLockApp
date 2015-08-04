@@ -1,9 +1,9 @@
 package com.example.simsim.entities;
 
+
 import java.io.Serializable;
 
-@SuppressWarnings("serial")
-public class LockActivity implements Serializable{
+public class LockActivity implements Serializable {
 
     private int lockActicityId;
     private int hostId;
@@ -86,5 +86,18 @@ public class LockActivity implements Serializable{
     public void setAlert(int alert) {
         this.alert = alert;
     }
-}
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LockActivity lockActivity = (LockActivity) o;
+        if (lockActicityId != lockActivity.getLockActicityId()) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return ((Integer)lockActicityId).hashCode();
+    }
+}
