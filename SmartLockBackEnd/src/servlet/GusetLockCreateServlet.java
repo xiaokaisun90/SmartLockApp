@@ -11,9 +11,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.simsim.entities.Lock;
+import com.example.simsim.entities.User;
+
 import database.DbAdapter;
-import entities.Lock;
-import entities.User;
 
 /**
  * Servlet implementation class GusetLockCreateServlet

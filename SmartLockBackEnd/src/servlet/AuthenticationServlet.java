@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.simsim.entities.User;
+
 import database.DbAdapter;
-import entities.User;
 
 /**
  * Servlet implementation class Authentication
@@ -41,19 +42,22 @@ public class AuthenticationServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("Authenticate");
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
 			User user = (User) in.readObject();
+			in.close();
 			User fetchedUser = DbAdapter.readUser(user);
 			String returnInfo;
-			if (fetchedUser.getUserId() == 0)
-					returnInfo = "failure";
-			else 
+			if (fetchedUser != null && fetchedUser.getPassword().equals(user.getPassword()))
 					returnInfo = "success";
+			else 
+					returnInfo = "failure";
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
 			out.writeObject(returnInfo);
 			out.flush();
 			out.close();
+			System.out.println(returnInfo);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

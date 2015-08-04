@@ -9,15 +9,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import entities.*;
+import com.example.simsim.entities.*;
 public class DbAdapter {
 	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
-	static final String DB_URL = "jdbc:mysql://localhost/";
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
+	static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/SMARTLOCK";
 
 	//  Database credentials
-	static final String USER = "root";
-	static final String PASS = "password";
+	static final String USER = "pbpublic";
+	static final String PASS = "pbpublic";
 	static Connection conn = null;
 	static Statement stmt = null;
 	public static void main(String[] args) {
@@ -234,105 +234,109 @@ public class DbAdapter {
 	}//end main
 
 	public static String createUser(User user) {
-		String query = "INSERT INTO USER(NAME, PRIMARY_PHONE_NUMBER, COUNTRY, PASSWORD) " + 
-				"VALUES(" +
-				"'" + user.getName() + "'," +
-				"'" + user.getPrimaryPhoneNumber() +"'," +
-				//			   		user.getIsMobileVerified() + "," + 
-				"'" + user.getCountry() + "'," +
-				"'" + user.getPassword() + "');";
-//		System.out.println(query);
-		//			   		user.getUserState() + ","  +
-		//			   		user.getDataOfBirth() + "," +
-		//			   		user.getGender() + "," +
-		//			   		user.getEmailAddress() + "," +
-		//			   		user.getZipCode() + "," +
-		//			   		user.getIcon() + ");";
-		String isAccepted;
-		try {
+		   String query = "INSERT INTO USER(NAME, PRIMARY_PHONE_NUMBER, IS_MOBILE_VERIFIED, COUNTRY, PASSWORD, USER_STATE, "
+		   		+ "DATE_OF_BIRTH, GENDER, EMAIL_ADDRESS, ZIP_CODE, ICON) " + 
+				   		"VALUES(" +
+				   		"'" + user.getName() + "'," +
+				   		"'" + user.getPrimaryPhoneNumber() +"'," +
+				   		"'" + user.getIsMobileVerified() + "'," + 
+						"'" + user.getCountry() + "'," +
+				   		"'" + user.getPassword() + "'," + 
+				   		"'" + user.getUserState() + "'," +
+		   				"'" + user.getDataOfBirth() + "'," +
+		   				"'" + user.getGender() + "'," +
+		   				"'" + user.getEmailAddress() + "'," +
+				   		user.getZipCode() + "," +
+				   		"'" + user.getIcon() + "');";
+		   System.out.println(query);
+		   try {
+			   open();
 			stmt.executeUpdate(query);
-			isAccepted = "success";
-		}  catch (SQLException e) {
-			// TODO Auto-generated catch block
-//			e.printStackTrace();
-			System.out.println("PRIMARY_PHONE_NUMBER has been used.");
-			isAccepted = "failure";
-		}
-		return isAccepted;
-	}
-	public static String updateUser(User user) {
-		String query = "UPDATE USER" + 
-				" SET NAME=" + "'" + user.getName() + "'," +
-				"IS_MOBILE_VERIFIED=" + "'" + user.getIsMobileVerified() + "'," +
-				"COUNTRY=" + "'" + user.getCountry() + "'," +
-				"DATE_OF_BIRTH=" +"'" +  user.getDataOfBirth() + "'," +
-				"USER_STATE=" + "'" + user.getUserState() + "'," +
-				"GENDER=" + "'" + user.getGender() + "'," +
-				"EMAIL_ADDRESS=" + "'" + user.getEmailAddress() + "'," +
-				"ZIP_CODE=" + user.getZipCode() + "," +
-				"ICON=" + "'" + user.getIcon() + "'" + 
-				" WHERE PRIMARY_PHONE_NUMBER=" + "'" + user.getPrimaryPhoneNumber() + "';";
-		//			System.out.println(query);
-		String isAccepted;
-		try {
-//			System.out.println(query);
-			stmt.executeUpdate(query);
-			isAccepted = "success";
-		} catch (SQLException e) {
+			close();
+			return "success";
+		}  catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			isAccepted = "failure";
+			return "failure";
 		}
-		return isAccepted;
-	}
-
-	public static User readUser(User user) {
-		String query = "SELECT * FROM USER " +
-				"WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
-//		System.out.println(query);
-		try {
-			ResultSet rs = stmt.executeQuery(query);
-			User userInfo = new User();
-			while(rs.next()){ 
-				//				 System.out.println(rs.getString("USER_ID"));
-				userInfo.setUserId(rs.getInt("USER_ID"));
-				userInfo.setName(rs.getString("NAME"));
-				userInfo.setIsMobileVerified(rs.getString("IS_MOBILE_VERIFIED"));
-				userInfo.setCountry(rs.getString("COUNTRY"));
-				userInfo.setUserState(rs.getString("USER_STATE"));
-				userInfo.setDataOfBirth(rs.getString("DATE_OF_BIRTH"));
-				userInfo.setGender(rs.getString("GENDER"));
-				userInfo.setEmailAddress(rs.getString("EMAIL_ADDRESS"));
-				userInfo.setZipCode(rs.getInt("ZIP_CODE"));
-				userInfo.setIcon(rs.getString("ICON"));
-
+	   }
+	   
+		public static String updateUser(User user) {
+				String query = "UPDATE USER" + 
+						" SET NAME=" + "'" + user.getName() + "'," +
+						"IS_MOBILE_VERIFIED=" + "'" + user.getIsMobileVerified() + "'," +
+						"COUNTRY=" + "'" + user.getCountry() + "'," +
+						"DATE_OF_BIRTH=" +"'" +  user.getDataOfBirth() + "'," +
+						"GENDER=" + "'" + user.getGender() + "'," +
+						"EMAIL_ADDRESS=" + "'" + user.getEmailAddress() + "'," +
+						"ZIP_CODE=" + user.getZipCode() + "," +
+						"ICON=" + "'" + user.getIcon() + "'" + 
+						" WHERE PRIMARY_PHONE_NUMBER=" + "'" + user.getPrimaryPhoneNumber() + "';";
+				System.out.println(query);
+				 try {
+					 open();
+						stmt.executeUpdate(query);
+						close();
+						return "success";
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+						return "failure";
+					}
+		}
+	 
+		public static User readUser(User user) {
+			String query = "SELECT * FROM USER " +
+					"WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
+			 try {
+				 open();
+				 ResultSet rs = stmt.executeQuery(query);
+				 User userInfo = null;
+				 while(rs.next()){ 
+//					 System.out.println(rs.getString("USER_ID"));
+					 userInfo = new User();
+					 userInfo.setPrimaryPhoneNumber(user.getPrimaryPhoneNumber());
+					 userInfo.setUserId(rs.getInt("USER_ID"));
+					 userInfo.setName(rs.getString("NAME"));
+					 userInfo.setPassword(rs.getString("PASSWORD"));
+					 userInfo.setIsMobileVerified(rs.getString("IS_MOBILE_VERIFIED"));
+					 userInfo.setCountry(rs.getString("COUNTRY"));
+					 userInfo.setUserState(rs.getString("USER_STATE"));
+					 userInfo.setDataOfBirth(rs.getString("DATE_OF_BIRTH"));
+					 userInfo.setGender(rs.getString("GENDER"));
+					 userInfo.setEmailAddress(rs.getString("EMAIL_ADDRESS"));
+					 userInfo.setZipCode(rs.getInt("ZIP_CODE"));
+					 userInfo.setIcon(rs.getString("ICON"));
+					 
+				 }
+				 rs.close();
+				 close();
+//				 System.out.println(userInfo.getUserId());
+				 return userInfo;
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+					return null;
+				}
+			
+			
+		}
+		
+		public static String deleteUser(User user) {
+			String query = "DELETE FROM USER" + 
+							" WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
+			System.out.println(query);
+			try {
+				open();
+				stmt.executeUpdate(query);
+				close();
+				return "success";
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "failure";
 			}
-			rs.close();
-			//			 System.out.println(userInfo.getUserId());
-			return userInfo;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
 		}
-
-
-	}
-	public static String deleteUser(User user) {
-		String query = "DELETE FROM USER" + 
-				" WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
-		System.out.println(query);
-		String isAccepted;
-		try {
-			stmt.executeUpdate(query);
-			isAccepted = "success";
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			isAccepted = "failure";
-		}
-		return isAccepted;
-	}
 
 	public static String createProperty(Property property) {
 		String query = "INSERT INTO PROPERTY(USER_ID, DESCRIPTION, ADDRESS, CITY, ZIP_CODE, STATE, COUNTRY, OWNERSHIP) " + 
@@ -793,6 +797,20 @@ public class DbAdapter {
 			isAccepted = "failure";
 		}
 		return isAccepted;
+	}
+	
+	public static void open() throws ClassNotFoundException, Exception{
+		System.out.println("Connecting to database...");
+		
+	      Class.forName(JDBC_DRIVER);	      
+	      conn = DriverManager.getConnection(DB_URL, USER, PASS);
+	      stmt = conn.createStatement();
+	}
+
+	public static void close() throws Exception {
+	    System.out.println("Closing db connection");
+	    stmt.close();
+	    conn.close();
 	}
 }
 

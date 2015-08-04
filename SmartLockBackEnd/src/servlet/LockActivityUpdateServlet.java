@@ -10,8 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.example.simsim.entities.LockActivity;
+
 import database.DbAdapter;
-import entities.LockActivity;
 
 /**
  * Servlet implementation class UserAddServlet
