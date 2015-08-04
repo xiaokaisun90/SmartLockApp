@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.DbAdapter;
-import entities.LockActivity;
+import entities.User;
 
 /**
  * Servlet implementation class UserAddServlet
@@ -40,9 +40,9 @@ public class LockActivityReadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			LockActivity lockActivity= (LockActivity) in.readObject();
+			User user= (User) in.readObject();
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-			out.writeObject(DbAdapter.readLockActivity(lockActivity));
+			out.writeObject(DbAdapter.readLockActivity(user));
 			out.flush();
 			out.close();
 		} catch (ClassNotFoundException e) {
