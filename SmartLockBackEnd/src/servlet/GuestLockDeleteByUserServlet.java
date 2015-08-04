@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.DbAdapter;
-import entities.User;
-
+import com.example.simsim.entities.*;
 /**
  * Servlet implementation class GuestLockDeleteServlet
  */

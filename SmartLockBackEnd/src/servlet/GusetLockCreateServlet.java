@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.DbAdapter;
-import entities.Lock;
-import entities.User;
-
+import com.example.simsim.entities.*;
 /**
  * Servlet implementation class GusetLockCreateServlet
  */
