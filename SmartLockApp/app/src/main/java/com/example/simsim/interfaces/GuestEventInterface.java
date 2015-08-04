@@ -23,7 +23,7 @@ public interface GuestEventInterface {//events
     void setNewLockActivityAccessStartTime(String accessStartTime);
     void setNewLockActivityAccessEndTime(String accessEndTime);
     void setNewLockActivityRequestAccessTimestamp(String requestAccessTimestamp);
-    void setNewLockActivityRequestStatus(boolean requestStatus);
+    void setNewLockActivityRequestStatus(String requestStatus);
     void setNewLockActivityAlert(int alert);
     void insertNewLockActivity() throws Exception; // Insert new lockActivity to DB, set lockActivityId to LockActivity object in Information.
 

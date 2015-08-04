@@ -43,9 +43,9 @@ public class GuestCustomRepeatActivity extends Activity {
 
         }
 
-        SimpleAdapter freAdapter=new SimpleAdapter(this,list1,R.layout.item_guest_freq_list,
+        SimpleAdapter freAdapter=new SimpleAdapter(this,list1, R.layout.item_guest_freq_list,
                 new String[]{"fre"},new int[]{R.id.freItemTV});
-        SimpleAdapter dateAdapter=new SimpleAdapter(this, list2,R.layout.item_guest_dates_list,
+        SimpleAdapter dateAdapter=new SimpleAdapter(this, list2, R.layout.item_guest_dates_list,
                 new String[]{"dates"},new int[]{R.id.datesItemTV});
         frequencyLV.setAdapter(freAdapter);
         dateLV.setAdapter(dateAdapter);

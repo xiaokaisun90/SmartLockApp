@@ -1,23 +1,23 @@
 package com.example.simsim.ui;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
-import android.widget.SimpleAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-
+import com.example.simsim.entities.EntityAdapter;
 import com.example.simsim.entities.Property;
-import com.example.simsim.interfaces.GuestLockInterface;
+import com.example.simsim.interfaces.GuestEventInterface;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Steven on 15/7/18.
@@ -25,47 +25,45 @@ import java.util.Map;
 public class GuestMainStep2RAFragment extends Fragment {
 
     private GuestFragmentCallBackInterface guestFragmentCallBackInterface;
-    private GuestLockInterface guestLockInterface;
+    private GuestEventInterface guestEventInterface;
     private List<Property> listProperties;
     private GridView showProperties;//show a gird view of properties.
+    private int hostID;
 
-    //use the method “public int getHostID();” in guestLockInterface  to get the hostid from static variable
-    //use the method “public List<Property> getHostPropertyList(int hostId); to get the list of properties and assign it  to listProperties”
-    //after user select the property, we can get the property that user selected. Then,  use “List<Integer> getHostLockIdList(Property property);”
-    //method to get the specific lock. After this, use “public void setNewLockActivityLockId(int lockId);” to get the assign the lockID to static object newLockActivity in Information.
-    //use “public void loadHostIdFromDB(String primaryPhoneNumber);” to load host id from  db to static variable.  Then use “public int getHostID();” to get id from static variable to local variable.
-    //use “public void setNewLockActivityHostId(int hostId);public int getGuestId();public void setNewLockActivityGuestId(int guestId);
-
-    //examples of spaces images
-    int images[]={R.drawable.example1, R.drawable.example2};
-    String names[]={"Park's Home","Project Olympus"};
-    ArrayList<Map<String, Object>> spaces;
+    private TextView requestHostName;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view=inflater.inflate(R.layout.fragment_guest_step2_request_access,container,false);
+        guestEventInterface=new EntityAdapter();
+        requestHostName=(TextView)view.findViewById(R.id.requestHostNameTV);
 
-        GridView gridOfSpaces=(GridView)view.findViewById(R.id.gridOfSpaces);
-        spaces=new ArrayList<Map<String, Object>>();
+        //get host id
+        //hostID=guestEventInterface.getHostId();
+        //set the host id to text view
+        requestHostName.setText("111");
+        //get list of properties
+        listProperties=guestEventInterface.getHostPropertyList(hostID);
 
-        for(int i=0;i<images.length;i++){
 
-            Map<String,Object> map=new HashMap<String, Object>();
-            map.put("images", images[i]);
-            map.put("text", names[i]);
-            spaces.add(map);
+        showProperties=(GridView)view.findViewById(R.id.gridOfSpaces);
 
-        }
+        MyAdapter adapter=new MyAdapter(listProperties);
+        showProperties.setAdapter(adapter);
 
-        SimpleAdapter adapter=new SimpleAdapter(guestFragmentCallBackInterface.getGuestMainActivity()
-                ,spaces,R.layout.item_guest_spaces,new String[]{"images","text"}, new int[]{R.id.showSpaceIV,R.id.showSpaceTV});
-        gridOfSpaces.setAdapter(adapter);
-        gridOfSpaces.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        showProperties.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Property property=(Property)parent.getItemAtPosition(position);
+                List<Integer> listOfLock=guestEventInterface.getHostLockIdList(property);
+                int lockId=listOfLock.get(0);
+                guestEventInterface.setNewLockActivityLockId(lockId);
+                guestEventInterface.setNewLockActivityHostId(guestEventInterface.getHostId());
+                guestEventInterface.setNewLockActivityGuestId(guestEventInterface.getGuestId());
 
-                guestFragmentCallBackInterface.getGuestMainActivity().sendSpaceID(position);
+                Intent intent=new Intent(guestFragmentCallBackInterface.getGuestMainActivity(), GuestAddEventActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -84,4 +82,27 @@ public class GuestMainStep2RAFragment extends Fragment {
 
     }
 
+    private class MyAdapter extends ArrayAdapter<Property>{
+
+        public MyAdapter(List<Property> list) {
+            super(getActivity(), R.layout.item_guest_spaces,list);
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            if(convertView==null){
+                convertView=getActivity().getLayoutInflater()
+                        .inflate(R.layout.item_guest_spaces,null);
+            }
+
+            Property property=getItem(position);
+            ImageView showSpaceIV=(ImageView)convertView.findViewById(R.id.showSpaceIV);
+            TextView showSpaceTV=(TextView)convertView.findViewById(R.id.showSpaceTV);
+            showSpaceIV.setImageResource(R.drawable.example1);
+            showSpaceTV.setText(property.getDescription());
+
+            return convertView;
+        }
+    }
 }

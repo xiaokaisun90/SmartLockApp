@@ -1,7 +1,7 @@
 package com.example.simsim.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,12 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import java.util.ArrayList;
-
-
 public class GuestMainActivity extends FragmentActivity implements GuestFragmentCallBackInterface {
-
-    public static ArrayList lockList=new ArrayList();
 
     //fragments
     private Fragment emptyLockListFM;
@@ -25,6 +20,7 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
     private Fragment historyListFM;
     private Fragment step1RequestAccessFM;
     private Fragment step2RequestAccessFM;
+    private Fragment editProfileFM;
 
     //image view in navigation bar
     private ImageView lock_image;
@@ -40,6 +36,10 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //permit to use the network in main UI thread.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
         setContentView(R.layout.activity_guest_main);
 
         fmanager=getSupportFragmentManager();
@@ -54,21 +54,15 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
         titleBar=(TextView)findViewById(R.id.titleBar);
 
         //initial state of fragment
-        if (GuestMainActivity.lockList.size() == 0) {
-            setChoiceItem(0);
-        } else {
-            setChoiceItem(1);
-        }
+        setChoiceItem(1);
+
 
         lock_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 lock_image.setImageResource(R.drawable.lock_clicked);
-                if (GuestMainActivity.lockList.size() == 0) {
-                    setChoiceItem(0);
-                } else {
-                    setChoiceItem(1);
-                }
+                setChoiceItem(1);
+
             }
         });
         events_image.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +81,7 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
         personal_image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                setChoiceItem(6);
             }
         });
     }
@@ -113,12 +107,14 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
             case 1:
                 lock_image.setImageResource(R.drawable.lock_clicked);
                 titleBar.setText("Locks");
-                if(lockListFM==null){
+                /*if(lockListFM==null){
                     lockListFM=new GuestMainLockFragment();
                     transaction.add(R.id.content,lockListFM);
                 }else{
                     transaction.show(lockListFM);
-                }
+                }*/
+                lockListFM=new GuestMainLockFragment();
+                transaction.replace(R.id.content,lockListFM);
                 break;
             case 2:
                 events_image.setImageResource(R.drawable.events_clicked);
@@ -134,7 +130,7 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
                 history_image.setImageResource(R.drawable.history_clicked);
                 titleBar.setText("History");
                 if(historyListFM==null){
-                    historyListFM=new GuestMainHistoryFragment();
+                    historyListFM=new HostHistoryFragment();
                     transaction.add(R.id.content, historyListFM);
                 }else{
                     transaction.show(historyListFM);
@@ -153,11 +149,22 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
             case 5:
                 lock_image.setImageResource(R.drawable.lock_clicked);
                 titleBar.setText("Request Access");
-                if(step2RequestAccessFM==null){
+                /*if(step2RequestAccessFM==null){
                     step2RequestAccessFM=new GuestMainStep2RAFragment();
                     transaction.add(R.id.content, step2RequestAccessFM);
                 }else{
                     transaction.show(step2RequestAccessFM);
+                }*/
+                step2RequestAccessFM=new GuestMainStep2RAFragment();
+                transaction.replace(R.id.content,step2RequestAccessFM);
+                break;
+            case 6:
+                titleBar.setText("Edit Profile");
+                if(editProfileFM==null){
+                    editProfileFM=new HostEditProfileFragment();
+                    transaction.add(R.id.content,editProfileFM);
+                }else{
+                    transaction.show(editProfileFM);
                 }
                 break;
 
@@ -192,6 +199,9 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
         if(step2RequestAccessFM != null){
             transaction.hide(step2RequestAccessFM);
         }
+        if(editProfileFM != null){
+            transaction.hide(editProfileFM);
+        }
     }
 
     public GuestMainActivity getGuestMainActivity() {
@@ -201,8 +211,5 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
     @Override
     public void sendSpaceID(int spaceID) {
         //start a create profile activity
-//        Intent intent=new Intent(GuestMainActivity.this, CreateProfileActivity.class);
-//        intent.putExtra("spaceid", spaceID);
-//        startActivity(intent);
     }
 }

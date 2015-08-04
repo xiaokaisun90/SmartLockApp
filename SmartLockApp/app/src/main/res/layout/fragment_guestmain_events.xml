@@ -13,4 +13,39 @@
         android:textColor="#ffffff"
         android:background="@drawable/corner"/>
 
+    <TextView
+        android:text="Pending Requests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left"
+        android:textSize="20dp"/>
+
+    <ListView
+        android:id="@+id/pendingRequestsLV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+    <TextView
+        android:text="Rejected Requests"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:layout_gravity="left"/>
+    <ListView
+        android:id="@+id/rejectedRequestsLV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></ListView>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Permitted Requests"
+        android:textSize="20dp"
+        android:layout_gravity="left"/>
+    <ListView
+        android:id="@+id/permittedRequestsLV"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"></ListView>
 </LinearLayout>

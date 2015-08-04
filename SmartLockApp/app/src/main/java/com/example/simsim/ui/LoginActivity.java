@@ -31,6 +31,10 @@ public class LoginActivity extends Activity implements UIConstantInterface, Data
                 .detectLeakedSqlLiteObjects().penaltyLog().penaltyDeath()
                 .build());
 
+        /*//permit to use the network in main UI thread.
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+        */
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -47,8 +51,8 @@ public class LoginActivity extends Activity implements UIConstantInterface, Data
                 String primaryPhoneNumber = editTextPhoneNumber.getText().toString();
                 String password = editTextPassword.getText().toString();
                 try{
-                    if(authenticate(primaryPhoneNumber, password) == true){
 
+                    if(authenticate(primaryPhoneNumber, password) == true){
                         Debug.loadDataFromDB(primaryPhoneNumber);
                         //authenticationInterface.loadDataFromDB(primaryPhoneNumber);
 
@@ -65,6 +69,7 @@ public class LoginActivity extends Activity implements UIConstantInterface, Data
                         Toast.makeText(LoginActivity.this, MESSAGE_LOGIN_WRONG_PASSWORD,
                                 Toast.LENGTH_LONG).show();
                     }
+
                 } catch (Exception e){
                     Toast.makeText(LoginActivity.this, MESSAGE_LOGIN_EXCEPTION,
                             Toast.LENGTH_LONG).show();

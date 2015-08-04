@@ -37,7 +37,7 @@ public class GuestRepeatActivity extends Activity {
             arrayList.add(map);
         }
 
-        SimpleAdapter adapter=new SimpleAdapter(this, arrayList,R.layout.item_guest_repeat_list,
+        SimpleAdapter adapter=new SimpleAdapter(this, arrayList, R.layout.item_guest_repeat_list,
                 new String[]{"name"},new int[]{R.id.repeatItemTV});
         repeatLV.setAdapter(adapter);
 

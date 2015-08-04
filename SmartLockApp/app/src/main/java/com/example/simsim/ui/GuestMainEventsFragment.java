@@ -1,7 +1,6 @@
 package com.example.simsim.ui;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -25,8 +24,7 @@ public class GuestMainEventsFragment extends Fragment {
         addEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(guestFragmentCallBackInterface.getGuestMainActivity(), GuestAddEventActivity.class);
-                startActivity(intent);
+                guestFragmentCallBackInterface.getGuestMainActivity().setChoiceItem(4);
             }
         });
 

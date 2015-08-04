@@ -97,61 +97,95 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
     @Override
     public void loadHostIdFromDB(String primaryPhoneNumber) {
 
+        User temp=new User();
+        temp.setPrimaryPhoneNumber(primaryPhoneNumber);
+        User user;
+        try {
+            user=(User)HttpConnection.httpPost(URL_USER_READ,temp);
+            information.setHostId(user.getUserId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override
     public int getGuestId() {
-        return 0;
+        return information.getUser().getUserId();
     }
 
     @Override
     public int getHostId() {
-        return 0;
+        return information.getHostId();
     }
 
     @Override
     public List<Property> getHostPropertyList(int hostId) {
-        return null;
+        User user=new User();
+        user.setUserId(hostId);
+        List<Property> listOfProperties=null;
+
+        try {
+            listOfProperties=(List<Property>)HttpConnection.httpPost(URL_PROPERTY_READ,user);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return listOfProperties;
     }
 
     @Override
     public List<Integer> getHostLockIdList(Property property) {
-        return null;
+        int hostId=information.getHostId();
+        User user=new User();
+        List<Lock> listLock;
+        List<Integer> listLockId=new ArrayList<>();
+        user.setUserId(hostId);
+        try {
+            Map<Property, List<Lock>> hostPropLockMap =
+                    (Map<Property, List<Lock>>) HttpConnection.httpPost(URL_LOCK_READ,
+                            user);
+            listLock=hostPropLockMap.get(property);
+            listLockId.add(listLock.get(0).getLockId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return listLockId;
     }
 
     @Override
     public void setNewLockActivityHostId(int hostId) {
-
+        information.getNewLockActivity().setHostId(hostId);
     }
 
     @Override
     public void setNewLockActivityGuestId(int guestId) {
-
+        information.getNewLockActivity().setGuestId(guestId);
     }
 
     @Override
     public void setNewLockActivityLockId(int lockId) {
-
+        information.getNewLockActivity().setLockId(lockId);
     }
 
     @Override
     public void setNewLockActivityAccessStartTime(String accessStartTime) {
-
+        information.getNewLockActivity().setAccessStartTime(accessStartTime);
     }
 
     @Override
     public void setNewLockActivityAccessEndTime(String accessEndTime) {
-
+        information.getNewLockActivity().setAccessEndTime(accessEndTime);
     }
 
     @Override
     public void setNewLockActivityRequestAccessTimestamp(String requestAccessTimestamp) {
-
+        information.getNewLockActivity().setRequestAccessTimestamp(requestAccessTimestamp);
     }
 
     @Override
-    public void setNewLockActivityRequestStatus(boolean requestStatus) {
-
+    public void setNewLockActivityRequestStatus(String requestStatus) {
+        information.getNewLockActivity().setRequestStatus(requestStatus);
     }
 
     @Override
@@ -161,17 +195,63 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
 
     @Override
     public void insertNewLockActivity() {
+        try {
+            String result=(String)HttpConnection.httpPost(URL_LOCK_ACTIVITY_CREATE,information.getNewLockActivity());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
+    @Override
+    public List<Lock> getClientLockList() {
+        return information.getGuestLock();
     }
 
     @Override
     public boolean openLock(Lock lock) {
-        return false;
+        boolean result=false;
+        try {
+            String str=(String)HttpConnection.httpPost(URL_LOCK_UPDATE,lock);
+            if(str.equals("success")){
+                result=true;
+
+                for(Lock temp:information.getGuestLock()){
+
+                    if(temp.getLockId() == lock.getLockId()){
+                        temp.setIsLocked(lock.isLocked());
+                    }
+
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
     public boolean closeLock(Lock lock) {
-        return false;
+        boolean result=false;
+        try {
+            String str=(String)HttpConnection.httpPost(URL_LOCK_UPDATE,lock);
+            if(str.equals("success")){
+                result=true;
+
+                for(Lock temp:information.getGuestLock()){
+
+                    if(temp.getLockId() == lock.getLockId()){
+                        temp.setIsLocked(lock.isLocked());
+                    }
+
+                }
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override

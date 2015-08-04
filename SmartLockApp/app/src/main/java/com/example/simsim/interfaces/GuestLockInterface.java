@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface GuestLockInterface {
 
-    public List<Lock> getAllLockList();
+    public List<Lock> getClientLockList();
     public boolean openLock(Lock lock);
     public boolean closeLock(Lock lock);
 

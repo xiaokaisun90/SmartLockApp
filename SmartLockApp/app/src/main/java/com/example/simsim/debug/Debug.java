@@ -73,7 +73,9 @@ public class Debug implements ServletConstantInterface, DatabaseConstantInterfac
         Information information = entityAdapter.getInformation();
         information.getUser().setPrimaryPhoneNumber(primaryPhoneNumber);
         User user = (User) HttpConnection.httpPost(URL_USER_READ, information.getUser());
+
         if(user != null) information.setUser(user);
+
         if(entityAdapter.getUserState().equals(USER_STATE_HOST)){
             Map<Property, List<Lock>> hostPropLockMap = new HashMap<Property, List<Lock>>();
             List<Lock> lockList = new ArrayList<Lock>();

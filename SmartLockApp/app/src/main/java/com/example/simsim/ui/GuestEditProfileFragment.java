@@ -21,8 +21,8 @@ public class GuestEditProfileFragment extends Fragment {
         return view;
     }
 
-    public void updateProfile(String userState, String dataOfBirth,
-                              String gender, String emailAddress, int zipCode, String icon){
+    public void updateProfile(String dataOfBirth,String gender, String emailAddress,
+                              int zipCode, String icon){
 
     }
 
