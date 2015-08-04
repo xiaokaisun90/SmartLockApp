@@ -12,7 +12,7 @@ public class LockActivity implements Serializable {
     private String accessStartTime;
     private String accessEndTime;
     private String requestAccessTimestamp;
-    private boolean requestStatus;
+    private String requestStatus;
     private int alert;
 
     public int getLockActicityId() {
@@ -71,11 +71,11 @@ public class LockActivity implements Serializable {
         this.requestAccessTimestamp = requestAccessTimestamp;
     }
 
-    public boolean isRequestStatus() {
+    public String getRequestStatus() {
         return requestStatus;
     }
 
-    public void setRequestStatus(boolean requestStatus) {
+    public void setRequestStatus(String requestStatus) {
         this.requestStatus = requestStatus;
     }
 
@@ -85,5 +85,19 @@ public class LockActivity implements Serializable {
 
     public void setAlert(int alert) {
         this.alert = alert;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LockActivity lockActivity = (LockActivity) o;
+        if (lockActicityId != lockActivity.getLockActicityId()) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return ((Integer)lockActicityId).hashCode();
     }
 }

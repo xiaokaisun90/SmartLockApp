@@ -15,6 +15,15 @@ public class Property implements Serializable {
     private String country;
     private String ownership;
 
+    public Property(){
+        description = "";
+        address = "";
+        city = "";
+        state = "";
+        country = "";
+        ownership = "";
+    }
+
     public int getPropertyId() {
         return propertyId;
     }
@@ -85,5 +94,19 @@ public class Property implements Serializable {
 
     public void setOwnership(String ownership) {
         this.ownership = ownership;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Property property = (Property) o;
+        if (propertyId != property.getPropertyId()) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return ((Integer)propertyId).hashCode();
     }
 }

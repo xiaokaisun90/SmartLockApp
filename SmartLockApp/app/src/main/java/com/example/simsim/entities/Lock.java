@@ -86,4 +86,18 @@ public class Lock implements Serializable {
     public void setRotationEndPoints(double rotationEndPoints) {
         this.rotationEndPoints = rotationEndPoints;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Lock lock = (Lock) o;
+        if (lockId != lock.getLockId()) return false;
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return ((Integer)lockId).hashCode();
+    }
 }
