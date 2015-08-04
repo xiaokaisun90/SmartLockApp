@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import database.DbAdapter;
-import entities.Property;
+import entities.User;
 
 /**
  * Servlet implementation class UserAddServlet
@@ -42,7 +42,7 @@ public class PropertyReadServlet extends HttpServlet {
 		try {
 			
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-			out.writeObject(DbAdapter.readProperty((Property) in.readObject()));
+			out.writeObject(DbAdapter.readProperty((User) in.readObject()));
 			out.flush();
 			out.close();
 		} catch (ClassNotFoundException e) {

@@ -3,6 +3,7 @@ package servlet;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import database.DbAdapter;
 import entities.Lock;
+import entities.User;
 
 /**
  * Servlet implementation class UserAddServlet
@@ -40,9 +42,9 @@ public class LockReadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			Lock lock = DbAdapter.readLock((Lock) in.readObject());
+			List<Lock> listOfLock = DbAdapter.readLock((User) in.readObject());
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-			out.writeObject(lock);
+			out.writeObject(listOfLock);
 			out.flush();
 			out.close();
 		} catch (ClassNotFoundException e) {
