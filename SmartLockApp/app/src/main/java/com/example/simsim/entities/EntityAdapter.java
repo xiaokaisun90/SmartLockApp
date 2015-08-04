@@ -403,14 +403,4 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
         else return false;
     }
 
-    @Override
-    public Property getNewProperty(){
-        return information.getNewProperty();
-    }
-
-    @Override
-    public void setNewProperty(Property property){
-        information.setNewProperty(property);
-    }
-
 }

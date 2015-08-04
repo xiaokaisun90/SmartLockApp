@@ -57,7 +57,7 @@ public class HostSpaceFragment extends Fragment {
                 intent.setClass(getActivity(), HostSpaceSettingsActivity.class);
                 intent.putExtra("operation", "update");
                 intent.putExtra("property", property);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
                 return true;
             }
         });
@@ -65,11 +65,10 @@ public class HostSpaceFragment extends Fragment {
         buttonAddSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                hostSpaceInterface.setNewProperty(null);
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), HostSpaceSettingsActivity.class);
                 intent.putExtra("operation", "insert");
-                startActivity(intent);
+                startActivityForResult(intent, 0);
             }
         });
         return view;
@@ -78,9 +77,17 @@ public class HostSpaceFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        Property newProperty = hostSpaceInterface.getNewProperty();
-        if(newProperty != null) propertyList.add(newProperty);
         adapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        if (requestCode == 0 && resultCode == 0) {
+            propertyList.add((Property)intent.getSerializableExtra("property"));
+        }
+        if (requestCode == 1 && resultCode == 0) {
+            propertyList.remove(intent.getSerializableExtra("property"));
+        }
     }
 
     private List<Property> getPropertyList(){

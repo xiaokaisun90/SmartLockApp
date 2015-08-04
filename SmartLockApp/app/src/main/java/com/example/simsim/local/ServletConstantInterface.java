@@ -5,7 +5,7 @@ package com.example.simsim.local;
  */
 public interface ServletConstantInterface {
 
-    String URL_SERVER = "http://192.168.0.110/SmartLockBackEnd/";
+    String URL_SERVER = "http://128.237.198.242/SmartLockBackEnd/";
 
     // URL for Servlet
     String URL_AUTHENTICATE = URL_SERVER + "AuthenticationServlet";

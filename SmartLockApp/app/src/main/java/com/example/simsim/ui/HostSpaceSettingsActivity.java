@@ -3,6 +3,7 @@ package com.example.simsim.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,7 +39,6 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
         isNew = intent.getStringExtra("operation").equals("insert") ? true : false;
         if(isNew) {
             property = new Property();
-            property.setUserId(hostSpaceInterface.getUserId());
         }
         else property = (Property) intent.getSerializableExtra("property");
 
@@ -81,12 +81,33 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
         });
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
+            setResult(-1);
+            finish();
+            return false;
+        }
+        return false;
+    }
+
     private void insertProperty(Property property){
         try{
+            property.setUserId(hostSpaceInterface.getUserId());
+            property.setDescription(editTextPropertyName.getText().toString());
+            property.setAddress(editTextPropertyAddress.getText().toString());
+            property.setZipCode(Integer.parseInt(editTextPropertyZipCode.getText().toString()));
+            property.setCity(editTextPropertyCity.getText().toString());
+            property.setState(editTextPropertyState.getText().toString());
+            property.setCountry(editTextPropertyCountry.getText().toString());
+
             hostSpaceInterface.insertProperty(property);
-            hostSpaceInterface.setNewProperty(property);
             Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_UPDATE_SUCCESS,
                     Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent();
+            intent.putExtra("property", property);
+            setResult(0, intent);
             finish();
         } catch (Exception e){
             Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_UPDATE_EXCEPTION,
@@ -94,11 +115,20 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
         }
     }
 
-    private void updateProperty(Property property){
-        try{
+    private void updateProperty(Property property) {
+        try {
+            property.setDescription(editTextPropertyName.getText().toString());
+            property.setAddress(editTextPropertyAddress.getText().toString());
+            property.setZipCode(Integer.parseInt(editTextPropertyZipCode.getText().toString()));
+            property.setCity(editTextPropertyCity.getText().toString());
+            property.setState(editTextPropertyState.getText().toString());
+            property.setCountry(editTextPropertyCountry.getText().toString());
+
             hostSpaceInterface.updateProperty(property);
             Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_UPDATE_SUCCESS,
                     Toast.LENGTH_LONG).show();
+
+            setResult(1);
         } catch (Exception e){
             Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_UPDATE_EXCEPTION,
                     Toast.LENGTH_LONG).show();
@@ -110,6 +140,11 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
             hostSpaceInterface.deleteProperty(property);
             Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_DELETE_SUCCESS,
                     Toast.LENGTH_LONG).show();
+
+            Intent intent = new Intent();
+            intent.putExtra("property", property);
+            setResult(0, intent);
+            finish();
         } catch (Exception e){
             Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_DELETE_EXCEPTION,
                     Toast.LENGTH_LONG).show();
