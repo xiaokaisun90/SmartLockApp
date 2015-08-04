@@ -297,6 +297,11 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
     }
 
     @Override
+    public int getUserId(){
+        return information.getUser().getUserId();
+    }
+
+    @Override
     public int getLockNumberOfProperty(Property property){
         return information.getHostPropLockMap().get(property).size();
     }
@@ -396,6 +401,16 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
         String response = (String) HttpConnection.httpPost(URL_USER_CREATE, information.getUser());
         if(response.equals(RESPONSE_SUCCESS)) return true;
         else return false;
+    }
+
+    @Override
+    public Property getNewProperty(){
+        return information.getNewProperty();
+    }
+
+    @Override
+    public void setNewProperty(Property property){
+        information.setNewProperty(property);
     }
 
 }

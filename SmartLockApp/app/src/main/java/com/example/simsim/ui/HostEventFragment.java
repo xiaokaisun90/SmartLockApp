@@ -115,6 +115,10 @@ public class HostEventFragment extends Fragment
                     imageViewAccept.setVisibility(View.INVISIBLE);
                     imageViewReject.setEnabled(false);
                     imageViewReject.setVisibility(View.INVISIBLE);
+                    if(imageView.getId() == R.id.imageViewReject){
+                        lockActivityList.remove(lockActivity);
+                        notifyDataSetChanged();
+                    }
                     Toast.makeText(getActivity(), MESSAGE_UPDATE_SUCCESS,
                             Toast.LENGTH_LONG).show();
                 } catch (Exception e){

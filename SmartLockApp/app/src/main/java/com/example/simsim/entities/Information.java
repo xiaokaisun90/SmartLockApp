@@ -15,6 +15,7 @@ public class Information {
     private Map<Lock, List<LockActivity>> lockLockActivityMap;
 
     // Temporarily store the new object to be added
+    private Property newProperty;
     private Lock newLock;
     private LockActivity newLockActivity;
     private int hostId;
@@ -59,6 +60,14 @@ public class Information {
 
     public void setLockLockActivityMap(Map<Lock, List<LockActivity>> lockLockActivityMap) {
         this.lockLockActivityMap = lockLockActivityMap;
+    }
+
+    public Property getNewProperty(){
+        return newProperty;
+    }
+
+    public void setNewProperty(Property newProperty){
+        this.newProperty = newProperty;
     }
 
     public Lock getNewLock() {

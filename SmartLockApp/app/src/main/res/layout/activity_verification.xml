@@ -57,7 +57,8 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:singleLine="true"
-                android:id="@+id/editTextVerificationCode" />
+                android:id="@+id/editTextVerificationCode"
+                android:inputType="number" />
             <!-- Login button -->
             <Button
                 android:id="@+id/confirm"

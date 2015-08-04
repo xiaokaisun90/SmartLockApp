@@ -98,7 +98,8 @@
                 android:layout_marginRight="40dp"
                 android:singleLine="true"
                 android:id="@+id/phoneNumber"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:inputType="phone" />
             <!-- Login button -->
             <TextView
                 android:layout_width="wrap_content"

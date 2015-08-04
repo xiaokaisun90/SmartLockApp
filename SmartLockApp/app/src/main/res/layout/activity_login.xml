@@ -38,7 +38,8 @@
                 android:layout_marginRight="40dp"
                 android:singleLine="true"
                 android:id="@+id/editTextPhoneNumber"
-                android:hint="mobile number" />
+                android:hint="mobile number"
+                android:inputType="phone" />
 
             <EditText
                 android:layout_width="fill_parent"

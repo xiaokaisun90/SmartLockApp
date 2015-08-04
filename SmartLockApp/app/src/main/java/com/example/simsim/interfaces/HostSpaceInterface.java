@@ -11,7 +11,11 @@ import java.util.List;
 public interface HostSpaceInterface {
 
     List<Property> getPropertyList();
+    int getUserId();
     int getLockNumberOfProperty(Property property);
+    Property getNewProperty();
+    void setNewProperty(Property property);
+
     void insertProperty(Property property) throws Exception;
     void updateProperty(Property property) throws Exception;
     void deleteProperty(Property property) throws Exception;

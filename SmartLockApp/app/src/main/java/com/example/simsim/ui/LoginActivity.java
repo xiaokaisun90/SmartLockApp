@@ -53,8 +53,9 @@ public class LoginActivity extends Activity implements UIConstantInterface, Data
                 try{
 
                     if(authenticate(primaryPhoneNumber, password) == true){
-                        Debug.loadDataFromDB(primaryPhoneNumber);
-                        //authenticationInterface.loadDataFromDB(primaryPhoneNumber);
+
+                        //Debug.loadDataFromDB(primaryPhoneNumber);
+                        authenticationInterface.loadDataFromDB(primaryPhoneNumber);
 
                         Intent intent = new Intent();
                         if(authenticationInterface.getUserState().equals(USER_STATE_HOST)){

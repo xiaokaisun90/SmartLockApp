@@ -65,6 +65,7 @@ public class HostSpaceFragment extends Fragment {
         buttonAddSpace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                hostSpaceInterface.setNewProperty(null);
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), HostSpaceSettingsActivity.class);
                 intent.putExtra("operation", "insert");
@@ -77,6 +78,8 @@ public class HostSpaceFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+        Property newProperty = hostSpaceInterface.getNewProperty();
+        if(newProperty != null) propertyList.add(newProperty);
         adapter.notifyDataSetChanged();
     }
 

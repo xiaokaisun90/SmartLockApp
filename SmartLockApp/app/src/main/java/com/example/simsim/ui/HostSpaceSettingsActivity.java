@@ -36,7 +36,10 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
         hostSpaceInterface = new EntityAdapter();
         Intent intent = getIntent();
         isNew = intent.getStringExtra("operation").equals("insert") ? true : false;
-        if(isNew) property = new Property();
+        if(isNew) {
+            property = new Property();
+            property.setUserId(hostSpaceInterface.getUserId());
+        }
         else property = (Property) intent.getSerializableExtra("property");
 
         editTextPropertyName = (EditText) findViewById(R.id.editTextPropertyName);
@@ -67,8 +70,6 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
             public void onClick(View v) {
                 if(isNew) insertProperty(property);
                 else updateProperty(property);
-                Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_UPDATE_SUCCESS,
-                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -76,8 +77,6 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
             @Override
             public void onClick(View v) {
                 deleteProperty(property);
-                Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_DELETE_SUCCESS,
-                        Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -85,6 +84,10 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
     private void insertProperty(Property property){
         try{
             hostSpaceInterface.insertProperty(property);
+            hostSpaceInterface.setNewProperty(property);
+            Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_UPDATE_SUCCESS,
+                    Toast.LENGTH_LONG).show();
+            finish();
         } catch (Exception e){
             Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_UPDATE_EXCEPTION,
                     Toast.LENGTH_LONG).show();
@@ -94,6 +97,8 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
     private void updateProperty(Property property){
         try{
             hostSpaceInterface.updateProperty(property);
+            Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_UPDATE_SUCCESS,
+                    Toast.LENGTH_LONG).show();
         } catch (Exception e){
             Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_UPDATE_EXCEPTION,
                     Toast.LENGTH_LONG).show();
@@ -103,6 +108,8 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
     private void deleteProperty(Property property){
         try{
             hostSpaceInterface.deleteProperty(property);
+            Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_DELETE_SUCCESS,
+                    Toast.LENGTH_LONG).show();
         } catch (Exception e){
             Toast.makeText(HostSpaceSettingsActivity.this, MESSAGE_DELETE_EXCEPTION,
                     Toast.LENGTH_LONG).show();
