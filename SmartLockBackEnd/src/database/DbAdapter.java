@@ -2,25 +2,24 @@ package database;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.example.simsim.entities.*;
-
+import entities.*;
 public class DbAdapter {
 	// JDBC driver name and database URL
-	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";
-	static final String DB_URL = "jdbc:mysql://127.0.0.1:3306/SMARTLOCK";
+	static final String JDBC_DRIVER = "com.mysql.jdbc.Driver";  
+	static final String DB_URL = "jdbc:mysql://localhost/";
 
 	//  Database credentials
-	static final String USER = "pbpublic";
-	static final String PASS = "pbpublic";
+	static final String USER = "root";
+	static final String PASS = "password";
 	static Connection conn = null;
 	static Statement stmt = null;
-	
 	public static void main(String[] args) {
 
 		try{
@@ -211,6 +210,9 @@ public class DbAdapter {
 			//      createGuestLock(readUser(testUser), readLock(testLock));
 			//      System.out.println("guest lock: "+ readGuestLock(readLock(testLock)).size());
 //			deleteGuestLock(user3);
+		}catch(SQLException se){
+			//Handle errors for JDBC
+			se.printStackTrace();
 		}catch(Exception e){
 			//Handle errors for Class.forName
 			e.printStackTrace();
@@ -219,12 +221,12 @@ public class DbAdapter {
 			try{
 				if(stmt!=null)
 					stmt.close();
-			}catch(Exception se2){
+			}catch(SQLException se2){
 			}// nothing we can do
 			try{
 				if(conn!=null)
 					conn.close();
-			}catch(Exception se){
+			}catch(SQLException se){
 				se.printStackTrace();
 			}//end finally try
 		}//end try
@@ -232,107 +234,104 @@ public class DbAdapter {
 	}//end main
 
 	public static String createUser(User user) {
-		   String query = "INSERT INTO USER(NAME, PRIMARY_PHONE_NUMBER, IS_MOBILE_VERIFIED, COUNTRY, PASSWORD, USER_STATE, "
-		   		+ "DATE_OF_BIRTH, GENDER, EMAIL_ADDRESS, ZIP_CODE, ICON) " + 
-				   		"VALUES(" +
-				   		"'" + user.getName() + "'," +
-				   		"'" + user.getPrimaryPhoneNumber() +"'," +
-				   		"'" + user.getIsMobileVerified() + "'," + 
-						"'" + user.getCountry() + "'," +
-				   		"'" + user.getPassword() + "'," + 
-				   		"'" + user.getUserState() + "'," +
-		   				"'" + user.getDataOfBirth() + "'," +
-		   				"'" + user.getGender() + "'," +
-		   				"'" + user.getEmailAddress() + "'," +
-				   		user.getZipCode() + "," +
-				   		"'" + user.getIcon() + "');";
-		   System.out.println(query);
-		   try {
-			   open();
+		String query = "INSERT INTO USER(NAME, PRIMARY_PHONE_NUMBER, COUNTRY, PASSWORD) " + 
+				"VALUES(" +
+				"'" + user.getName() + "'," +
+				"'" + user.getPrimaryPhoneNumber() +"'," +
+				//			   		user.getIsMobileVerified() + "," + 
+				"'" + user.getCountry() + "'," +
+				"'" + user.getPassword() + "');";
+//		System.out.println(query);
+		//			   		user.getUserState() + ","  +
+		//			   		user.getDataOfBirth() + "," +
+		//			   		user.getGender() + "," +
+		//			   		user.getEmailAddress() + "," +
+		//			   		user.getZipCode() + "," +
+		//			   		user.getIcon() + ");";
+		String isAccepted;
+		try {
 			stmt.executeUpdate(query);
-			close();
-			return "success";
-		}  catch (Exception e) {
+			isAccepted = "success";
+		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "failure";
+//			e.printStackTrace();
+			System.out.println("PRIMARY_PHONE_NUMBER has been used.");
+			isAccepted = "failure";
 		}
-	   }
-	   
+		return isAccepted;
+	}
 	public static String updateUser(User user) {
 		String query = "UPDATE USER" + 
 				" SET NAME=" + "'" + user.getName() + "'," +
 				"IS_MOBILE_VERIFIED=" + "'" + user.getIsMobileVerified() + "'," +
 				"COUNTRY=" + "'" + user.getCountry() + "'," +
 				"DATE_OF_BIRTH=" +"'" +  user.getDataOfBirth() + "'," +
+				"USER_STATE=" + "'" + user.getUserState() + "'," +
 				"GENDER=" + "'" + user.getGender() + "'," +
 				"EMAIL_ADDRESS=" + "'" + user.getEmailAddress() + "'," +
 				"ZIP_CODE=" + user.getZipCode() + "," +
 				"ICON=" + "'" + user.getIcon() + "'" + 
 				" WHERE PRIMARY_PHONE_NUMBER=" + "'" + user.getPrimaryPhoneNumber() + "';";
-		System.out.println(query);
-		 try {
-			 open();
-				stmt.executeUpdate(query);
-				close();
-				return "success";
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return "failure";
-			}
+		//			System.out.println(query);
+		String isAccepted;
+		try {
+//			System.out.println(query);
+			stmt.executeUpdate(query);
+			isAccepted = "success";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			isAccepted = "failure";
+		}
+		return isAccepted;
 	}
 
 	public static User readUser(User user) {
 		String query = "SELECT * FROM USER " +
 				"WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
-		 try {
-			 open();
-			 ResultSet rs = stmt.executeQuery(query);
-			 User userInfo = null;
-			 while(rs.next()){ 
-//				 System.out.println(rs.getString("USER_ID"));
-				 userInfo = new User();
-				 userInfo.setPrimaryPhoneNumber(user.getPrimaryPhoneNumber());
-				 userInfo.setUserId(rs.getInt("USER_ID"));
-				 userInfo.setName(rs.getString("NAME"));
-				 userInfo.setPassword(rs.getString("PASSWORD"));
-				 userInfo.setIsMobileVerified(rs.getString("IS_MOBILE_VERIFIED"));
-				 userInfo.setCountry(rs.getString("COUNTRY"));
-				 userInfo.setUserState(rs.getString("USER_STATE"));
-				 userInfo.setDataOfBirth(rs.getString("DATE_OF_BIRTH"));
-				 userInfo.setGender(rs.getString("GENDER"));
-				 userInfo.setEmailAddress(rs.getString("EMAIL_ADDRESS"));
-				 userInfo.setZipCode(rs.getInt("ZIP_CODE"));
-				 userInfo.setIcon(rs.getString("ICON"));
-				 
-			 }
-			 rs.close();
-			 close();
-//			 System.out.println(userInfo.getUserId());
-			 return userInfo;
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return null;
-			}
-			
-	}
-
-	public static String deleteUser(User user) {
-		String query = "DELETE FROM USER" + 
-						" WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
-		System.out.println(query);
+//		System.out.println(query);
 		try {
-			open();
-			stmt.executeUpdate(query);
-			close();
-			return "success";
-		} catch (Exception e) {
+			ResultSet rs = stmt.executeQuery(query);
+			User userInfo = new User();
+			while(rs.next()){ 
+				//				 System.out.println(rs.getString("USER_ID"));
+				userInfo.setUserId(rs.getInt("USER_ID"));
+				userInfo.setName(rs.getString("NAME"));
+				userInfo.setIsMobileVerified(rs.getString("IS_MOBILE_VERIFIED"));
+				userInfo.setCountry(rs.getString("COUNTRY"));
+				userInfo.setUserState(rs.getString("USER_STATE"));
+				userInfo.setDataOfBirth(rs.getString("DATE_OF_BIRTH"));
+				userInfo.setGender(rs.getString("GENDER"));
+				userInfo.setEmailAddress(rs.getString("EMAIL_ADDRESS"));
+				userInfo.setZipCode(rs.getInt("ZIP_CODE"));
+				userInfo.setIcon(rs.getString("ICON"));
+
+			}
+			rs.close();
+			//			 System.out.println(userInfo.getUserId());
+			return userInfo;
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "failure";
+			return null;
 		}
+
+
+	}
+	public static String deleteUser(User user) {
+		String query = "DELETE FROM USER" + 
+				" WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
+		System.out.println(query);
+		String isAccepted;
+		try {
+			stmt.executeUpdate(query);
+			isAccepted = "success";
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			isAccepted = "failure";
+		}
+		return isAccepted;
 	}
 
 	public static String createProperty(Property property) {
@@ -348,11 +347,9 @@ public class DbAdapter {
 				"'"+property.getOwnership()+ "');";
 		String isAccepted;
 		try {
-			open();
 			stmt.executeUpdate(query);
-			close();
 			isAccepted =  "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted = "failure";
@@ -373,11 +370,10 @@ public class DbAdapter {
 				" WHERE PROPERTY_ID=" + property.getPropertyId() + ";";
 		String isAccepted;
 		try {
-			open();
+
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted = "failure";
@@ -404,18 +400,16 @@ public class DbAdapter {
 	//			 }
 	//			 rs.close();
 	//			 return propertyInfo;
-	//			} catch (Exception e) {
+	//			} catch (SQLException e) {
 	//				// TODO Auto-generated catch block
 	//				e.printStackTrace();
 	//				return null;
 	//			}
 	//	}
-	
 	public static List<Property> readProperty(User user) {
 		String query = "SELECT * FROM PROPERTY " +
 				"WHERE USER_ID=" + user.getUserId() + ";";
 		try {
-			open();
 			ResultSet rs = stmt.executeQuery(query);
 			List<Property> list = new ArrayList<Property>();
 			while(rs.next()){ 
@@ -432,32 +426,27 @@ public class DbAdapter {
 				list.add(propertyInfo);
 			}
 			rs.close();
-			close();
 			return list;
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
 	}
-	
 	public static String deleteProperty(Property property) {
 		String query = "DELETE FROM PROPERTY" + 
 				" WHERE PROPERTY_ID=" + property.getPropertyId() + ";";
 		String isAccepted;
 		try {
-			open();
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted =  "failure";
 		}
 		return isAccepted;
 	}
-	
 	public static String createLock(Lock lock) {
 		String query = "INSERT INTO LOCKS(LOCK_ID, DESCRIPTION, IS_LOCKED, LOCK_POWER, LOCK_START_ANGLE, LOCK_END_ANGLE, ROTATION_DIRECTION, ROTATION_END_POINTS ) " + 
 				"VALUES(" + lock.getLockId() +"," +
@@ -470,19 +459,16 @@ public class DbAdapter {
 				lock.getRotationEndPoints() + ");";
 		String isAccepted;
 		try {
-			open();
 			//		   System.out.println(query);
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted =  "failure";
 		}
 		return isAccepted;
 	}
-	
 	public static String updateLock(Lock lock) {
 		String query = "UPDATE LOCKS" + 
 				" SET DESCRIPTION=" + "'"+ lock.getDescription() + "'," +
@@ -495,12 +481,10 @@ public class DbAdapter {
 				" WHERE LOCK_ID=" + lock.getLockId() + ";";
 		String isAccepted;
 		try {
-			open();
 			System.out.println(query);
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted = "failure";
@@ -526,14 +510,13 @@ public class DbAdapter {
 	//		 }
 	//		 rs.close();
 	//		 return lockInfo;
-	//		} catch (Exception e) {
+	//		} catch (SQLException e) {
 	//			// TODO Auto-generated catch block
 	//			e.printStackTrace();
 	//			return null;
 	//		}
 	//}
 	// read host locks
-	
 	public static Map<Property, List<Lock>> readLock(User user) {
 		List<Property> listOfProperty = readProperty(user);
 		Map<Property, List<Lock>> map = new HashMap<Property, List<Lock>>();
@@ -542,7 +525,6 @@ public class DbAdapter {
 					" WHERE LOCK_ID =" + listOfProperty.get(i).getPropertyId() + ";";
 			List<Lock> listOfLock = new ArrayList<Lock>();
 			try {
-				open();
 				ResultSet rs = stmt.executeQuery(query);
 				Lock lockInfo = new Lock();
 				while(rs.next()){ 
@@ -556,10 +538,9 @@ public class DbAdapter {
 					lockInfo.setRotationEndPoints(rs.getDouble("ROTATION_END_POINTS"));
 				}
 				rs.close();
-				close();
 				listOfLock.add(lockInfo);
 				map.put(listOfProperty.get(i), listOfLock);
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
@@ -567,24 +548,20 @@ public class DbAdapter {
 		}
 		return map;
 	}
-	
 	public static String deleteLock(Lock lock) {
 		String query = "DELETE FROM LOCKS" + 
 				" WHERE LOCK_ID=" + lock.getLockId() + ";";
 		String isAccepted;
 		try {
-			open();
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted = "failure";
 		}
 		return isAccepted;
 	}
-
 	public static String createLockActivity(LockActivity lockActivity) {
 		String query = "INSERT INTO LOCK_ACTIVITY " + 
 				"VALUES(" + lockActivity.getLockId() + "," +
@@ -597,18 +574,15 @@ public class DbAdapter {
 				lockActivity.getAlert() + ");";
 		String isAccepted;
 		try {
-			open();
 			stmt.executeUpdate(query);
-			close();
 			isAccepted= "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted= "failure";
 		}
 		return isAccepted;
 	}
-	
 	public static String updateLockActivity(LockActivity lockActivity) {
 		String query = "UPDATE LOCK_ACTIVITY" + 
 				" SET GUEST_ID=" + lockActivity.getGuestId() + "," +
@@ -621,18 +595,15 @@ public class DbAdapter {
 				" WHERE LOCK_ID=" + lockActivity.getLockId() + ";";
 		String isAccepted;
 		try {
-			open();
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted = "failure";
 		}
 		return isAccepted;
 	}
-	
 	//public static List<LockActivity> readLockActivity(LockActivity lockActivity) {
 	//	String query = "SELECT * FROM LOCK_ACTIVITY" + 
 	//				" WHERE LOCK_ID =" + lockActivity.getLockId() + ";";
@@ -654,13 +625,12 @@ public class DbAdapter {
 	//		 }
 	//		 rs.close();
 	//		 return list;
-	//		} catch (Exception e) {
+	//		} catch (SQLException e) {
 	//			// TODO Auto-generated catch block
 	//			e.printStackTrace();
 	//			return null;
 	//		}
 	//}
-	
 	public static Map<Lock, List<LockActivity>> readLockActivity(User user) {
 		String userState = user.getUserState().toLowerCase();
 		List<Lock> listOfLock = new ArrayList<Lock>();
@@ -677,7 +647,6 @@ public class DbAdapter {
 			String query = "SELECT * FROM LOCK_ACTIVITY" + 
 					" WHERE LOCK_ID =" + listOfLock.get(i).getLockId() + ";";
 			try {
-				open();
 				ResultSet rs = stmt.executeQuery(query);
 				List<LockActivity> list = new ArrayList<LockActivity>();
 				while(rs.next()){ 
@@ -693,9 +662,8 @@ public class DbAdapter {
 					list.add(lockActivityInfo);
 				}
 				rs.close();
-				close();
 				map.put(listOfLock.get(i), list);
-			} catch (Exception e) {
+			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
@@ -709,18 +677,15 @@ public class DbAdapter {
 				" WHERE LOCK_ID=" + lockActivity.getLockId();
 		String isAccepted;
 		try {
-			open();
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted = "failure";
 		}
 		return isAccepted;
 	}
-	
 	public static String createGuestLock(User user, Lock lock) {
 		String query = "INSERT INTO GUEST_LOCK " + 
 				"VALUES(" + user.getUserId() + "," +
@@ -728,37 +693,31 @@ public class DbAdapter {
 		System.out.println(query);
 		String isAccepted;
 		try {
-			open();
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted = "failure";
 		}
 		return isAccepted;
 	}
-
 	public static String updateGuestLock(User user, Lock lock)  {
 		String isAccepted = null;
 		return isAccepted;
 	}
-	
 	public static List<Lock> readGuestLock(User user) {
 		String query = "SELECT * FROM GUEST_LOCK" + 
 				" WHERE USER_ID =" + user.getUserId() + ";";
 		List<Lock> listOfLock = new ArrayList<Lock>();
 		List<Integer> lockIdList = new ArrayList<Integer>();
 		try {
-			open();
 			ResultSet rs = stmt.executeQuery(query);
 			while(rs.next()){ 
 				lockIdList.add(rs.getInt("LOCK_ID"));
 			}
 			rs.close();
-			close();
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -780,7 +739,7 @@ public class DbAdapter {
 			}
 			rs.close();
 			listOfLock.add(lockInfo);
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
@@ -788,8 +747,7 @@ public class DbAdapter {
 	}
 	return listOfLock;
 }
-
-	//	public static List<User> readGuestLock(Lock lock) {
+//	public static List<User> readGuestLock(Lock lock) {
 //		String query = "SELECT * FROM GUEST_LOCK" + 
 //				" WHERE LOCK_ID =" + lock.getLockId() + ";";
 //		try {
@@ -802,58 +760,39 @@ public class DbAdapter {
 //			}
 //			rs.close();
 //			return userList;
-//		} catch (Exception e) {
+//		} catch (SQLException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //			return null;
 //		}
 //	}
-	
 	public static String deleteGuestLock(Lock lock) {
 		String query = "DELETE FROM GUEST_LOCK" + 
 				" WHERE LOCK_ID=" + lock.getLockId()+ ";";
 		String isAccepted;
 		try {
-			open();
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted = "failure";
 		}
 		return isAccepted;
 	}
-
 	public static String deleteGuestLock(User user) {
 		String query = "DELETE FROM GUEST_LOCK" + 
 				" WHERE USER_ID=" + user.getUserId() + ";";
 		String isAccepted;
 		try {
-			open();
 			stmt.executeUpdate(query);
-			close();
 			isAccepted = "success";
-		} catch (Exception e) {
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			isAccepted = "failure";
 		}
 		return isAccepted;
-	}
-	
-	public static void open() throws ClassNotFoundException, Exception{
-		System.out.println("Connecting to database...");
-		Class.forName(JDBC_DRIVER);	      
-	    conn = DriverManager.getConnection(DB_URL, USER, PASS);
-	    stmt = conn.createStatement();
-	}
-
-	public static void close() throws Exception {
-	    System.out.println("Closing db connection");
-	    stmt.close();
-	    conn.close();
 	}
 }
 

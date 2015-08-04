@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,10 +12,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.simsim.entities.Lock;
-import com.example.simsim.entities.User;
-
 import database.DbAdapter;
+import entities.Lock;
+import entities.Property;
+import entities.User;
 
 /**
  * Servlet implementation class UserAddServlet
@@ -43,9 +44,9 @@ public class LockReadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			List<Lock> listOfLock = DbAdapter.readGuestLock((User) in.readObject());
+			Map<Property, List<Lock>> map = DbAdapter.readLock((User) in.readObject());
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-			out.writeObject(listOfLock);
+			out.writeObject(map);
 			out.flush();
 			out.close();
 		} catch (ClassNotFoundException e) {

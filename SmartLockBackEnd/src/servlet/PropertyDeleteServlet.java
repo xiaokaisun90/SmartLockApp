@@ -10,9 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.example.simsim.entities.Property;
-
 import database.DbAdapter;
+import entities.Property;
 
 /**
  * Servlet implementation class UserAddServlet
