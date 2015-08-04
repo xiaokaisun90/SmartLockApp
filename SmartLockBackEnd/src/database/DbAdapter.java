@@ -106,24 +106,27 @@ public class DbAdapter {
 			//user test part
 			User testUser = new User();
 			testUser.setName("xiaokaisun");
-			testUser.setPrimaryPhoneNumber("1233m38");
+			testUser.setPrimaryPhoneNumber("123");
 			testUser.setPassword("xxxxx");
 			testUser.setCountry("USA");
-			testUser.setDataOfBirth("091390");
-			testUser.setEmailAddress("xiaokaisun@gmail.com");
-			testUser.setGender("Male");
-			testUser.setIsMobileVerified("No");
-			testUser.setZipCode(12345);
-			testUser.setIcon("www.google.com");
-			//      String info = createUser(testUser);
+			testUser.setUserState("host");
+//			testUser.setDataOfBirth("091390");
+//			testUser.setEmailAddress("xiaokaisun@gmail.com");
+//			testUser.setGender("Male");
+//			testUser.setIsMobileVerified("No");
+//			testUser.setZipCode(12345);
+//			testUser.setIcon("www.google.com");
+//			String info = createUser(testUser);
+			updateUser(testUser);
 
 			User user3 = readUser(testUser);
-			System.out.println("read user_id: " + user3.getUserId());
+			
+//			System.out.println("read user_id: " + user3.getUserId());
 			//      System.out.println(user3.getIcon());
 			//      deleteUser(testUser);
 			//property test part
 			Property testP = new Property();
-			testP.setUserId(user3.getUserId());
+			testP.setUserId(1);
 			testP.setDescription("Beautiful room");
 			testP.setAddress("Hobart st. ");
 			testP.setCity("Columbus");
@@ -132,19 +135,20 @@ public class DbAdapter {
 			testP.setCountry("USABS");
 			testP.setOwnership("Host");
 			testP.setPropertyId(2);
-			//      createProperty(testP);
+//			System.out.println(createProperty(testP));
 
 			//      String info = updateProperty(testP);
 			//      System.out.println(info);
 
-			List<Property> p = readProperty(testUser);
-			System.out.println("readProperty id: " + p.get(0).getPropertyId());
+//			List<Property> p = readProperty(user3);
+			
+//			System.out.println("readProperty id: " + p.get(0).getCity());
 
 			//      System.out.println(deleteProperty(testP));
 
 			// lock test part
 			Lock testLock = new Lock();
-			testLock.setLockId(p.get(0).getPropertyId());
+//			testLock.setLockId(p.get(0).getPropertyId());
 			testLock.setDescription("cool lock");
 			testLock.setIsLocked(false);
 			testLock.setLockPower(100);
@@ -174,7 +178,7 @@ public class DbAdapter {
 
 			//      createGuestLock(readUser(testUser), readLock(testLock));
 			//      System.out.println("guest lock: "+ readGuestLock(readLock(testLock)).size());
-			deleteGuestLock(user3);
+//			deleteGuestLock(user3);
 		}catch(SQLException se){
 			//Handle errors for JDBC
 			se.printStackTrace();
@@ -206,7 +210,7 @@ public class DbAdapter {
 				//			   		user.getIsMobileVerified() + "," + 
 				"'" + user.getCountry() + "'," +
 				"'" + user.getPassword() + "');";
-		System.out.println(query);
+//		System.out.println(query);
 		//			   		user.getUserState() + ","  +
 		//			   		user.getDataOfBirth() + "," +
 		//			   		user.getGender() + "," +
@@ -219,7 +223,8 @@ public class DbAdapter {
 			isAccepted = "success";
 		}  catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+//			e.printStackTrace();
+			System.out.println("PRIMARY_PHONE_NUMBER has been used.");
 			isAccepted = "failure";
 		}
 		return isAccepted;
@@ -230,6 +235,7 @@ public class DbAdapter {
 				"IS_MOBILE_VERIFIED=" + "'" + user.getIsMobileVerified() + "'," +
 				"COUNTRY=" + "'" + user.getCountry() + "'," +
 				"DATE_OF_BIRTH=" +"'" +  user.getDataOfBirth() + "'," +
+				"USER_STATE=" + "'" + user.getUserState() + "'," +
 				"GENDER=" + "'" + user.getGender() + "'," +
 				"EMAIL_ADDRESS=" + "'" + user.getEmailAddress() + "'," +
 				"ZIP_CODE=" + user.getZipCode() + "," +
@@ -238,6 +244,7 @@ public class DbAdapter {
 		//			System.out.println(query);
 		String isAccepted;
 		try {
+			System.out.println(query);
 			stmt.executeUpdate(query);
 			isAccepted = "success";
 		} catch (SQLException e) {
@@ -251,6 +258,7 @@ public class DbAdapter {
 	public static User readUser(User user) {
 		String query = "SELECT * FROM USER " +
 				"WHERE PRIMARY_PHONE_NUMBER='" + user.getPrimaryPhoneNumber() + "';";
+//		System.out.println(query);
 		try {
 			ResultSet rs = stmt.executeQuery(query);
 			User userInfo = new User();
@@ -477,6 +485,7 @@ public class DbAdapter {
 	//			return null;
 	//		}
 	//}
+	// read host locks
 	public static Map<Property, List<Lock>> readLock(User user) {
 		List<Property> listOfProperty = readProperty(user);
 		Map<Property, List<Lock>> map = new HashMap<Property, List<Lock>>();
@@ -592,12 +601,12 @@ public class DbAdapter {
 	//		}
 	//}
 	public static Map<Lock, List<LockActivity>> readLockActivity(User user) {
-		String userState = user.getUserState();
+		String userState = user.getUserState().toLowerCase();
 		List<Lock> listOfLock = new ArrayList<Lock>();
-		if (userState.equals("Guest")) {
+		if (userState.equals("guest")) {
 			listOfLock = readGuestLock(user);
 		}
-		if (userState.equals("Host")) {
+		if (userState.equals("host")) {
 			Map<Property, List<Lock>> map = readLock(user);
 			for (List<Lock> subList : map.values()) 
 				listOfLock.addAll(subList);
