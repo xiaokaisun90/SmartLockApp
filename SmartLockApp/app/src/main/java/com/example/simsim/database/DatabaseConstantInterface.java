@@ -11,4 +11,11 @@ public interface DatabaseConstantInterface {
     String USER_GENDER_MALE = "male";
     String USER_GENDER_FEMALE = "female";
     String USER_GENDER_DEFAULT = USER_GENDER_MALE;
+
+    String LOCK_DIRECTION_CLOCKWISE = "clockwise";
+    String LOCK_DIRECTION_COUNTERCLOCKWISE = "counterclockwise";
+
+    String LOCK_ACTIVITY_REQUEST_STATUS_PENDING = "pending";
+    String LOCK_ACTIVITY_REQUEST_STATUS_ACCEPT = "accepted";
+    String LOCK_ACTIVITY_REQUEST_STATUS_REJECT = "rejected";
 }
