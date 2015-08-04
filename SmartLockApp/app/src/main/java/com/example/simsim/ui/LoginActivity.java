@@ -48,8 +48,10 @@ public class LoginActivity extends Activity implements UIConstantInterface, Data
                 String password = editTextPassword.getText().toString();
                 try{
                     if(authenticate(primaryPhoneNumber, password) == true){
+
                         Debug.loadDataFromDB(primaryPhoneNumber);
                         //authenticationInterface.loadDataFromDB(primaryPhoneNumber);
+
                         Intent intent = new Intent();
                         if(authenticationInterface.getUserState().equals(USER_STATE_HOST)){
                             intent.setClass(LoginActivity.this, HostMainActivity.class);
