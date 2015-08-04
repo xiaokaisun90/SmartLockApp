@@ -477,12 +477,13 @@ public class DbAdapter {
 	//			return null;
 	//		}
 	//}
-	public static List<Lock> readLock(User user) {
+	public static Map<Property, List<Lock>> readLock(User user) {
 		List<Property> listOfProperty = readProperty(user);
-		List<Lock> listOfLock = new ArrayList<Lock>();
+		Map<Property, List<Lock>> map = new HashMap<Property, List<Lock>>();
 		for(int i = 0; i < listOfProperty.size(); i ++) {
 			String query = "SELECT * FROM LOCKS" + 
-					" WHERE LOCK_ID =" + listOfProperty.get(i) + ";";
+					" WHERE LOCK_ID =" + listOfProperty.get(i).getPropertyId() + ";";
+			List<Lock> listOfLock = new ArrayList<Lock>();
 			try {
 				ResultSet rs = stmt.executeQuery(query);
 				Lock lockInfo = new Lock();
@@ -498,13 +499,14 @@ public class DbAdapter {
 				}
 				rs.close();
 				listOfLock.add(lockInfo);
+				map.put(listOfProperty.get(i), listOfLock);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			}
 		}
-		return listOfLock;
+		return map;
 	}
 	public static String deleteLock(Lock lock) {
 		String query = "DELETE FROM LOCKS" + 
@@ -590,7 +592,16 @@ public class DbAdapter {
 	//		}
 	//}
 	public static Map<Lock, List<LockActivity>> readLockActivity(User user) {
-		List<Lock> listOfLock = readLock(user);
+		String userState = user.getUserState();
+		List<Lock> listOfLock = new ArrayList<Lock>();
+		if (userState.equals("Guest")) {
+			listOfLock = readGuestLock(user);
+		}
+		if (userState.equals("Host")) {
+			Map<Property, List<Lock>> map = readLock(user);
+			for (List<Lock> subList : map.values()) 
+				listOfLock.addAll(subList);
+		}
 		Map<Lock, List<LockActivity>> map = new HashMap<Lock, List<LockActivity>>();
 		for (int i = 0; i < listOfLock.size(); i ++) {
 			String query = "SELECT * FROM LOCK_ACTIVITY" + 
@@ -604,7 +615,6 @@ public class DbAdapter {
 					lockActivityInfo.setGuestId(rs.getInt("GUEST_ID"));
 					lockActivityInfo.setHostId(rs.getInt("HOST_ID"));
 					lockActivityInfo.setAccessStartTime(rs.getString("ACCESS_START_TIME"));
-					//			 System.out.println("ACCESS_END_TIME: " + rs.getString("ACCESS_END_TIME"));
 					lockActivityInfo.setAccessEndTime(rs.getString("ACCESS_END_TIME"));
 					lockActivityInfo.setRequestAccessTimestamp(rs.getString("REQUEST_ACCESS_TIMESTAMP"));
 					lockActivityInfo.setRequestStatus(rs.getString("REQUEST_STATUS"));
@@ -621,6 +631,7 @@ public class DbAdapter {
 		}
 		return map;
 	}
+	
 	public static String deleteLockActivity(LockActivity lockActivity) {
 		String query = "DELETE FROM LOCK_ACTIVITY" + 
 				" WHERE LOCK_ID=" + lockActivity.getLockId();
@@ -640,80 +651,108 @@ public class DbAdapter {
 				"VALUES(" + user.getUserId() + "," +
 				lock.getLockId() + ");";
 		System.out.println(query);
+		String isAccepted;
 		try {
 			stmt.executeUpdate(query);
-			return "success";
+			isAccepted = "success";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "failure";
+			isAccepted = "failure";
 		}
+		return isAccepted;
 	}
 	public static String updateGuestLock(User user, Lock lock)  {
-		return null;
+		String isAccepted = null;
+		return isAccepted;
 	}
 	public static List<Lock> readGuestLock(User user) {
 		String query = "SELECT * FROM GUEST_LOCK" + 
 				" WHERE USER_ID =" + user.getUserId() + ";";
-		System.out.println(query);
+		List<Lock> listOfLock = new ArrayList<Lock>();
+		List<Integer> lockIdList = new ArrayList<Integer>();
 		try {
 			ResultSet rs = stmt.executeQuery(query);
-			List<Lock> lockList = new ArrayList<Lock>();
 			while(rs.next()){ 
-				Lock lockInfo = new Lock();
+				lockIdList.add(rs.getInt("LOCK_ID"));
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	for(int i = 0; i < lockIdList.size(); i ++) {
+		String query2 = "SELECT * FROM LOCKS" + 
+				" WHERE LOCK_ID =" + lockIdList.get(i)+ ";";
+		try {
+			ResultSet rs = stmt.executeQuery(query2);
+			Lock lockInfo = new Lock();
+			while(rs.next()){ 
 				lockInfo.setLockId(rs.getInt("LOCK_ID"));
-				lockList.add(lockInfo);
+				lockInfo.setDescription(rs.getString("DESCRIPTION"));
+				lockInfo.setIsLocked(rs.getBoolean("IS_LOCKED"));
+				lockInfo.setLockPower(rs.getDouble("LOCK_POWER"));
+				lockInfo.setLockStartAngle(rs.getDouble("LOCK_START_ANGLE"));
+				lockInfo.setLockEndAngle(rs.getDouble("LOCK_END_ANGLE"));
+				lockInfo.setRotationDirection(rs.getString("ROTATION_DIRECTION"));
+				lockInfo.setRotationEndPoints(rs.getDouble("ROTATION_END_POINTS"));
 			}
 			rs.close();
-			return lockList;
+			listOfLock.add(lockInfo);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
 	}
-	public static List<User> readGuestLock(Lock lock) {
-		String query = "SELECT * FROM GUEST_LOCK" + 
-				" WHERE LOCK_ID =" + lock.getLockId() + ";";
-		try {
-			ResultSet rs = stmt.executeQuery(query);
-			List<User> userList = new ArrayList<User>();
-			while(rs.next()){ 
-				User userInfo = new User();
-				userInfo.setUserId(rs.getInt("USER_ID"));
-				userList.add(userInfo);
-			}
-			rs.close();
-			return userList;
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return null;
-		}
-	}
+	return listOfLock;
+}
+//	public static List<User> readGuestLock(Lock lock) {
+//		String query = "SELECT * FROM GUEST_LOCK" + 
+//				" WHERE LOCK_ID =" + lock.getLockId() + ";";
+//		try {
+//			ResultSet rs = stmt.executeQuery(query);
+//			List<User> userList = new ArrayList<User>();
+//			while(rs.next()){ 
+//				User userInfo = new User();
+//				userInfo.setUserId(rs.getInt("USER_ID"));
+//				userList.add(userInfo);
+//			}
+//			rs.close();
+//			return userList;
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 	public static String deleteGuestLock(Lock lock) {
 		String query = "DELETE FROM GUEST_LOCK" + 
 				" WHERE LOCK_ID=" + lock.getLockId()+ ";";
+		String isAccepted;
 		try {
 			stmt.executeUpdate(query);
-			return "success";
+			isAccepted = "success";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "failure";
+			isAccepted = "failure";
 		}
+		return isAccepted;
 	}
 	public static String deleteGuestLock(User user) {
 		String query = "DELETE FROM GUEST_LOCK" + 
 				" WHERE USER_ID=" + user.getUserId() + ";";
+		String isAccepted;
 		try {
 			stmt.executeUpdate(query);
-			return "success";
+			isAccepted = "success";
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			return "failure";
+			isAccepted = "failure";
 		}
+		return isAccepted;
 	}
 }
 

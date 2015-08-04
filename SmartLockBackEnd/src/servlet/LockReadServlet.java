@@ -42,7 +42,7 @@ public class LockReadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ObjectInputStream in = new ObjectInputStream(request.getInputStream());
 		try {
-			List<Lock> listOfLock = DbAdapter.readLock((User) in.readObject());
+			List<Lock> listOfLock = DbAdapter.readGuestLock((User) in.readObject());
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
 			out.writeObject(listOfLock);
 			out.flush();
