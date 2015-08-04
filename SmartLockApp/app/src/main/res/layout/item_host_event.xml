@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView6"
+        android:id="@+id/imageViewPropertyImage"
         android:src="@drawable/avatar"
         android:layout_alignParentTop="true" />
 
@@ -18,10 +18,10 @@
         android:gravity="left|center"
         android:textColor="#666666"
         android:textSize="18sp"
-        android:id="@+id/textViewLockName"
+        android:id="@+id/textViewtSpaceLockName"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imageView6"
-        android:layout_toEndOf="@+id/imageView6"
+        android:layout_toRightOf="@+id/imageViewPropertyImage"
+        android:layout_toEndOf="@+id/imageViewPropertyImage"
         android:paddingTop="10dp"
         android:paddingBottom="5dp" />
 
@@ -33,8 +33,29 @@
         android:textColor="#999999"
         android:textSize="14sp"
         android:id="@+id/textViewTime"
-        android:layout_toRightOf="@+id/imageView6"
-        android:layout_toEndOf="@+id/imageView6"
-        android:layout_below="@+id/textViewLockName" />
+        android:layout_toRightOf="@+id/imageViewPropertyImage"
+        android:layout_toEndOf="@+id/imageViewPropertyImage"
+        android:layout_below="@+id/textViewtSpaceLockName" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewReject"
+        android:src="@drawable/request_reject"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewAccept"
+        android:src="@drawable/request_accept"
+        android:layout_alignTop="@+id/imageViewReject"
+        android:layout_toLeftOf="@+id/imageViewReject"
+        android:layout_toStartOf="@+id/imageViewReject"
+        android:layout_marginRight="10dp" />
 
 </RelativeLayout>

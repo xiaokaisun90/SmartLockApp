@@ -5,21 +5,23 @@ package com.example.simsim.local;
  */
 public interface ServletConstantInterface {
 
-    // URL to access
-    String URL_AUTHENTICATE = "http://192.168.0.110/SmartLockBackEnd/Authentication";
-    String URL_USER_READ = "http://192.168.0.110/SmartLockBackEnd/UserReadServlet";
-    String URL_USER_CREATE = "http://192.168.0.110/SmartLockBackEnd/UserCreateServlet";
-    String URL_USER_UPDATE = "http://192.168.0.110/SmartLockBackEnd/UserUpdateServlet";
+    String URL_SERVER = "http://192.168.0.110/SmartLockBackEnd/";
+
+    // URL for Servlet
+    String URL_AUTHENTICATE = URL_SERVER + "AuthenticationServlet";
+    String URL_USER_READ = URL_SERVER + "UserReadServlet";
+    String URL_USER_CREATE = URL_SERVER + "UserCreateServlet";
+    String URL_USER_UPDATE = URL_SERVER + "UserUpdateServlet";
     String URL_USER_DELETE = "";
     String URL_PROPERTY_READ = "";
-    String URL_PROPERTY_CREATE = "";
-    String URL_PROPERTY_UPDATE = "";
-    String URL_PROPERTY_DELETE = "";
-    String URL_LOCK_READ = "http://192.168.0.110/SmartLockBackEnd/LockReadServlet";
-    String URL_LOCK_CREATE = "";
-    String URL_LOCK_UPDATE = "";
-    String URL_LOCK_DELETE = "";
-    String URL_LOCK_ACTIVITY_READ = "http://192.168.0.110/SmartLockBackEnd/LockActivityReadServlet";
+    String URL_PROPERTY_CREATE = URL_SERVER + "PropertyCreateServlet";
+    String URL_PROPERTY_UPDATE = URL_SERVER + "PropertyUpdateServlet";
+    String URL_PROPERTY_DELETE = URL_SERVER + "PropertyDeleteServlet";
+    String URL_LOCK_READ = URL_SERVER + "LockReadServlet";
+    String URL_LOCK_CREATE = URL_SERVER + "LockCreateServlet";
+    String URL_LOCK_UPDATE = URL_SERVER + "LockUpdateServlet";
+    String URL_LOCK_DELETE = URL_SERVER + "LockDeleteServlet";
+    String URL_LOCK_ACTIVITY_READ = URL_SERVER + "LockActivityReadServlet";
     String URL_LOCK_ACTIVITY_CREATE = "";
     String URL_LOCK_ACTIVITY_UPDATE = "";
     String URL_LOCK_ACTIVITY_DELETE = "";

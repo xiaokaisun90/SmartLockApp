@@ -8,6 +8,7 @@ import android.view.*;
 import android.widget.*;
 
 import com.example.simsim.database.DatabaseConstantInterface;
+import com.example.simsim.debug.Debug;
 import com.example.simsim.entities.EntityAdapter;
 import com.example.simsim.interfaces.AuthenticationInterface;
 
@@ -47,6 +48,7 @@ public class LoginActivity extends Activity implements UIConstantInterface, Data
                 String password = editTextPassword.getText().toString();
                 try{
                     if(authenticate(primaryPhoneNumber, password) == true){
+                        //Debug.loadDataFromDB(primaryPhoneNumber);
                         authenticationInterface.loadDataFromDB(primaryPhoneNumber);
                         Intent intent = new Intent();
                         if(authenticationInterface.getUserState().equals(USER_STATE_HOST)){

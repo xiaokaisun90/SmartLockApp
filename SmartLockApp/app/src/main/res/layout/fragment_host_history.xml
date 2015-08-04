@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/textview_host_history"
-        android:id="@+id/textViewAccess"
+        android:id="@+id/textViewLock"
         android:gravity="center"
         android:textColor="#FF9900"
         android:textSize="18sp"
@@ -17,12 +17,12 @@
         android:layout_alignParentTop="true" />
 
     <ListView
-        android:id="@+id/listViewAccess"
+        android:id="@+id/listViewHistory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:scrollingCache="false"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/textViewAccess" />
+        android:layout_below="@+id/textViewLock" />
 
 </RelativeLayout>

@@ -35,6 +35,10 @@
     <string name="textview_host_space_description_2">Describe your space briefly.</string>
     <string name="textview_host_space_address">Address</string>
     <string name="textview_host_space_address_2">Enter full address of your space.</string>
+    <string name="textview_host_space_zip_code">Zip Code</string>
+    <string name="textview_host_space_city">City</string>
+    <string name="textview_host_space_state">State</string>
+    <string name="textview_host_space_country">Country</string>
     <string name="textview_host_space_privacy">Privacy</string>
     <string name="textview_host_space_privacy_2">Public / Private</string>
     <string name="textview_host_space_extra_information">Extra Information</string>
@@ -51,8 +55,9 @@
     <string name="textview_host_lock_settings_lock_notification">Push Notification</string>
     <string name="textview_host_lock_settings_setup">Setup:</string>
     <string name="textview_host_lock_settings_power">Power</string>
-    <string name="textview_host_lock_settings_rotation">Rotation Endpoints</string>
-    <string name="textview_host_lock_settings_angle">Set Locked Angle</string>
+    <string name="textview_host_lock_settings_rotation">Rotation Endpoint</string>
+    <string name="textview_host_lock_settings_start_angle">Set Locked Start Angle</string>
+    <string name="textview_host_lock_settings_end_angle">Set Locked End Angle</string>
     <string name="textview_host_lock_settings_direction">Rotation Direction</string>
 
     <string name="textview_host_event">Events</string>
@@ -79,6 +84,7 @@
     <string name="button_add_event">Add Event</string>
     <string name="button_add_more">Add More</string>
     <string name="button_save">Save</string>
+    <string name="button_delete">Delete</string>
 
     <string name="title_activity_host_schedule_add">HostScheduleAddActivity</string>
     <string name="title_activity_host_event_access">HostEventAccessActivity</string>

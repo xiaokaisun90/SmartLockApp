@@ -48,7 +48,7 @@ public class HostEditProfileFragment extends Fragment
         dateOfBirth = Integer.parseInt(profileInterface.getDateOfBirth().split("-")[2]);
         icon = profileInterface.getIcon();
 
-        imageViewAvatar = (ImageView) view.findViewById(R.id.imageViewAvatar);
+        imageViewAvatar = (ImageView) view.findViewById(R.id.imageViewPropertyImage);
         editTextBirthday = (EditText) view.findViewById(R.id.editTextBirthday);
         radioButtonMale = (RadioButton) view.findViewById(R.id.radioButtonMale);
         radioButtonFemale = (RadioButton) view.findViewById(R.id.radioButtonFemale);

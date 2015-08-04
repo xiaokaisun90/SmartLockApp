@@ -13,14 +13,13 @@ import com.example.simsim.entities.EntityAdapter;
 import com.example.simsim.entities.Lock;
 import com.example.simsim.interfaces.HostLockInterface;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class HostLockFragment extends Fragment {
 
+    private HostLockInterface hostLockInterface;
     private List<Lock> lockList;
 
-    private HostLockInterface hostLockInterface;
     private ListView listViewLock;
 
     @Override
@@ -55,7 +54,7 @@ public class HostLockFragment extends Fragment {
             }
 
             Lock lock = getItem(position);
-            TextView textViewSidValue = (TextView)convertView.findViewById(R.id.textViewLockName);
+            TextView textViewSidValue = (TextView)convertView.findViewById(R.id.textViewtSpaceLockName);
             textViewSidValue.setText(lock.getDescription());
             return convertView;
         }

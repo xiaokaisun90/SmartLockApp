@@ -61,7 +61,7 @@
                         android:layout_width="160dp"
                         android:layout_height="160dp"
                         android:layout_marginLeft="10dip"
-                        android:id="@+id/imageViewAvatar"
+                        android:id="@+id/imageViewPropertyImage"
                         android:contentDescription="avatar" />
                 </LinearLayout>
             </TableRow>

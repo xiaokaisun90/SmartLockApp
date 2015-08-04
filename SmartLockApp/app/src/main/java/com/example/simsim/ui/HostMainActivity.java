@@ -1,6 +1,5 @@
 package com.example.simsim.ui;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,7 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 
-public class HostMainActivity extends FragmentActivity implements HostFragmentCallBackInterface {
+public class HostMainActivity extends FragmentActivity {
 
     private Fragment hostSpaceFragment;
     private Fragment hostLockFragment;
@@ -143,15 +142,4 @@ public class HostMainActivity extends FragmentActivity implements HostFragmentCa
         if(editProfileFragment != null) transaction.hide(editProfileFragment);
     }
 
-    public HostMainActivity getHostMainActivity() {
-        return this;
-    }
-
-    @Override
-    public void sendSpaceID(int spaceID) {
-        //start a create profile activity
-//        Intent intent=new Intent(HostMainActivity.this, CreateProfileActivity.class);
-//        intent.putExtra("spaceid", spaceID);
-//        startActivity(intent);
-    }
 }

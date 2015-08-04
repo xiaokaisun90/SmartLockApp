@@ -7,7 +7,7 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/imageView6"
+        android:id="@+id/imageViewPropertyImage"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:src="@drawable/no_photo" />
@@ -19,37 +19,11 @@
         android:gravity="left|center"
         android:textColor="#666666"
         android:textSize="18sp"
-        android:id="@+id/textViewLockName"
-        android:layout_below="@+id/imageView6"
+        android:id="@+id/textViewtSpaceLockName"
+        android:layout_below="@+id/imageViewPropertyImage"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:paddingLeft="20dp" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# of Managers"
-        android:gravity="left|center"
-        android:textColor="#999999"
-        android:textSize="14sp"
-        android:id="@+id/textViewManagerNumber"
-        android:paddingLeft="20dp"
-        android:layout_below="@+id/textViewLockName"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="# of Guests"
-        android:gravity="left|center"
-        android:textColor="#999999"
-        android:textSize="14sp"
-        android:id="@+id/textView24"
-        android:paddingLeft="20dp"
-        android:layout_below="@+id/textViewManagerNumber"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -59,10 +33,10 @@
         android:textColor="#999999"
         android:textSize="14sp"
         android:id="@+id/textView25"
-        android:layout_below="@+id/textViewLockName"
+        android:paddingRight="20dp"
+        android:layout_alignTop="@+id/textViewPropertyLockNumber"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:paddingRight="20dp" />
+        android:layout_alignParentEnd="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -71,9 +45,9 @@
         android:gravity="left|center"
         android:textColor="#999999"
         android:textSize="14sp"
-        android:id="@+id/textViewSpaceName"
+        android:id="@+id/textViewPropertyLockNumber"
         android:paddingRight="20dp"
-        android:layout_below="@+id/textViewLockName"
+        android:layout_alignBottom="@+id/textViewtSpaceLockName"
         android:layout_toLeftOf="@+id/textView25"
         android:layout_toStartOf="@+id/textView25" />
 </RelativeLayout>
