@@ -42,7 +42,7 @@ public class LockActivityReadServlet extends HttpServlet {
 		try {
 			User user= (User) in.readObject();
 			ObjectOutputStream out = new ObjectOutputStream(response.getOutputStream());
-			out.writeObject(DbAdapter.readGuestLockActivity(user));
+			out.writeObject(DbAdapter.readLockActivity(user));
 			out.flush();
 			out.close();
 		} catch (ClassNotFoundException e) {

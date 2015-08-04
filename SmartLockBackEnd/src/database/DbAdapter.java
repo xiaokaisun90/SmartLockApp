@@ -591,8 +591,17 @@ public class DbAdapter {
 	//			return null;
 	//		}
 	//}
-	public static Map<Lock, List<LockActivity>> readGuestLockActivity(User user) {
-		List<Lock> listOfLock = readGuestLock(user);
+	public static Map<Lock, List<LockActivity>> readLockActivity(User user) {
+		String userState = user.getUserState();
+		List<Lock> listOfLock = new ArrayList<Lock>();
+		if (userState.equals("Guest")) {
+			listOfLock = readGuestLock(user);
+		}
+		if (userState.equals("Host")) {
+			Map<Property, List<Lock>> map = readLock(user);
+			for (List<Lock> subList : map.values()) 
+				listOfLock.addAll(subList);
+		}
 		Map<Lock, List<LockActivity>> map = new HashMap<Lock, List<LockActivity>>();
 		for (int i = 0; i < listOfLock.size(); i ++) {
 			String query = "SELECT * FROM LOCK_ACTIVITY" + 
