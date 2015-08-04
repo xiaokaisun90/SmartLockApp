@@ -58,3 +58,19 @@ LockActivityDelete	request:	LockActivity lockActivity
 
 
 
+
+GuestLockCreate	request:	User user, Lock lock
+			response:	String isAccepted
+
+GuestLockRead request: 		User user
+			response: List<Lock>
+
+GuestLockDelete request: 	User user
+			response: String isAccepted
+
+GuestLockDelete request: 	Lock lock
+			response: String isAccepted
+
+
+
+

@@ -106,10 +106,10 @@ public class DbAdapter {
 			//user test part
 			User testUser = new User();
 			testUser.setName("xiaokaisun");
-			testUser.setPrimaryPhoneNumber("123");
+			testUser.setPrimaryPhoneNumber("1233mdddxxx38");
 			testUser.setPassword("xxxxx");
 			testUser.setCountry("USA");
-			testUser.setUserState("host");
+			testUser.setUserState("guest");
 //			testUser.setDataOfBirth("091390");
 //			testUser.setEmailAddress("xiaokaisun@gmail.com");
 //			testUser.setGender("Male");
@@ -117,7 +117,7 @@ public class DbAdapter {
 //			testUser.setZipCode(12345);
 //			testUser.setIcon("www.google.com");
 //			String info = createUser(testUser);
-			updateUser(testUser);
+//			updateUser(testUser);
 
 			User user3 = readUser(testUser);
 			
@@ -135,6 +135,7 @@ public class DbAdapter {
 			testP.setCountry("USABS");
 			testP.setOwnership("Host");
 			testP.setPropertyId(2);
+//			List<Property> prop = readProperty(user3);
 //			System.out.println(createProperty(testP));
 
 			//      String info = updateProperty(testP);
@@ -148,7 +149,7 @@ public class DbAdapter {
 
 			// lock test part
 			Lock testLock = new Lock();
-//			testLock.setLockId(p.get(0).getPropertyId());
+			testLock.setLockId(7);
 			testLock.setDescription("cool lock");
 			testLock.setIsLocked(false);
 			testLock.setLockPower(100);
@@ -156,22 +157,52 @@ public class DbAdapter {
 			testLock.setLockEndAngle(90.5);
 			testLock.setRotationDirection("E");
 			testLock.setRotationEndPoints(67.5);
-
+//			createLock(testLock);
+//			Map<Property, List<Lock>> map = readLock(user3);
+//			for(Property p : map.keySet()) 
+//				System.out.println("read host lock map: " + p.getPropertyId());
 			//      System.out.println(createLock(testLock));
 			//      updateLock(testLock);
 			//      System.out.println("read lock: " + readLock(testLock).getLockId());
 			//      deleteLock(testLock);
 
 			LockActivity testLA = new LockActivity();
-			testLA.setLockId(2);
-			testLA.setHostId(1);
-			testLA.setGuestId(3);
-			testLA.setAccessStartTime("2355");
+			testLA.setLockId(7);
+			testLA.setHostId(user3.getUserId());
+//			testLA.setGuestId(3);
+			testLA.setAccessStartTime("2355xx");
 			testLA.setAccessEndTime("09425");
 			testLA.setRequestAccessTimestamp("2xxx434");
 			testLA.setRequestStatus("pending");
 			testLA.setAlert(30);
-			//      createLockActivity(testLA);
+			
+			User testUser2 = new User();
+			testUser2.setName("xiaokaisun");
+			testUser2.setPrimaryPhoneNumber("1233456768");
+			testUser2.setPassword("xxxxx");
+			testUser2.setCountry("USA");
+			testUser2.setUserState("guest");
+//			User xxuser = readUser(testUser2);
+////			System.out.println(xxuser.getUserId());
+//			Map<Property, List<Lock>> lockMap = readLock(xxuser);
+////			System.out.println("testreadlock: "+lockMap.size());
+//			List<Lock> listLock = new ArrayList<Lock>();
+////			int count = 0;
+//			for(Property p: lockMap.keySet()) {
+//				listLock.addAll(lockMap.get(p));
+//			}
+////			System.out.println(listLock.size());
+////			for (int j = 0; j < listLock.size(); j ++) {
+////				createGuestLock(xxuser,listLock.get(j));
+////			}
+//			List<Lock> haha = readGuestLock(xxuser);
+////			for(Lock l : haha) 
+//					System.out.println("finally: " + l.getLockId());
+//			Map<Lock, List<LockActivity>> LAmap = readLockActivity(user3);
+//			for(Lock p : LAmap.keySet()) {
+//				System.out.println("lock activity number: " + LAmap.get(p).size());
+//			}
+//			      createLockActivity(testLA);
 			//      updateLockActivity(testLA);
 			//      System.out.println("read lockactivity: " + readLockActivity(testLA).get(0).getAccessEndTime());
 			//      deleteLockActivity(testLA);
@@ -244,7 +275,7 @@ public class DbAdapter {
 		//			System.out.println(query);
 		String isAccepted;
 		try {
-			System.out.println(query);
+//			System.out.println(query);
 			stmt.executeUpdate(query);
 			isAccepted = "success";
 		} catch (SQLException e) {
