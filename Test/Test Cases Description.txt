@@ -23,7 +23,7 @@ Test Cases:
 20	Navigate to Event fragment. Display all the pending and accepted lock requests.
 21	CLick accept button of the sencond item to accept a request. Then the accept and reject button disappeared.
 22	CLick accept button of the third item to reject a request. Then the entire item disappeared.
-23  Navigate to history fragment. Display all the past lock request.
+23	Navigate to history fragment. Display all the past lock request.
 24	Restart the app. This time we login as a Guest.
 25	Login succeed as a Guest. Navigate to guest main page. The default fragment is lock list.
 26	Open a lock.
