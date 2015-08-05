@@ -544,8 +544,9 @@ public class DbAdapter {
 			try {
 				open();
 				ResultSet rs = stmt.executeQuery(query);
-				Lock lockInfo = new Lock();
+				Lock lockInfo = null;
 				while(rs.next()){ 
+					lockInfo = new Lock();
 					lockInfo.setLockId(rs.getInt("LOCK_ID"));
 					lockInfo.setDescription(rs.getString("DESCRIPTION"));
 					lockInfo.setIsLocked(rs.getBoolean("IS_LOCKED"));
@@ -554,10 +555,10 @@ public class DbAdapter {
 					lockInfo.setLockEndAngle(rs.getDouble("LOCK_END_ANGLE"));
 					lockInfo.setRotationDirection(rs.getString("ROTATION_DIRECTION"));
 					lockInfo.setRotationEndPoints(rs.getDouble("ROTATION_END_POINTS"));
+					listOfLock.add(lockInfo);
 				}
 				rs.close();
-				close();
-				listOfLock.add(lockInfo);
+				close();				
 				map.put(listOfProperty.get(i), listOfLock);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
@@ -769,9 +770,10 @@ public class DbAdapter {
 		String query2 = "SELECT * FROM LOCKS" + 
 				" WHERE LOCK_ID =" + lockIdList.get(i)+ ";";
 		try {
-			ResultSet rs = stmt.executeQuery(query2);
-			Lock lockInfo = new Lock();
+			open();
+			ResultSet rs = stmt.executeQuery(query2);			
 			while(rs.next()){ 
+				Lock lockInfo = new Lock();
 				lockInfo.setLockId(rs.getInt("LOCK_ID"));
 				lockInfo.setDescription(rs.getString("DESCRIPTION"));
 				lockInfo.setIsLocked(rs.getBoolean("IS_LOCKED"));
@@ -780,9 +782,10 @@ public class DbAdapter {
 				lockInfo.setLockEndAngle(rs.getDouble("LOCK_END_ANGLE"));
 				lockInfo.setRotationDirection(rs.getString("ROTATION_DIRECTION"));
 				lockInfo.setRotationEndPoints(rs.getDouble("ROTATION_END_POINTS"));
+				listOfLock.add(lockInfo);
 			}
 			rs.close();
-			listOfLock.add(lockInfo);
+			close();			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
