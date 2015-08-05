@@ -106,6 +106,10 @@ public class HostLockSettingsActivity extends Activity
                         Toast.LENGTH_LONG).show();
             }
         });
+
+        // To be removed
+        buttonLockDelete.setEnabled(false);
+        buttonLockDelete.setVisibility(View.GONE);
     }
 
     public void insertLock(Property property, Lock lock){

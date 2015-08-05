@@ -618,7 +618,10 @@ public class DbAdapter {
 				"REQUEST_ACCESS_TIMESTAMP=" + "'" +lockActivity.getRequestAccessTimestamp() + "'," +
 				"REQUEST_STATUS=" + "'" +lockActivity.getRequestStatus()+"',"+ 
 				"ALERT=" + lockActivity.getAlert() + 
-				" WHERE LOCK_ID=" + lockActivity.getLockId() + ";";
+				" WHERE LOCK_ID=" + lockActivity.getLockId() + "," + 
+				" GUEST_ID=" + lockActivity.getGuestId() + "," + 
+				" HOST_ID=" + lockActivity.getHostId() + ";";
+		System.out.println(query);
 		String isAccepted;
 		try {
 			open();

@@ -5,7 +5,7 @@ package com.example.simsim.local;
  */
 public interface ServletConstantInterface {
 
-    String URL_SERVER = "http://128.237.198.242/SmartLockBackEnd/";
+    String URL_SERVER = "http://192.168.0.110/SmartLockBackEnd/";
 
     // URL for Servlet
     String URL_AUTHENTICATE = URL_SERVER + "AuthenticationServlet";
@@ -22,8 +22,8 @@ public interface ServletConstantInterface {
     String URL_LOCK_UPDATE = URL_SERVER + "LockUpdateServlet";
     String URL_LOCK_DELETE = URL_SERVER + "LockDeleteServlet";
     String URL_LOCK_ACTIVITY_READ = URL_SERVER + "LockActivityReadServlet";
-    String URL_LOCK_ACTIVITY_CREATE = "";
-    String URL_LOCK_ACTIVITY_UPDATE = "";
+    String URL_LOCK_ACTIVITY_CREATE = URL_SERVER + "LockActivityCreateServlet";
+    String URL_LOCK_ACTIVITY_UPDATE = URL_SERVER + "LockActivityUpdateServlet";
     String URL_LOCK_ACTIVITY_DELETE = "";
 
     // Response content

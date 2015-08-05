@@ -79,6 +79,10 @@ public class HostSpaceSettingsActivity extends Activity implements UIConstantInt
                 deleteProperty(property);
             }
         });
+
+        // To be removed
+        buttonDelete.setEnabled(false);
+        buttonDelete.setVisibility(View.GONE);
     }
 
     @Override
