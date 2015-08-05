@@ -28,6 +28,7 @@ public class GuestMainLockFragment extends Fragment {
     private Lock clickedLock;//the lock that the user clicked and wanted open or lock.
     private ListView locksLV;
     private GuestLockInterface guestLockInterface;
+    private ClientLockListAdapter adapter;
 
     private List<Lock> lockList;
 
@@ -40,7 +41,7 @@ public class GuestMainLockFragment extends Fragment {
         guestLockInterface=new EntityAdapter();
         lockList=getLockList();
 
-        final ClientLockListAdapter adapter=new ClientLockListAdapter(lockList);
+        adapter=new ClientLockListAdapter(lockList);
         locksLV.setAdapter(adapter);
 
         locksLV.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -66,6 +67,11 @@ public class GuestMainLockFragment extends Fragment {
         return view;
     }
 
+    /*@Override
+    public void onResume() {
+        super.onResume();
+        adapter.notifyDataSetChanged();
+    }*/
 
     public void onAttach(Activity activity){
         super.onAttach(activity);

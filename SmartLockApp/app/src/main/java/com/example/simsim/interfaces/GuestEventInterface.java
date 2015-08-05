@@ -12,7 +12,7 @@ public interface GuestEventInterface {//events
 
     List<LockActivity> getFutureLockActivity();
     void updateLockActivity(LockActivity lockActivity) throws Exception;
-    void loadHostIdFromDB(String primaryPhoneNumber) throws Exception;
+    boolean loadHostIdFromDB(String primaryPhoneNumber) throws Exception;
     int getGuestId();
     int getHostId();
     List<Property> getHostPropertyList(int hostId);

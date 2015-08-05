@@ -55,7 +55,7 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
         }
         else{
             List<Lock> guestLock =
-                    (List<Lock>) HttpConnection.httpPost(URL_LOCK_READ, information.getUser());
+                    (List<Lock>) HttpConnection.httpPost(URL_USER_LOCK_READ, information.getUser());
             information.setGuestLock(guestLock);
         }
         Map<Lock, List<LockActivity>> lockLockActivityMap =
@@ -95,18 +95,21 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
     }
 
     @Override
-    public void loadHostIdFromDB(String primaryPhoneNumber) {
+    public boolean loadHostIdFromDB(String primaryPhoneNumber) {
 
         User temp=new User();
         temp.setPrimaryPhoneNumber(primaryPhoneNumber);
-        User user;
+        User user=null;
         try {
             user=(User)HttpConnection.httpPost(URL_USER_READ,temp);
-            information.setHostId(user.getUserId());
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        if(user == null || user.getUserState().equals(USER_STATE_GUSET)){
+            return false;
+        }
+        information.setHostId(user.getUserId());
+        return true;
     }
 
     @Override
@@ -145,7 +148,9 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
             Map<Property, List<Lock>> hostPropLockMap =
                     (Map<Property, List<Lock>>) HttpConnection.httpPost(URL_LOCK_READ,
                             user);
+
             listLock=hostPropLockMap.get(property);
+
             listLockId.add(listLock.get(0).getLockId());
         } catch (Exception e) {
             e.printStackTrace();
@@ -204,7 +209,14 @@ public class EntityAdapter implements AuthenticationInterface, RegistrationInter
 
     @Override
     public List<Lock> getClientLockList() {
-        return information.getGuestLock();
+        List<Lock> list=null;
+        try {
+            list=(List<Lock>)HttpConnection.httpPost(URL_USER_LOCK_READ,information.getUser());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return list;
     }
 
     @Override

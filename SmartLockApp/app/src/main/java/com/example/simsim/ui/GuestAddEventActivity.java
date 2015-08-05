@@ -51,9 +51,10 @@ public class GuestAddEventActivity extends Activity implements DatabaseConstantI
                     setNewLockActivityAccessEndTime(endDateStr);
                     SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd");
                     setNewLockActivityRequestAccessTimestamp(df.format(new Date()));
-                    setNewLockActivityRequestStatus(LOCK_ACTIVITY_REQUEST_STATUS_PENDING);
+                    setNewLockActivityRequestStatus(LOCK_ACTIVITY_REQUEST_STATUS_ACCEPT);
                     insertNewLockActivity();
 
+                    Toast.makeText(GuestAddEventActivity.this,"add new lock activity successfully!",Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(GuestAddEventActivity.this,GuestMainActivity.class);
                     startActivity(intent);
                 }

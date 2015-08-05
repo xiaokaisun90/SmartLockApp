@@ -40,12 +40,11 @@ public class GuestMainStep2RAFragment extends Fragment {
         requestHostName=(TextView)view.findViewById(R.id.requestHostNameTV);
 
         //get host id
-        //hostID=guestEventInterface.getHostId();
+        hostID=guestEventInterface.getHostId();
         //set the host id to text view
-        requestHostName.setText("111");
+        requestHostName.setText(""+hostID);
         //get list of properties
         listProperties=guestEventInterface.getHostPropertyList(hostID);
-
 
         showProperties=(GridView)view.findViewById(R.id.gridOfSpaces);
 

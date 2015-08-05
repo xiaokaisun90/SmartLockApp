@@ -103,6 +103,7 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
                 }else{
                     transaction.show(emptyLockListFM);
                 }
+                titleBar.setVisibility(View.VISIBLE);
                 break;
             case 1:
                 lock_image.setImageResource(R.drawable.lock_clicked);
@@ -115,36 +116,46 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
                 }*/
                 lockListFM=new GuestMainLockFragment();
                 transaction.replace(R.id.content,lockListFM);
+                titleBar.setVisibility(View.VISIBLE);
                 break;
             case 2:
                 events_image.setImageResource(R.drawable.events_clicked);
                 titleBar.setText("Future Events");
-                if(eventsListFM==null){
+                /*if(eventsListFM==null){
                     eventsListFM=new GuestMainEventsFragment();
                     transaction.add(R.id.content, eventsListFM);
                 }else{
                     transaction.show(eventsListFM);
-                }
+                }*/
+                eventsListFM=new GuestMainEventsFragment();
+                transaction.replace(R.id.content,eventsListFM);
+                titleBar.setVisibility(View.VISIBLE);
                 break;
             case 3:
                 history_image.setImageResource(R.drawable.history_clicked);
                 titleBar.setText("History");
-                if(historyListFM==null){
+                /*if(historyListFM==null){
                     historyListFM=new HostHistoryFragment();
                     transaction.add(R.id.content, historyListFM);
                 }else{
                     transaction.show(historyListFM);
-                }
+                }*/
+                historyListFM=new HostHistoryFragment();
+                transaction.replace(R.id.content,historyListFM);
+                titleBar.setVisibility(View.GONE);
                 break;
             case 4:
                 lock_image.setImageResource(R.drawable.lock_clicked);
                 titleBar.setText("Request Access");
-                if(step1RequestAccessFM == null){
+                /*if(step1RequestAccessFM == null){
                     step1RequestAccessFM=new GuestMainStep1RAFragment();
                     transaction.add(R.id.content, step1RequestAccessFM);
                 }else{
                     transaction.show(step1RequestAccessFM);
-                }
+                }*/
+                step1RequestAccessFM=new GuestMainStep1RAFragment();
+                transaction.replace(R.id.content,step1RequestAccessFM);
+                titleBar.setVisibility(View.VISIBLE);
                 break;
             case 5:
                 lock_image.setImageResource(R.drawable.lock_clicked);
@@ -156,16 +167,20 @@ public class GuestMainActivity extends FragmentActivity implements GuestFragment
                     transaction.show(step2RequestAccessFM);
                 }*/
                 step2RequestAccessFM=new GuestMainStep2RAFragment();
-                transaction.replace(R.id.content,step2RequestAccessFM);
+                transaction.replace(R.id.content, step2RequestAccessFM);
+                titleBar.setVisibility(View.VISIBLE);
                 break;
             case 6:
                 titleBar.setText("Edit Profile");
-                if(editProfileFM==null){
+                /*if(editProfileFM==null){
                     editProfileFM=new HostEditProfileFragment();
                     transaction.add(R.id.content,editProfileFM);
                 }else{
                     transaction.show(editProfileFM);
-                }
+                }*/
+                editProfileFM=new HostEditProfileFragment();
+                transaction.replace(R.id.content,editProfileFM);
+                titleBar.setVisibility(View.GONE);
                 break;
 
         }

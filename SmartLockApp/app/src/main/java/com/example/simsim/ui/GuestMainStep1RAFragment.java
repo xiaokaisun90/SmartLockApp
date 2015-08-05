@@ -46,10 +46,13 @@ public class GuestMainStep1RAFragment extends Fragment {
                 } else {
                     try {
                         Double.parseDouble(phoneNum);
-                        guestEventInterface.loadHostIdFromDB(phoneNum);
-                        hostPhone.setText("");
-                        guestFragmentCallBackInterface.getGuestMainActivity().setChoiceItem(5);
+                        if(guestEventInterface.loadHostIdFromDB(phoneNum)){
+                            guestFragmentCallBackInterface.getGuestMainActivity().setChoiceItem(5);
 
+                        }else{
+                            Toast.makeText(guestFragmentCallBackInterface.getGuestMainActivity(),"please check the phone number!",Toast.LENGTH_SHORT).show();
+                        }
+                        hostPhone.setText("");
                     } catch (Exception e) {
                         hostPhone.setText("");
                         Toast.makeText(guestFragmentCallBackInterface.getGuestMainActivity()
