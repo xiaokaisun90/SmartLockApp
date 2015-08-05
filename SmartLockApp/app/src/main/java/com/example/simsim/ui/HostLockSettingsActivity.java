@@ -47,7 +47,7 @@ public class HostLockSettingsActivity extends Activity
         property = (Property) intent.getSerializableExtra("property");
         if(isNew){
             lock = new Lock();
-            lock.setDescription(LOCK_DIRECTION_CLOCKWISE);
+            lock.setRotationDirection(LOCK_DIRECTION_CLOCKWISE);
         }
         else lock = (Lock) intent.getSerializableExtra("lock");
 
@@ -93,8 +93,6 @@ public class HostLockSettingsActivity extends Activity
             public void onClick(View v) {
                 if(isNew) insertLock(property, lock);
                 else updateLock(property, lock);
-                Toast.makeText(HostLockSettingsActivity.this, MESSAGE_UPDATE_SUCCESS,
-                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -102,8 +100,6 @@ public class HostLockSettingsActivity extends Activity
             @Override
             public void onClick(View v) {
                 deleteLock(property, lock);
-                Toast.makeText(HostLockSettingsActivity.this, MESSAGE_DELETE_SUCCESS,
-                        Toast.LENGTH_LONG).show();
             }
         });
 
@@ -114,7 +110,19 @@ public class HostLockSettingsActivity extends Activity
 
     public void insertLock(Property property, Lock lock){
         try{
+            lock.setIsLocked(false);
+            lock.setLockPower(seekBarLockPower.getProgress());
+            lock.setLockStartAngle(Double.parseDouble(editTextLockStartAngle.getText().toString()));
+            lock.setLockEndAngle(Double.parseDouble(editTextLockEndAngle.getText().toString()));
+            lock.setDescription(editTextLockName.getText().toString());
+            lock.setRotationDirection(textViewLockDirection.getText().toString());
+            lock.setRotationEndPoints(seekBarLockRotationEndPoint.getProgress());
+
             hostSpaceInterface.insertLock(property, lock);
+            Toast.makeText(HostLockSettingsActivity.this, MESSAGE_UPDATE_SUCCESS,
+                    Toast.LENGTH_LONG).show();
+
+            finish();
         } catch (Exception e){
             Toast.makeText(HostLockSettingsActivity.this, MESSAGE_UPDATE_EXCEPTION,
                     Toast.LENGTH_LONG).show();
@@ -123,7 +131,17 @@ public class HostLockSettingsActivity extends Activity
 
     public void updateLock(Property property, Lock lock){
         try{
+            lock.setIsLocked(false);
+            lock.setLockPower(seekBarLockPower.getProgress());
+            lock.setLockStartAngle(Double.parseDouble(editTextLockStartAngle.getText().toString()));
+            lock.setLockEndAngle(Double.parseDouble(editTextLockEndAngle.getText().toString()));
+            lock.setDescription(editTextLockName.getText().toString());
+            lock.setRotationDirection(textViewLockDirection.getText().toString());
+            lock.setRotationEndPoints(seekBarLockRotationEndPoint.getProgress());
+
             hostSpaceInterface.updateLock(property, lock);
+            Toast.makeText(HostLockSettingsActivity.this, MESSAGE_UPDATE_SUCCESS,
+                    Toast.LENGTH_LONG).show();
         } catch (Exception e){
             Toast.makeText(HostLockSettingsActivity.this, MESSAGE_UPDATE_EXCEPTION,
                     Toast.LENGTH_LONG).show();
@@ -133,6 +151,8 @@ public class HostLockSettingsActivity extends Activity
     public void deleteLock(Property property, Lock lock){
         try{
             hostSpaceInterface.deleteLock(property, lock);
+            Toast.makeText(HostLockSettingsActivity.this, MESSAGE_DELETE_SUCCESS,
+                    Toast.LENGTH_LONG).show();
         } catch (Exception e){
             Toast.makeText(HostLockSettingsActivity.this, MESSAGE_UPDATE_EXCEPTION,
                     Toast.LENGTH_LONG).show();
