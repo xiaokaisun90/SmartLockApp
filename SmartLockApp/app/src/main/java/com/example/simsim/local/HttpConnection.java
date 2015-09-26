@@ -17,6 +17,7 @@ public class HttpConnection {
     // Send post request with an object to a URL, return an object from response.
     public static Object httpPost(String urlString, Object object) throws Exception{
 
+        // Establish and configure connection
         URL url = new URL(urlString);
         HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         urlConnection.setDoInput(true);
@@ -25,15 +26,18 @@ public class HttpConnection {
         urlConnection.setUseCaches(false);
         urlConnection.connect();
 
+        // Send request
         ObjectOutputStream out = new ObjectOutputStream(urlConnection.getOutputStream());
         out.writeObject(object);
         out.flush();
         out.close();
 
+        // Get response
         ObjectInputStream in = new ObjectInputStream(urlConnection.getInputStream());
         Object o = in.readObject();
         in.close();
 
+        // Close connection
         urlConnection.disconnect();
 
         return o;
